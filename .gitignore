@@ -1,0 +1,10 @@
+# Ctags files
+tags
+tags.idx
+
+# Temporary
+.idea
+temp
+build
+CMakeLists.txt.user.*
+CMakeLists.txt.user
