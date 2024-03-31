@@ -10,12 +10,15 @@ Window {
 
     Video {
         id: videoPlayer
-        source: "C:/Users/zmaib/Videos/test.mp4" // 指定视频文件路径
+        source: "C:/Users/zmaib/Videos/test.mp4"
         anchors.fill: parent
-        autoPlay: true // 视频加载后自动播放
-        onStatusChanged: {
-            if (videoPlayer.status == MediaPlayer.PlayingState) {
-                console.log("视频正在播放");
+        autoPlay: true
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                console.log("videoPlayer.status = "+videoPlayer.status)
             }
         }
     }
