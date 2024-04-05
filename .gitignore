@@ -6,5 +6,5 @@ tags.idx
 .idea
 temp
 build
-CMakeLists.txt.user.*
 CMakeLists.txt.user
+CMakeLists.txt.user.*
