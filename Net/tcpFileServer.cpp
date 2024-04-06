@@ -55,7 +55,7 @@ int main() {
     srv.onMessage = [&](const SocketChannelPtr& channel, Buffer* buf) {
         // Parse packet header and handle messages accordingly
         // printf("< %.*s\n", (int)buf->size(), (char*)buf->data());
-        std::cout << std::string((char*)buf->data(), (int)buf->size()) << std::endl;;
+        std::cout << (int)buf->size() << std::endl;;
     };
 
     srv.setThreadNum(4);
