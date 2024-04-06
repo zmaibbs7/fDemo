@@ -3,6 +3,7 @@ tags
 tags.idx
 
 # Temporary
+.vscode
 .idea
 temp
 build
