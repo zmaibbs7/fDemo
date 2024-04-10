@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package packet;
+
+enum MessageType {
+    UNKNOWN = 0;
+    CONTROL = 1;
+    FILE = 2;
+}
+
+message MessagePacketHeader {
+    int32 magic_number = 1; 
+    MessageType packet_type = 2; 
+    int32 data_length = 3;
+    int32 packet_id = 4;
+    int32 packet_checksum = 5; 
+}
+
+message FilePacketHeader {
+    string file_name = 1; 
+    string file_md5 = 2; 
+}

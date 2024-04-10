@@ -4,14 +4,17 @@
 
 using namespace hv;
 
+struct MessagePacketHeader {
+    uint32_t magic_number;
+    uint8_t  packet_type;
+    uint32_t data_length;
+    uint32_t packet_id;
+    uint32_t packet_sum;
+};
+
 struct FilePacketHeader {
-    unsigned int magic_number;      // Magic number for packet validation, e.g., 0x12345678
-    unsigned int packet_type;       // Packet type, 0 for file data, 1 for control commands
-    unsigned long long file_size;   // Total size of the file, for progress calculation and verification
-    unsigned long long packet_id;   // Packet sequence number, to ensure the correct order of packets
-    unsigned int data_length;       // Length of the valid data in this packet
-    unsigned int checkHash;         // Hash for data integrity and correctness verification
-    char file_name[256];            // File name
+    std::string fileName;
+    char[128] md5;
 };
 
 // Assuming TcpServer has a method to set unpack settings, which might be a custom implementation or extension
