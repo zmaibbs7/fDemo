@@ -16,7 +16,8 @@ public:
     void start();
     //停止连接
     void stop();
-
+    //机器人实时位置获取并发送
+    void updateAndSendLocation(double x, double y, double yaw);
 public slots:
     //算法检测返回json
     void onAlgorithmDetectionResult(const QString& result);
@@ -28,8 +29,15 @@ signals:
     void algorithmDetectionResultReceived(const QString& result);
 
 private:
-    void onControlMessage();   //控制消息处理
-    void onFileDataMessage();  //文件消息处理
+    // 接收 - 请求获取地图列表
+    void onReceiveMapRequest();
+    // 接收 - 上传地图信息
+    void onReceiveFile();
+    // 计算发文件大小
+    int cacuSendFile(std::string fileName, std::string fielPath, int packetSize = 1200);
+    // 发送文件
+    void sendFile();
+
 private:
     std::unique_ptr<hxMapUdpServerDt> m_Dt;
 };

@@ -51,12 +51,24 @@ struct TableStruct_header_2eproto {
 extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_header_2eproto;
 namespace packet {
-class FilePacketHeader;
-struct FilePacketHeaderDefaultTypeInternal;
-extern FilePacketHeaderDefaultTypeInternal _FilePacketHeader_default_instance_;
-class MessagePacketHeader;
-struct MessagePacketHeaderDefaultTypeInternal;
-extern MessagePacketHeaderDefaultTypeInternal _MessagePacketHeader_default_instance_;
+class File;
+struct FileDefaultTypeInternal;
+extern FileDefaultTypeInternal _File_default_instance_;
+class FileTransferStatus;
+struct FileTransferStatusDefaultTypeInternal;
+extern FileTransferStatusDefaultTypeInternal _FileTransferStatus_default_instance_;
+class Heartbeat;
+struct HeartbeatDefaultTypeInternal;
+extern HeartbeatDefaultTypeInternal _Heartbeat_default_instance_;
+class Location;
+struct LocationDefaultTypeInternal;
+extern LocationDefaultTypeInternal _Location_default_instance_;
+class Maplist;
+struct MaplistDefaultTypeInternal;
+extern MaplistDefaultTypeInternal _Maplist_default_instance_;
+class Message;
+struct MessageDefaultTypeInternal;
+extern MessageDefaultTypeInternal _Message_default_instance_;
 }  // namespace packet
 namespace google {
 namespace protobuf {
@@ -67,8 +79,10 @@ namespace packet {
 enum MessageType : int {
   UNKNOWN = 0,
   HEARTBEAT = 1,
-  CONTROL = 2,
-  FILE = 3,
+  MAPLIST = 2,
+  LOCATION = 3,
+  FILE = 4,
+  FILE_TRANSFER_STATUS = 5,
   MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -78,8 +92,8 @@ enum MessageType : int {
 bool MessageType_IsValid(int value);
 extern const uint32_t MessageType_internal_data_[];
 constexpr MessageType MessageType_MIN = static_cast<MessageType>(0);
-constexpr MessageType MessageType_MAX = static_cast<MessageType>(3);
-constexpr int MessageType_ARRAYSIZE = 3 + 1;
+constexpr MessageType MessageType_MAX = static_cast<MessageType>(5);
+constexpr int MessageType_ARRAYSIZE = 5 + 1;
 const ::google::protobuf::EnumDescriptor*
 MessageType_descriptor();
 template <typename T>
@@ -92,7 +106,7 @@ const std::string& MessageType_Name(T value) {
 template <>
 inline const std::string& MessageType_Name(MessageType value) {
   return ::google::protobuf::internal::NameOfDenseEnum<MessageType_descriptor,
-                                                 0, 3>(
+                                                 0, 5>(
       static_cast<int>(value));
 }
 inline bool MessageType_Parse(absl::string_view name, MessageType* value) {
@@ -105,23 +119,23 @@ inline bool MessageType_Parse(absl::string_view name, MessageType* value) {
 
 // -------------------------------------------------------------------
 
-class FilePacketHeader final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:packet.FilePacketHeader) */ {
+class Maplist final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.Maplist) */ {
  public:
-  inline FilePacketHeader() : FilePacketHeader(nullptr) {}
-  ~FilePacketHeader() override;
+  inline Maplist() : Maplist(nullptr) {}
+  ~Maplist() override;
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR FilePacketHeader(
+  explicit PROTOBUF_CONSTEXPR Maplist(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline FilePacketHeader(const FilePacketHeader& from) : FilePacketHeader(nullptr, from) {}
-  inline FilePacketHeader(FilePacketHeader&& from) noexcept
-      : FilePacketHeader(nullptr, std::move(from)) {}
-  inline FilePacketHeader& operator=(const FilePacketHeader& from) {
+  inline Maplist(const Maplist& from) : Maplist(nullptr, from) {}
+  inline Maplist(Maplist&& from) noexcept
+      : Maplist(nullptr, std::move(from)) {}
+  inline Maplist& operator=(const Maplist& from) {
     CopyFrom(from);
     return *this;
   }
-  inline FilePacketHeader& operator=(FilePacketHeader&& from) noexcept {
+  inline Maplist& operator=(Maplist&& from) noexcept {
     if (this == &from) return *this;
     if (GetArena() == from.GetArena()
 #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -153,16 +167,16 @@ class FilePacketHeader final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const FilePacketHeader& default_instance() {
+  static const Maplist& default_instance() {
     return *internal_default_instance();
   }
-  static inline const FilePacketHeader* internal_default_instance() {
-    return reinterpret_cast<const FilePacketHeader*>(
-        &_FilePacketHeader_default_instance_);
+  static inline const Maplist* internal_default_instance() {
+    return reinterpret_cast<const Maplist*>(
+        &_Maplist_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 0;
-  friend void swap(FilePacketHeader& a, FilePacketHeader& b) { a.Swap(&b); }
-  inline void Swap(FilePacketHeader* other) {
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(Maplist& a, Maplist& b) { a.Swap(&b); }
+  inline void Swap(Maplist* other) {
     if (other == this) return;
 #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetArena() != nullptr && GetArena() == other->GetArena()) {
@@ -174,7 +188,7 @@ class FilePacketHeader final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(FilePacketHeader* other) {
+  void UnsafeArenaSwap(Maplist* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -182,13 +196,13 @@ class FilePacketHeader final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  FilePacketHeader* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<FilePacketHeader>(arena);
+  Maplist* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<Maplist>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const FilePacketHeader& from);
+  void CopyFrom(const Maplist& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const FilePacketHeader& from) { FilePacketHeader::MergeImpl(*this, from); }
+  void MergeFrom(const Maplist& from) { Maplist::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -208,16 +222,774 @@ class FilePacketHeader final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   void SharedDtor();
-  void InternalSwap(FilePacketHeader* other);
+  void InternalSwap(Maplist* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "packet.FilePacketHeader"; }
+  static ::absl::string_view FullMessageName() { return "packet.Maplist"; }
 
  protected:
-  explicit FilePacketHeader(::google::protobuf::Arena* arena);
-  FilePacketHeader(::google::protobuf::Arena* arena, const FilePacketHeader& from);
-  FilePacketHeader(::google::protobuf::Arena* arena, FilePacketHeader&& from) noexcept
-      : FilePacketHeader(arena) {
+  explicit Maplist(::google::protobuf::Arena* arena);
+  Maplist(::google::protobuf::Arena* arena, const Maplist& from);
+  Maplist(::google::protobuf::Arena* arena, Maplist&& from) noexcept
+      : Maplist(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kItemsFieldNumber = 1,
+  };
+  // repeated string items = 1;
+  int items_size() const;
+  private:
+  int _internal_items_size() const;
+
+  public:
+  void clear_items() ;
+  const std::string& items(int index) const;
+  std::string* mutable_items(int index);
+  void set_items(int index, const std::string& value);
+  void set_items(int index, std::string&& value);
+  void set_items(int index, const char* value);
+  void set_items(int index, const char* value, std::size_t size);
+  void set_items(int index, absl::string_view value);
+  std::string* add_items();
+  void add_items(const std::string& value);
+  void add_items(std::string&& value);
+  void add_items(const char* value);
+  void add_items(const char* value, std::size_t size);
+  void add_items(absl::string_view value);
+  const ::google::protobuf::RepeatedPtrField<std::string>& items() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* mutable_items();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_items() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_items();
+
+  public:
+  // @@protoc_insertion_point(class_scope:packet.Maplist)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      28, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Maplist_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Maplist& from_msg);
+    ::google::protobuf::RepeatedPtrField<std::string> items_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_header_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Location final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.Location) */ {
+ public:
+  inline Location() : Location(nullptr) {}
+  ~Location() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Location(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Location(const Location& from) : Location(nullptr, from) {}
+  inline Location(Location&& from) noexcept
+      : Location(nullptr, std::move(from)) {}
+  inline Location& operator=(const Location& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Location& operator=(Location&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Location& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Location* internal_default_instance() {
+    return reinterpret_cast<const Location*>(
+        &_Location_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(Location& a, Location& b) { a.Swap(&b); }
+  inline void Swap(Location* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Location* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Location* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<Location>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Location& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Location& from) { Location::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Location* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "packet.Location"; }
+
+ protected:
+  explicit Location(::google::protobuf::Arena* arena);
+  Location(::google::protobuf::Arena* arena, const Location& from);
+  Location(::google::protobuf::Arena* arena, Location&& from) noexcept
+      : Location(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kXFieldNumber = 1,
+    kYFieldNumber = 2,
+    kYawFieldNumber = 3,
+  };
+  // double x = 1;
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 2;
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
+  // double yaw = 3;
+  void clear_yaw() ;
+  double yaw() const;
+  void set_yaw(double value);
+
+  private:
+  double _internal_yaw() const;
+  void _internal_set_yaw(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:packet.Location)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      0, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Location_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Location& from_msg);
+    double x_;
+    double y_;
+    double yaw_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_header_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Heartbeat final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.Heartbeat) */ {
+ public:
+  inline Heartbeat() : Heartbeat(nullptr) {}
+  ~Heartbeat() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Heartbeat(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Heartbeat(const Heartbeat& from) : Heartbeat(nullptr, from) {}
+  inline Heartbeat(Heartbeat&& from) noexcept
+      : Heartbeat(nullptr, std::move(from)) {}
+  inline Heartbeat& operator=(const Heartbeat& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Heartbeat& operator=(Heartbeat&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Heartbeat& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Heartbeat* internal_default_instance() {
+    return reinterpret_cast<const Heartbeat*>(
+        &_Heartbeat_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 0;
+  friend void swap(Heartbeat& a, Heartbeat& b) { a.Swap(&b); }
+  inline void Swap(Heartbeat* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Heartbeat* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Heartbeat* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<Heartbeat>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Heartbeat& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Heartbeat& from) { Heartbeat::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Heartbeat* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "packet.Heartbeat"; }
+
+ protected:
+  explicit Heartbeat(::google::protobuf::Arena* arena);
+  Heartbeat(::google::protobuf::Arena* arena, const Heartbeat& from);
+  Heartbeat(::google::protobuf::Arena* arena, Heartbeat&& from) noexcept
+      : Heartbeat(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNodeIdFieldNumber = 1,
+  };
+  // string node_id = 1;
+  void clear_node_id() ;
+  const std::string& node_id() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_node_id(Arg_&& arg, Args_... args);
+  std::string* mutable_node_id();
+  PROTOBUF_NODISCARD std::string* release_node_id();
+  void set_allocated_node_id(std::string* value);
+
+  private:
+  const std::string& _internal_node_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_node_id(
+      const std::string& value);
+  std::string* _internal_mutable_node_id();
+
+  public:
+  // @@protoc_insertion_point(class_scope:packet.Heartbeat)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      32, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Heartbeat_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Heartbeat& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr node_id_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_header_2eproto;
+};
+// -------------------------------------------------------------------
+
+class FileTransferStatus final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.FileTransferStatus) */ {
+ public:
+  inline FileTransferStatus() : FileTransferStatus(nullptr) {}
+  ~FileTransferStatus() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FileTransferStatus(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline FileTransferStatus(const FileTransferStatus& from) : FileTransferStatus(nullptr, from) {}
+  inline FileTransferStatus(FileTransferStatus&& from) noexcept
+      : FileTransferStatus(nullptr, std::move(from)) {}
+  inline FileTransferStatus& operator=(const FileTransferStatus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FileTransferStatus& operator=(FileTransferStatus&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FileTransferStatus& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FileTransferStatus* internal_default_instance() {
+    return reinterpret_cast<const FileTransferStatus*>(
+        &_FileTransferStatus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(FileTransferStatus& a, FileTransferStatus& b) { a.Swap(&b); }
+  inline void Swap(FileTransferStatus* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FileTransferStatus* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FileTransferStatus* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<FileTransferStatus>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const FileTransferStatus& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const FileTransferStatus& from) { FileTransferStatus::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(FileTransferStatus* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "packet.FileTransferStatus"; }
+
+ protected:
+  explicit FileTransferStatus(::google::protobuf::Arena* arena);
+  FileTransferStatus(::google::protobuf::Arena* arena, const FileTransferStatus& from);
+  FileTransferStatus(::google::protobuf::Arena* arena, FileTransferStatus&& from) noexcept
+      : FileTransferStatus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kCurrentFileNameFieldNumber = 3,
+    kCurrentPacketIndexFieldNumber = 1,
+    kTotalPacketsFieldNumber = 2,
+  };
+  // string current_file_name = 3;
+  void clear_current_file_name() ;
+  const std::string& current_file_name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_current_file_name(Arg_&& arg, Args_... args);
+  std::string* mutable_current_file_name();
+  PROTOBUF_NODISCARD std::string* release_current_file_name();
+  void set_allocated_current_file_name(std::string* value);
+
+  private:
+  const std::string& _internal_current_file_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_current_file_name(
+      const std::string& value);
+  std::string* _internal_mutable_current_file_name();
+
+  public:
+  // int32 current_packet_index = 1;
+  void clear_current_packet_index() ;
+  ::int32_t current_packet_index() const;
+  void set_current_packet_index(::int32_t value);
+
+  private:
+  ::int32_t _internal_current_packet_index() const;
+  void _internal_set_current_packet_index(::int32_t value);
+
+  public:
+  // int32 total_packets = 2;
+  void clear_total_packets() ;
+  ::int32_t total_packets() const;
+  void set_total_packets(::int32_t value);
+
+  private:
+  ::int32_t _internal_total_packets() const;
+  void _internal_set_total_packets(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:packet.FileTransferStatus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      51, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_FileTransferStatus_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const FileTransferStatus& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr current_file_name_;
+    ::int32_t current_packet_index_;
+    ::int32_t total_packets_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_header_2eproto;
+};
+// -------------------------------------------------------------------
+
+class File final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.File) */ {
+ public:
+  inline File() : File(nullptr) {}
+  ~File() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR File(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline File(const File& from) : File(nullptr, from) {}
+  inline File(File&& from) noexcept
+      : File(nullptr, std::move(from)) {}
+  inline File& operator=(const File& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline File& operator=(File&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const File& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const File* internal_default_instance() {
+    return reinterpret_cast<const File*>(
+        &_File_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(File& a, File& b) { a.Swap(&b); }
+  inline void Swap(File* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(File* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  File* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<File>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const File& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const File& from) { File::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(File* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "packet.File"; }
+
+ protected:
+  explicit File(::google::protobuf::Arena* arena);
+  File(::google::protobuf::Arena* arena, const File& from);
+  File(::google::protobuf::Arena* arena, File&& from) noexcept
+      : File(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::Message::ClassData* GetClassData() const final;
@@ -229,7 +1001,10 @@ class FilePacketHeader final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kFileNameFieldNumber = 1,
-    kFileMd5FieldNumber = 2,
+    kFileContentFieldNumber = 2,
+    kWholeFileMd5FieldNumber = 5,
+    kFilePacketNumFieldNumber = 3,
+    kFilePacketTotalFieldNumber = 4,
   };
   // string file_name = 1;
   void clear_file_name() ;
@@ -247,33 +1022,69 @@ class FilePacketHeader final : public ::google::protobuf::Message
   std::string* _internal_mutable_file_name();
 
   public:
-  // string file_md5 = 2;
-  void clear_file_md5() ;
-  const std::string& file_md5() const;
+  // bytes file_content = 2;
+  void clear_file_content() ;
+  const std::string& file_content() const;
   template <typename Arg_ = const std::string&, typename... Args_>
-  void set_file_md5(Arg_&& arg, Args_... args);
-  std::string* mutable_file_md5();
-  PROTOBUF_NODISCARD std::string* release_file_md5();
-  void set_allocated_file_md5(std::string* value);
+  void set_file_content(Arg_&& arg, Args_... args);
+  std::string* mutable_file_content();
+  PROTOBUF_NODISCARD std::string* release_file_content();
+  void set_allocated_file_content(std::string* value);
 
   private:
-  const std::string& _internal_file_md5() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_file_md5(
+  const std::string& _internal_file_content() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_file_content(
       const std::string& value);
-  std::string* _internal_mutable_file_md5();
+  std::string* _internal_mutable_file_content();
 
   public:
-  // @@protoc_insertion_point(class_scope:packet.FilePacketHeader)
+  // string whole_file_md5 = 5;
+  void clear_whole_file_md5() ;
+  const std::string& whole_file_md5() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_whole_file_md5(Arg_&& arg, Args_... args);
+  std::string* mutable_whole_file_md5();
+  PROTOBUF_NODISCARD std::string* release_whole_file_md5();
+  void set_allocated_whole_file_md5(std::string* value);
+
+  private:
+  const std::string& _internal_whole_file_md5() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_whole_file_md5(
+      const std::string& value);
+  std::string* _internal_mutable_whole_file_md5();
+
+  public:
+  // int32 file_packet_num = 3;
+  void clear_file_packet_num() ;
+  ::int32_t file_packet_num() const;
+  void set_file_packet_num(::int32_t value);
+
+  private:
+  ::int32_t _internal_file_packet_num() const;
+  void _internal_set_file_packet_num(::int32_t value);
+
+  public:
+  // int32 file_packet_total = 4;
+  void clear_file_packet_total() ;
+  ::int32_t file_packet_total() const;
+  void set_file_packet_total(::int32_t value);
+
+  private:
+  ::int32_t _internal_file_packet_total() const;
+  void _internal_set_file_packet_total(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:packet.File)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
-      49, 2>
+      3, 5, 0,
+      43, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
-      &_FilePacketHeader_default_instance_;
+      &_File_default_instance_;
 
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -288,9 +1099,12 @@ class FilePacketHeader final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const FilePacketHeader& from_msg);
+                          const File& from_msg);
     ::google::protobuf::internal::ArenaStringPtr file_name_;
-    ::google::protobuf::internal::ArenaStringPtr file_md5_;
+    ::google::protobuf::internal::ArenaStringPtr file_content_;
+    ::google::protobuf::internal::ArenaStringPtr whole_file_md5_;
+    ::int32_t file_packet_num_;
+    ::int32_t file_packet_total_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -299,23 +1113,23 @@ class FilePacketHeader final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class MessagePacketHeader final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:packet.MessagePacketHeader) */ {
+class Message final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.Message) */ {
  public:
-  inline MessagePacketHeader() : MessagePacketHeader(nullptr) {}
-  ~MessagePacketHeader() override;
+  inline Message() : Message(nullptr) {}
+  ~Message() override;
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR MessagePacketHeader(
+  explicit PROTOBUF_CONSTEXPR Message(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline MessagePacketHeader(const MessagePacketHeader& from) : MessagePacketHeader(nullptr, from) {}
-  inline MessagePacketHeader(MessagePacketHeader&& from) noexcept
-      : MessagePacketHeader(nullptr, std::move(from)) {}
-  inline MessagePacketHeader& operator=(const MessagePacketHeader& from) {
+  inline Message(const Message& from) : Message(nullptr, from) {}
+  inline Message(Message&& from) noexcept
+      : Message(nullptr, std::move(from)) {}
+  inline Message& operator=(const Message& from) {
     CopyFrom(from);
     return *this;
   }
-  inline MessagePacketHeader& operator=(MessagePacketHeader&& from) noexcept {
+  inline Message& operator=(Message&& from) noexcept {
     if (this == &from) return *this;
     if (GetArena() == from.GetArena()
 #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -347,16 +1161,24 @@ class MessagePacketHeader final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const MessagePacketHeader& default_instance() {
+  static const Message& default_instance() {
     return *internal_default_instance();
   }
-  static inline const MessagePacketHeader* internal_default_instance() {
-    return reinterpret_cast<const MessagePacketHeader*>(
-        &_MessagePacketHeader_default_instance_);
+  enum PayloadCase {
+    kHeartbeat = 2,
+    kMapList = 3,
+    kLocation = 4,
+    kFile = 5,
+    kFileTransferStatus = 6,
+    PAYLOAD_NOT_SET = 0,
+  };
+  static inline const Message* internal_default_instance() {
+    return reinterpret_cast<const Message*>(
+        &_Message_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
-  friend void swap(MessagePacketHeader& a, MessagePacketHeader& b) { a.Swap(&b); }
-  inline void Swap(MessagePacketHeader* other) {
+  static constexpr int kIndexInFileMessages = 5;
+  friend void swap(Message& a, Message& b) { a.Swap(&b); }
+  inline void Swap(Message* other) {
     if (other == this) return;
 #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetArena() != nullptr && GetArena() == other->GetArena()) {
@@ -368,7 +1190,7 @@ class MessagePacketHeader final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(MessagePacketHeader* other) {
+  void UnsafeArenaSwap(Message* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -376,13 +1198,13 @@ class MessagePacketHeader final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  MessagePacketHeader* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<MessagePacketHeader>(arena);
+  Message* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<Message>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const MessagePacketHeader& from);
+  void CopyFrom(const Message& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const MessagePacketHeader& from) { MessagePacketHeader::MergeImpl(*this, from); }
+  void MergeFrom(const Message& from) { Message::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -402,16 +1224,16 @@ class MessagePacketHeader final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   void SharedDtor();
-  void InternalSwap(MessagePacketHeader* other);
+  void InternalSwap(Message* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "packet.MessagePacketHeader"; }
+  static ::absl::string_view FullMessageName() { return "packet.Message"; }
 
  protected:
-  explicit MessagePacketHeader(::google::protobuf::Arena* arena);
-  MessagePacketHeader(::google::protobuf::Arena* arena, const MessagePacketHeader& from);
-  MessagePacketHeader(::google::protobuf::Arena* arena, MessagePacketHeader&& from) noexcept
-      : MessagePacketHeader(arena) {
+  explicit Message(::google::protobuf::Arena* arena);
+  Message(::google::protobuf::Arena* arena, const Message& from);
+  Message(::google::protobuf::Arena* arena, Message&& from) noexcept
+      : Message(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::Message::ClassData* GetClassData() const final;
@@ -422,78 +1244,138 @@ class MessagePacketHeader final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kFileHeaderFieldNumber = 5,
-    kMagicNumberFieldNumber = 1,
-    kPacketTypeFieldNumber = 2,
-    kPacketIdFieldNumber = 3,
-    kPacketSumFieldNumber = 4,
+    kTypeFieldNumber = 1,
+    kHeartbeatFieldNumber = 2,
+    kMapListFieldNumber = 3,
+    kLocationFieldNumber = 4,
+    kFileFieldNumber = 5,
+    kFileTransferStatusFieldNumber = 6,
   };
-  // .packet.FilePacketHeader file_header = 5;
-  bool has_file_header() const;
-  void clear_file_header() ;
-  const ::packet::FilePacketHeader& file_header() const;
-  PROTOBUF_NODISCARD ::packet::FilePacketHeader* release_file_header();
-  ::packet::FilePacketHeader* mutable_file_header();
-  void set_allocated_file_header(::packet::FilePacketHeader* value);
-  void unsafe_arena_set_allocated_file_header(::packet::FilePacketHeader* value);
-  ::packet::FilePacketHeader* unsafe_arena_release_file_header();
+  // .packet.MessageType type = 1;
+  void clear_type() ;
+  ::packet::MessageType type() const;
+  void set_type(::packet::MessageType value);
 
   private:
-  const ::packet::FilePacketHeader& _internal_file_header() const;
-  ::packet::FilePacketHeader* _internal_mutable_file_header();
+  ::packet::MessageType _internal_type() const;
+  void _internal_set_type(::packet::MessageType value);
 
   public:
-  // int32 magic_number = 1;
-  void clear_magic_number() ;
-  ::int32_t magic_number() const;
-  void set_magic_number(::int32_t value);
+  // .packet.Heartbeat heartbeat = 2;
+  bool has_heartbeat() const;
+  private:
+  bool _internal_has_heartbeat() const;
+
+  public:
+  void clear_heartbeat() ;
+  const ::packet::Heartbeat& heartbeat() const;
+  PROTOBUF_NODISCARD ::packet::Heartbeat* release_heartbeat();
+  ::packet::Heartbeat* mutable_heartbeat();
+  void set_allocated_heartbeat(::packet::Heartbeat* value);
+  void unsafe_arena_set_allocated_heartbeat(::packet::Heartbeat* value);
+  ::packet::Heartbeat* unsafe_arena_release_heartbeat();
 
   private:
-  ::int32_t _internal_magic_number() const;
-  void _internal_set_magic_number(::int32_t value);
+  const ::packet::Heartbeat& _internal_heartbeat() const;
+  ::packet::Heartbeat* _internal_mutable_heartbeat();
 
   public:
-  // .packet.MessageType packet_type = 2;
-  void clear_packet_type() ;
-  ::packet::MessageType packet_type() const;
-  void set_packet_type(::packet::MessageType value);
+  // .packet.Maplist mapList = 3;
+  bool has_maplist() const;
+  private:
+  bool _internal_has_maplist() const;
+
+  public:
+  void clear_maplist() ;
+  const ::packet::Maplist& maplist() const;
+  PROTOBUF_NODISCARD ::packet::Maplist* release_maplist();
+  ::packet::Maplist* mutable_maplist();
+  void set_allocated_maplist(::packet::Maplist* value);
+  void unsafe_arena_set_allocated_maplist(::packet::Maplist* value);
+  ::packet::Maplist* unsafe_arena_release_maplist();
 
   private:
-  ::packet::MessageType _internal_packet_type() const;
-  void _internal_set_packet_type(::packet::MessageType value);
+  const ::packet::Maplist& _internal_maplist() const;
+  ::packet::Maplist* _internal_mutable_maplist();
 
   public:
-  // int32 packet_id = 3;
-  void clear_packet_id() ;
-  ::int32_t packet_id() const;
-  void set_packet_id(::int32_t value);
+  // .packet.Location location = 4;
+  bool has_location() const;
+  private:
+  bool _internal_has_location() const;
+
+  public:
+  void clear_location() ;
+  const ::packet::Location& location() const;
+  PROTOBUF_NODISCARD ::packet::Location* release_location();
+  ::packet::Location* mutable_location();
+  void set_allocated_location(::packet::Location* value);
+  void unsafe_arena_set_allocated_location(::packet::Location* value);
+  ::packet::Location* unsafe_arena_release_location();
 
   private:
-  ::int32_t _internal_packet_id() const;
-  void _internal_set_packet_id(::int32_t value);
+  const ::packet::Location& _internal_location() const;
+  ::packet::Location* _internal_mutable_location();
 
   public:
-  // int32 packet_sum = 4;
-  void clear_packet_sum() ;
-  ::int32_t packet_sum() const;
-  void set_packet_sum(::int32_t value);
+  // .packet.File file = 5;
+  bool has_file() const;
+  private:
+  bool _internal_has_file() const;
+
+  public:
+  void clear_file() ;
+  const ::packet::File& file() const;
+  PROTOBUF_NODISCARD ::packet::File* release_file();
+  ::packet::File* mutable_file();
+  void set_allocated_file(::packet::File* value);
+  void unsafe_arena_set_allocated_file(::packet::File* value);
+  ::packet::File* unsafe_arena_release_file();
 
   private:
-  ::int32_t _internal_packet_sum() const;
-  void _internal_set_packet_sum(::int32_t value);
+  const ::packet::File& _internal_file() const;
+  ::packet::File* _internal_mutable_file();
 
   public:
-  // @@protoc_insertion_point(class_scope:packet.MessagePacketHeader)
+  // .packet.FileTransferStatus fileTransferStatus = 6;
+  bool has_filetransferstatus() const;
+  private:
+  bool _internal_has_filetransferstatus() const;
+
+  public:
+  void clear_filetransferstatus() ;
+  const ::packet::FileTransferStatus& filetransferstatus() const;
+  PROTOBUF_NODISCARD ::packet::FileTransferStatus* release_filetransferstatus();
+  ::packet::FileTransferStatus* mutable_filetransferstatus();
+  void set_allocated_filetransferstatus(::packet::FileTransferStatus* value);
+  void unsafe_arena_set_allocated_filetransferstatus(::packet::FileTransferStatus* value);
+  ::packet::FileTransferStatus* unsafe_arena_release_filetransferstatus();
+
+  private:
+  const ::packet::FileTransferStatus& _internal_filetransferstatus() const;
+  ::packet::FileTransferStatus* _internal_mutable_filetransferstatus();
+
+  public:
+  void clear_payload();
+  PayloadCase payload_case() const;
+  // @@protoc_insertion_point(class_scope:packet.Message)
  private:
   class _Internal;
+  void set_has_heartbeat();
+  void set_has_maplist();
+  void set_has_location();
+  void set_has_file();
+  void set_has_filetransferstatus();
+  inline bool has_payload() const;
+  inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 1,
+      0, 6, 5,
       0, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
-      &_MessagePacketHeader_default_instance_;
+      &_Message_default_instance_;
 
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -508,14 +1390,19 @@ class MessagePacketHeader final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const MessagePacketHeader& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
+                          const Message& from_msg);
+    int type_;
+    union PayloadUnion {
+      constexpr PayloadUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::packet::Heartbeat* heartbeat_;
+      ::packet::Maplist* maplist_;
+      ::packet::Location* location_;
+      ::packet::File* file_;
+      ::packet::FileTransferStatus* filetransferstatus_;
+    } payload_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::packet::FilePacketHeader* file_header_;
-    ::int32_t magic_number_;
-    int packet_type_;
-    ::int32_t packet_id_;
-    ::int32_t packet_sum_;
+    ::uint32_t _oneof_case_[1];
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -536,48 +1423,278 @@ class MessagePacketHeader final : public ::google::protobuf::Message
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// FilePacketHeader
+// Heartbeat
+
+// string node_id = 1;
+inline void Heartbeat::clear_node_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_id_.ClearToEmpty();
+}
+inline const std::string& Heartbeat::node_id() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Heartbeat.node_id)
+  return _internal_node_id();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void Heartbeat::set_node_id(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:packet.Heartbeat.node_id)
+}
+inline std::string* Heartbeat::mutable_node_id() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_node_id();
+  // @@protoc_insertion_point(field_mutable:packet.Heartbeat.node_id)
+  return _s;
+}
+inline const std::string& Heartbeat::_internal_node_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.node_id_.Get();
+}
+inline void Heartbeat::_internal_set_node_id(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_id_.Set(value, GetArena());
+}
+inline std::string* Heartbeat::_internal_mutable_node_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.node_id_.Mutable( GetArena());
+}
+inline std::string* Heartbeat::release_node_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:packet.Heartbeat.node_id)
+  return _impl_.node_id_.Release();
+}
+inline void Heartbeat::set_allocated_node_id(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_id_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.node_id_.IsDefault()) {
+          _impl_.node_id_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:packet.Heartbeat.node_id)
+}
+
+// -------------------------------------------------------------------
+
+// Maplist
+
+// repeated string items = 1;
+inline int Maplist::_internal_items_size() const {
+  return _internal_items().size();
+}
+inline int Maplist::items_size() const {
+  return _internal_items_size();
+}
+inline void Maplist::clear_items() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.items_.Clear();
+}
+inline std::string* Maplist::add_items()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  std::string* _s = _internal_mutable_items()->Add();
+  // @@protoc_insertion_point(field_add_mutable:packet.Maplist.items)
+  return _s;
+}
+inline const std::string& Maplist::items(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Maplist.items)
+  return _internal_items().Get(index);
+}
+inline std::string* Maplist::mutable_items(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:packet.Maplist.items)
+  return _internal_mutable_items()->Mutable(index);
+}
+inline void Maplist::set_items(int index, const std::string& value) {
+  _internal_mutable_items()->Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:packet.Maplist.items)
+}
+inline void Maplist::set_items(int index, std::string&& value) {
+  _internal_mutable_items()->Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:packet.Maplist.items)
+}
+inline void Maplist::set_items(int index, const char* value) {
+  ABSL_DCHECK(value != nullptr);
+  _internal_mutable_items()->Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:packet.Maplist.items)
+}
+inline void Maplist::set_items(int index, const char* value,
+                              std::size_t size) {
+  _internal_mutable_items()->Mutable(index)->assign(
+      reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:packet.Maplist.items)
+}
+inline void Maplist::set_items(int index, absl::string_view value) {
+  _internal_mutable_items()->Mutable(index)->assign(
+      value.data(), value.size());
+  // @@protoc_insertion_point(field_set_string_piece:packet.Maplist.items)
+}
+inline void Maplist::add_items(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_items()->Add()->assign(value);
+  // @@protoc_insertion_point(field_add:packet.Maplist.items)
+}
+inline void Maplist::add_items(std::string&& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_items()->Add(std::move(value));
+  // @@protoc_insertion_point(field_add:packet.Maplist.items)
+}
+inline void Maplist::add_items(const char* value) {
+  ABSL_DCHECK(value != nullptr);
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_items()->Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:packet.Maplist.items)
+}
+inline void Maplist::add_items(const char* value, std::size_t size) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_items()->Add()->assign(
+      reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:packet.Maplist.items)
+}
+inline void Maplist::add_items(absl::string_view value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_items()->Add()->assign(value.data(),
+                                                     value.size());
+  // @@protoc_insertion_point(field_add_string_piece:packet.Maplist.items)
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+Maplist::items() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:packet.Maplist.items)
+  return _internal_items();
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>*
+Maplist::mutable_items() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:packet.Maplist.items)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_items();
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+Maplist::_internal_items() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.items_;
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>*
+Maplist::_internal_mutable_items() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.items_;
+}
+
+// -------------------------------------------------------------------
+
+// Location
+
+// double x = 1;
+inline void Location::clear_x() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = 0;
+}
+inline double Location::x() const {
+  // @@protoc_insertion_point(field_get:packet.Location.x)
+  return _internal_x();
+}
+inline void Location::set_x(double value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:packet.Location.x)
+}
+inline double Location::_internal_x() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_;
+}
+inline void Location::_internal_set_x(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = value;
+}
+
+// double y = 2;
+inline void Location::clear_y() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = 0;
+}
+inline double Location::y() const {
+  // @@protoc_insertion_point(field_get:packet.Location.y)
+  return _internal_y();
+}
+inline void Location::set_y(double value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:packet.Location.y)
+}
+inline double Location::_internal_y() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_;
+}
+inline void Location::_internal_set_y(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = value;
+}
+
+// double yaw = 3;
+inline void Location::clear_yaw() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.yaw_ = 0;
+}
+inline double Location::yaw() const {
+  // @@protoc_insertion_point(field_get:packet.Location.yaw)
+  return _internal_yaw();
+}
+inline void Location::set_yaw(double value) {
+  _internal_set_yaw(value);
+  // @@protoc_insertion_point(field_set:packet.Location.yaw)
+}
+inline double Location::_internal_yaw() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.yaw_;
+}
+inline void Location::_internal_set_yaw(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.yaw_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// File
 
 // string file_name = 1;
-inline void FilePacketHeader::clear_file_name() {
+inline void File::clear_file_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_name_.ClearToEmpty();
 }
-inline const std::string& FilePacketHeader::file_name() const
+inline const std::string& File::file_name() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:packet.FilePacketHeader.file_name)
+  // @@protoc_insertion_point(field_get:packet.File.file_name)
   return _internal_file_name();
 }
 template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void FilePacketHeader::set_file_name(Arg_&& arg,
+inline PROTOBUF_ALWAYS_INLINE void File::set_file_name(Arg_&& arg,
                                                      Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:packet.FilePacketHeader.file_name)
+  // @@protoc_insertion_point(field_set:packet.File.file_name)
 }
-inline std::string* FilePacketHeader::mutable_file_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline std::string* File::mutable_file_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_file_name();
-  // @@protoc_insertion_point(field_mutable:packet.FilePacketHeader.file_name)
+  // @@protoc_insertion_point(field_mutable:packet.File.file_name)
   return _s;
 }
-inline const std::string& FilePacketHeader::_internal_file_name() const {
+inline const std::string& File::_internal_file_name() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.file_name_.Get();
 }
-inline void FilePacketHeader::_internal_set_file_name(const std::string& value) {
+inline void File::_internal_set_file_name(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_name_.Set(value, GetArena());
 }
-inline std::string* FilePacketHeader::_internal_mutable_file_name() {
+inline std::string* File::_internal_mutable_file_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _impl_.file_name_.Mutable( GetArena());
 }
-inline std::string* FilePacketHeader::release_file_name() {
+inline std::string* File::release_file_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:packet.FilePacketHeader.file_name)
+  // @@protoc_insertion_point(field_release:packet.File.file_name)
   return _impl_.file_name_.Release();
 }
-inline void FilePacketHeader::set_allocated_file_name(std::string* value) {
+inline void File::set_allocated_file_name(std::string* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_name_.SetAllocated(value, GetArena());
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -585,247 +1702,681 @@ inline void FilePacketHeader::set_allocated_file_name(std::string* value) {
           _impl_.file_name_.Set("", GetArena());
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:packet.FilePacketHeader.file_name)
+  // @@protoc_insertion_point(field_set_allocated:packet.File.file_name)
 }
 
-// string file_md5 = 2;
-inline void FilePacketHeader::clear_file_md5() {
+// bytes file_content = 2;
+inline void File::clear_file_content() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.file_md5_.ClearToEmpty();
+  _impl_.file_content_.ClearToEmpty();
 }
-inline const std::string& FilePacketHeader::file_md5() const
+inline const std::string& File::file_content() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:packet.FilePacketHeader.file_md5)
-  return _internal_file_md5();
+  // @@protoc_insertion_point(field_get:packet.File.file_content)
+  return _internal_file_content();
 }
 template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void FilePacketHeader::set_file_md5(Arg_&& arg,
+inline PROTOBUF_ALWAYS_INLINE void File::set_file_content(Arg_&& arg,
                                                      Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.file_md5_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:packet.FilePacketHeader.file_md5)
+  _impl_.file_content_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:packet.File.file_content)
 }
-inline std::string* FilePacketHeader::mutable_file_md5() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_file_md5();
-  // @@protoc_insertion_point(field_mutable:packet.FilePacketHeader.file_md5)
+inline std::string* File::mutable_file_content() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_file_content();
+  // @@protoc_insertion_point(field_mutable:packet.File.file_content)
   return _s;
 }
-inline const std::string& FilePacketHeader::_internal_file_md5() const {
+inline const std::string& File::_internal_file_content() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.file_md5_.Get();
+  return _impl_.file_content_.Get();
 }
-inline void FilePacketHeader::_internal_set_file_md5(const std::string& value) {
+inline void File::_internal_set_file_content(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.file_md5_.Set(value, GetArena());
+  _impl_.file_content_.Set(value, GetArena());
 }
-inline std::string* FilePacketHeader::_internal_mutable_file_md5() {
+inline std::string* File::_internal_mutable_file_content() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _impl_.file_md5_.Mutable( GetArena());
+  return _impl_.file_content_.Mutable( GetArena());
 }
-inline std::string* FilePacketHeader::release_file_md5() {
+inline std::string* File::release_file_content() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:packet.FilePacketHeader.file_md5)
-  return _impl_.file_md5_.Release();
+  // @@protoc_insertion_point(field_release:packet.File.file_content)
+  return _impl_.file_content_.Release();
 }
-inline void FilePacketHeader::set_allocated_file_md5(std::string* value) {
+inline void File::set_allocated_file_content(std::string* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.file_md5_.SetAllocated(value, GetArena());
+  _impl_.file_content_.SetAllocated(value, GetArena());
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.file_md5_.IsDefault()) {
-          _impl_.file_md5_.Set("", GetArena());
+        if (_impl_.file_content_.IsDefault()) {
+          _impl_.file_content_.Set("", GetArena());
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:packet.FilePacketHeader.file_md5)
+  // @@protoc_insertion_point(field_set_allocated:packet.File.file_content)
+}
+
+// int32 file_packet_num = 3;
+inline void File::clear_file_packet_num() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.file_packet_num_ = 0;
+}
+inline ::int32_t File::file_packet_num() const {
+  // @@protoc_insertion_point(field_get:packet.File.file_packet_num)
+  return _internal_file_packet_num();
+}
+inline void File::set_file_packet_num(::int32_t value) {
+  _internal_set_file_packet_num(value);
+  // @@protoc_insertion_point(field_set:packet.File.file_packet_num)
+}
+inline ::int32_t File::_internal_file_packet_num() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.file_packet_num_;
+}
+inline void File::_internal_set_file_packet_num(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.file_packet_num_ = value;
+}
+
+// int32 file_packet_total = 4;
+inline void File::clear_file_packet_total() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.file_packet_total_ = 0;
+}
+inline ::int32_t File::file_packet_total() const {
+  // @@protoc_insertion_point(field_get:packet.File.file_packet_total)
+  return _internal_file_packet_total();
+}
+inline void File::set_file_packet_total(::int32_t value) {
+  _internal_set_file_packet_total(value);
+  // @@protoc_insertion_point(field_set:packet.File.file_packet_total)
+}
+inline ::int32_t File::_internal_file_packet_total() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.file_packet_total_;
+}
+inline void File::_internal_set_file_packet_total(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.file_packet_total_ = value;
+}
+
+// string whole_file_md5 = 5;
+inline void File::clear_whole_file_md5() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.whole_file_md5_.ClearToEmpty();
+}
+inline const std::string& File::whole_file_md5() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.File.whole_file_md5)
+  return _internal_whole_file_md5();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void File::set_whole_file_md5(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.whole_file_md5_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:packet.File.whole_file_md5)
+}
+inline std::string* File::mutable_whole_file_md5() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_whole_file_md5();
+  // @@protoc_insertion_point(field_mutable:packet.File.whole_file_md5)
+  return _s;
+}
+inline const std::string& File::_internal_whole_file_md5() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.whole_file_md5_.Get();
+}
+inline void File::_internal_set_whole_file_md5(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.whole_file_md5_.Set(value, GetArena());
+}
+inline std::string* File::_internal_mutable_whole_file_md5() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.whole_file_md5_.Mutable( GetArena());
+}
+inline std::string* File::release_whole_file_md5() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:packet.File.whole_file_md5)
+  return _impl_.whole_file_md5_.Release();
+}
+inline void File::set_allocated_whole_file_md5(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.whole_file_md5_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.whole_file_md5_.IsDefault()) {
+          _impl_.whole_file_md5_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:packet.File.whole_file_md5)
 }
 
 // -------------------------------------------------------------------
 
-// MessagePacketHeader
+// FileTransferStatus
 
-// int32 magic_number = 1;
-inline void MessagePacketHeader::clear_magic_number() {
+// int32 current_packet_index = 1;
+inline void FileTransferStatus::clear_current_packet_index() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.magic_number_ = 0;
+  _impl_.current_packet_index_ = 0;
 }
-inline ::int32_t MessagePacketHeader::magic_number() const {
-  // @@protoc_insertion_point(field_get:packet.MessagePacketHeader.magic_number)
-  return _internal_magic_number();
+inline ::int32_t FileTransferStatus::current_packet_index() const {
+  // @@protoc_insertion_point(field_get:packet.FileTransferStatus.current_packet_index)
+  return _internal_current_packet_index();
 }
-inline void MessagePacketHeader::set_magic_number(::int32_t value) {
-  _internal_set_magic_number(value);
-  // @@protoc_insertion_point(field_set:packet.MessagePacketHeader.magic_number)
+inline void FileTransferStatus::set_current_packet_index(::int32_t value) {
+  _internal_set_current_packet_index(value);
+  // @@protoc_insertion_point(field_set:packet.FileTransferStatus.current_packet_index)
 }
-inline ::int32_t MessagePacketHeader::_internal_magic_number() const {
+inline ::int32_t FileTransferStatus::_internal_current_packet_index() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.magic_number_;
+  return _impl_.current_packet_index_;
 }
-inline void MessagePacketHeader::_internal_set_magic_number(::int32_t value) {
+inline void FileTransferStatus::_internal_set_current_packet_index(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.magic_number_ = value;
-}
-
-// .packet.MessageType packet_type = 2;
-inline void MessagePacketHeader::clear_packet_type() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_type_ = 0;
-}
-inline ::packet::MessageType MessagePacketHeader::packet_type() const {
-  // @@protoc_insertion_point(field_get:packet.MessagePacketHeader.packet_type)
-  return _internal_packet_type();
-}
-inline void MessagePacketHeader::set_packet_type(::packet::MessageType value) {
-  _internal_set_packet_type(value);
-  // @@protoc_insertion_point(field_set:packet.MessagePacketHeader.packet_type)
-}
-inline ::packet::MessageType MessagePacketHeader::_internal_packet_type() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return static_cast<::packet::MessageType>(_impl_.packet_type_);
-}
-inline void MessagePacketHeader::_internal_set_packet_type(::packet::MessageType value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_type_ = value;
+  _impl_.current_packet_index_ = value;
 }
 
-// int32 packet_id = 3;
-inline void MessagePacketHeader::clear_packet_id() {
+// int32 total_packets = 2;
+inline void FileTransferStatus::clear_total_packets() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_id_ = 0;
+  _impl_.total_packets_ = 0;
 }
-inline ::int32_t MessagePacketHeader::packet_id() const {
-  // @@protoc_insertion_point(field_get:packet.MessagePacketHeader.packet_id)
-  return _internal_packet_id();
+inline ::int32_t FileTransferStatus::total_packets() const {
+  // @@protoc_insertion_point(field_get:packet.FileTransferStatus.total_packets)
+  return _internal_total_packets();
 }
-inline void MessagePacketHeader::set_packet_id(::int32_t value) {
-  _internal_set_packet_id(value);
-  // @@protoc_insertion_point(field_set:packet.MessagePacketHeader.packet_id)
+inline void FileTransferStatus::set_total_packets(::int32_t value) {
+  _internal_set_total_packets(value);
+  // @@protoc_insertion_point(field_set:packet.FileTransferStatus.total_packets)
 }
-inline ::int32_t MessagePacketHeader::_internal_packet_id() const {
+inline ::int32_t FileTransferStatus::_internal_total_packets() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.packet_id_;
+  return _impl_.total_packets_;
 }
-inline void MessagePacketHeader::_internal_set_packet_id(::int32_t value) {
+inline void FileTransferStatus::_internal_set_total_packets(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_id_ = value;
+  _impl_.total_packets_ = value;
 }
 
-// int32 packet_sum = 4;
-inline void MessagePacketHeader::clear_packet_sum() {
+// string current_file_name = 3;
+inline void FileTransferStatus::clear_current_file_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_sum_ = 0;
+  _impl_.current_file_name_.ClearToEmpty();
 }
-inline ::int32_t MessagePacketHeader::packet_sum() const {
-  // @@protoc_insertion_point(field_get:packet.MessagePacketHeader.packet_sum)
-  return _internal_packet_sum();
+inline const std::string& FileTransferStatus::current_file_name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.FileTransferStatus.current_file_name)
+  return _internal_current_file_name();
 }
-inline void MessagePacketHeader::set_packet_sum(::int32_t value) {
-  _internal_set_packet_sum(value);
-  // @@protoc_insertion_point(field_set:packet.MessagePacketHeader.packet_sum)
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void FileTransferStatus::set_current_file_name(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.current_file_name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:packet.FileTransferStatus.current_file_name)
 }
-inline ::int32_t MessagePacketHeader::_internal_packet_sum() const {
+inline std::string* FileTransferStatus::mutable_current_file_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_current_file_name();
+  // @@protoc_insertion_point(field_mutable:packet.FileTransferStatus.current_file_name)
+  return _s;
+}
+inline const std::string& FileTransferStatus::_internal_current_file_name() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.packet_sum_;
+  return _impl_.current_file_name_.Get();
 }
-inline void MessagePacketHeader::_internal_set_packet_sum(::int32_t value) {
+inline void FileTransferStatus::_internal_set_current_file_name(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.packet_sum_ = value;
+  _impl_.current_file_name_.Set(value, GetArena());
+}
+inline std::string* FileTransferStatus::_internal_mutable_current_file_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.current_file_name_.Mutable( GetArena());
+}
+inline std::string* FileTransferStatus::release_current_file_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:packet.FileTransferStatus.current_file_name)
+  return _impl_.current_file_name_.Release();
+}
+inline void FileTransferStatus::set_allocated_current_file_name(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.current_file_name_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.current_file_name_.IsDefault()) {
+          _impl_.current_file_name_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:packet.FileTransferStatus.current_file_name)
 }
 
-// .packet.FilePacketHeader file_header = 5;
-inline bool MessagePacketHeader::has_file_header() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.file_header_ != nullptr);
-  return value;
-}
-inline void MessagePacketHeader::clear_file_header() {
+// -------------------------------------------------------------------
+
+// Message
+
+// .packet.MessageType type = 1;
+inline void Message::clear_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.file_header_ != nullptr) _impl_.file_header_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
+  _impl_.type_ = 0;
 }
-inline const ::packet::FilePacketHeader& MessagePacketHeader::_internal_file_header() const {
+inline ::packet::MessageType Message::type() const {
+  // @@protoc_insertion_point(field_get:packet.Message.type)
+  return _internal_type();
+}
+inline void Message::set_type(::packet::MessageType value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:packet.Message.type)
+}
+inline ::packet::MessageType Message::_internal_type() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::packet::FilePacketHeader* p = _impl_.file_header_;
-  return p != nullptr ? *p : reinterpret_cast<const ::packet::FilePacketHeader&>(::packet::_FilePacketHeader_default_instance_);
+  return static_cast<::packet::MessageType>(_impl_.type_);
 }
-inline const ::packet::FilePacketHeader& MessagePacketHeader::file_header() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:packet.MessagePacketHeader.file_header)
-  return _internal_file_header();
-}
-inline void MessagePacketHeader::unsafe_arena_set_allocated_file_header(::packet::FilePacketHeader* value) {
+inline void Message::_internal_set_type(::packet::MessageType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.file_header_);
+  _impl_.type_ = value;
+}
+
+// .packet.Heartbeat heartbeat = 2;
+inline bool Message::has_heartbeat() const {
+  return payload_case() == kHeartbeat;
+}
+inline bool Message::_internal_has_heartbeat() const {
+  return payload_case() == kHeartbeat;
+}
+inline void Message::set_has_heartbeat() {
+  _impl_._oneof_case_[0] = kHeartbeat;
+}
+inline void Message::clear_heartbeat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (payload_case() == kHeartbeat) {
+    if (GetArena() == nullptr) {
+      delete _impl_.payload_.heartbeat_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.heartbeat_);
+    }
+    clear_has_payload();
   }
-  _impl_.file_header_ = reinterpret_cast<::packet::FilePacketHeader*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
+}
+inline ::packet::Heartbeat* Message::release_heartbeat() {
+  // @@protoc_insertion_point(field_release:packet.Message.heartbeat)
+  if (payload_case() == kHeartbeat) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.heartbeat_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.heartbeat_ = nullptr;
+    return temp;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    return nullptr;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.MessagePacketHeader.file_header)
 }
-inline ::packet::FilePacketHeader* MessagePacketHeader::release_file_header() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::packet::FilePacketHeader* released = _impl_.file_header_;
-  _impl_.file_header_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  if (GetArena() == nullptr) {
-    delete old;
+inline const ::packet::Heartbeat& Message::_internal_heartbeat() const {
+  return payload_case() == kHeartbeat ? *_impl_.payload_.heartbeat_ : reinterpret_cast<::packet::Heartbeat&>(::packet::_Heartbeat_default_instance_);
+}
+inline const ::packet::Heartbeat& Message::heartbeat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Message.heartbeat)
+  return _internal_heartbeat();
+}
+inline ::packet::Heartbeat* Message::unsafe_arena_release_heartbeat() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.heartbeat)
+  if (payload_case() == kHeartbeat) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.heartbeat_;
+    _impl_.payload_.heartbeat_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
   }
-#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArena() != nullptr) {
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+}
+inline void Message::unsafe_arena_set_allocated_heartbeat(::packet::Heartbeat* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_heartbeat();
+    _impl_.payload_.heartbeat_ = value;
   }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return released;
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.heartbeat)
 }
-inline ::packet::FilePacketHeader* MessagePacketHeader::unsafe_arena_release_file_header() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:packet.MessagePacketHeader.file_header)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::packet::FilePacketHeader* temp = _impl_.file_header_;
-  _impl_.file_header_ = nullptr;
-  return temp;
-}
-inline ::packet::FilePacketHeader* MessagePacketHeader::_internal_mutable_file_header() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.file_header_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::packet::FilePacketHeader>(GetArena());
-    _impl_.file_header_ = reinterpret_cast<::packet::FilePacketHeader*>(p);
+inline ::packet::Heartbeat* Message::_internal_mutable_heartbeat() {
+  if (payload_case() != kHeartbeat) {
+    clear_payload();
+    set_has_heartbeat();
+    _impl_.payload_.heartbeat_ =
+        ::google::protobuf::Message::DefaultConstruct<::packet::Heartbeat>(GetArena());
   }
-  return _impl_.file_header_;
+  return _impl_.payload_.heartbeat_;
 }
-inline ::packet::FilePacketHeader* MessagePacketHeader::mutable_file_header() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::packet::FilePacketHeader* _msg = _internal_mutable_file_header();
-  // @@protoc_insertion_point(field_mutable:packet.MessagePacketHeader.file_header)
+inline ::packet::Heartbeat* Message::mutable_heartbeat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::packet::Heartbeat* _msg = _internal_mutable_heartbeat();
+  // @@protoc_insertion_point(field_mutable:packet.Message.heartbeat)
   return _msg;
 }
-inline void MessagePacketHeader::set_allocated_file_header(::packet::FilePacketHeader* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
+
+// .packet.Maplist mapList = 3;
+inline bool Message::has_maplist() const {
+  return payload_case() == kMapList;
+}
+inline bool Message::_internal_has_maplist() const {
+  return payload_case() == kMapList;
+}
+inline void Message::set_has_maplist() {
+  _impl_._oneof_case_[0] = kMapList;
+}
+inline void Message::clear_maplist() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.file_header_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+  if (payload_case() == kMapList) {
+    if (GetArena() == nullptr) {
+      delete _impl_.payload_.maplist_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.maplist_);
     }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    clear_has_payload();
   }
-
-  _impl_.file_header_ = reinterpret_cast<::packet::FilePacketHeader*>(value);
-  // @@protoc_insertion_point(field_set_allocated:packet.MessagePacketHeader.file_header)
+}
+inline ::packet::Maplist* Message::release_maplist() {
+  // @@protoc_insertion_point(field_release:packet.Message.mapList)
+  if (payload_case() == kMapList) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.maplist_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.maplist_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::packet::Maplist& Message::_internal_maplist() const {
+  return payload_case() == kMapList ? *_impl_.payload_.maplist_ : reinterpret_cast<::packet::Maplist&>(::packet::_Maplist_default_instance_);
+}
+inline const ::packet::Maplist& Message::maplist() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Message.mapList)
+  return _internal_maplist();
+}
+inline ::packet::Maplist* Message::unsafe_arena_release_maplist() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.mapList)
+  if (payload_case() == kMapList) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.maplist_;
+    _impl_.payload_.maplist_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Message::unsafe_arena_set_allocated_maplist(::packet::Maplist* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_maplist();
+    _impl_.payload_.maplist_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.mapList)
+}
+inline ::packet::Maplist* Message::_internal_mutable_maplist() {
+  if (payload_case() != kMapList) {
+    clear_payload();
+    set_has_maplist();
+    _impl_.payload_.maplist_ =
+        ::google::protobuf::Message::DefaultConstruct<::packet::Maplist>(GetArena());
+  }
+  return _impl_.payload_.maplist_;
+}
+inline ::packet::Maplist* Message::mutable_maplist() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::packet::Maplist* _msg = _internal_mutable_maplist();
+  // @@protoc_insertion_point(field_mutable:packet.Message.mapList)
+  return _msg;
 }
 
+// .packet.Location location = 4;
+inline bool Message::has_location() const {
+  return payload_case() == kLocation;
+}
+inline bool Message::_internal_has_location() const {
+  return payload_case() == kLocation;
+}
+inline void Message::set_has_location() {
+  _impl_._oneof_case_[0] = kLocation;
+}
+inline void Message::clear_location() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (payload_case() == kLocation) {
+    if (GetArena() == nullptr) {
+      delete _impl_.payload_.location_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.location_);
+    }
+    clear_has_payload();
+  }
+}
+inline ::packet::Location* Message::release_location() {
+  // @@protoc_insertion_point(field_release:packet.Message.location)
+  if (payload_case() == kLocation) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.location_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.location_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::packet::Location& Message::_internal_location() const {
+  return payload_case() == kLocation ? *_impl_.payload_.location_ : reinterpret_cast<::packet::Location&>(::packet::_Location_default_instance_);
+}
+inline const ::packet::Location& Message::location() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Message.location)
+  return _internal_location();
+}
+inline ::packet::Location* Message::unsafe_arena_release_location() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.location)
+  if (payload_case() == kLocation) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.location_;
+    _impl_.payload_.location_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Message::unsafe_arena_set_allocated_location(::packet::Location* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_location();
+    _impl_.payload_.location_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.location)
+}
+inline ::packet::Location* Message::_internal_mutable_location() {
+  if (payload_case() != kLocation) {
+    clear_payload();
+    set_has_location();
+    _impl_.payload_.location_ =
+        ::google::protobuf::Message::DefaultConstruct<::packet::Location>(GetArena());
+  }
+  return _impl_.payload_.location_;
+}
+inline ::packet::Location* Message::mutable_location() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::packet::Location* _msg = _internal_mutable_location();
+  // @@protoc_insertion_point(field_mutable:packet.Message.location)
+  return _msg;
+}
+
+// .packet.File file = 5;
+inline bool Message::has_file() const {
+  return payload_case() == kFile;
+}
+inline bool Message::_internal_has_file() const {
+  return payload_case() == kFile;
+}
+inline void Message::set_has_file() {
+  _impl_._oneof_case_[0] = kFile;
+}
+inline void Message::clear_file() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (payload_case() == kFile) {
+    if (GetArena() == nullptr) {
+      delete _impl_.payload_.file_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.file_);
+    }
+    clear_has_payload();
+  }
+}
+inline ::packet::File* Message::release_file() {
+  // @@protoc_insertion_point(field_release:packet.Message.file)
+  if (payload_case() == kFile) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.file_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.file_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::packet::File& Message::_internal_file() const {
+  return payload_case() == kFile ? *_impl_.payload_.file_ : reinterpret_cast<::packet::File&>(::packet::_File_default_instance_);
+}
+inline const ::packet::File& Message::file() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Message.file)
+  return _internal_file();
+}
+inline ::packet::File* Message::unsafe_arena_release_file() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.file)
+  if (payload_case() == kFile) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.file_;
+    _impl_.payload_.file_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Message::unsafe_arena_set_allocated_file(::packet::File* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_file();
+    _impl_.payload_.file_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.file)
+}
+inline ::packet::File* Message::_internal_mutable_file() {
+  if (payload_case() != kFile) {
+    clear_payload();
+    set_has_file();
+    _impl_.payload_.file_ =
+        ::google::protobuf::Message::DefaultConstruct<::packet::File>(GetArena());
+  }
+  return _impl_.payload_.file_;
+}
+inline ::packet::File* Message::mutable_file() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::packet::File* _msg = _internal_mutable_file();
+  // @@protoc_insertion_point(field_mutable:packet.Message.file)
+  return _msg;
+}
+
+// .packet.FileTransferStatus fileTransferStatus = 6;
+inline bool Message::has_filetransferstatus() const {
+  return payload_case() == kFileTransferStatus;
+}
+inline bool Message::_internal_has_filetransferstatus() const {
+  return payload_case() == kFileTransferStatus;
+}
+inline void Message::set_has_filetransferstatus() {
+  _impl_._oneof_case_[0] = kFileTransferStatus;
+}
+inline void Message::clear_filetransferstatus() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (payload_case() == kFileTransferStatus) {
+    if (GetArena() == nullptr) {
+      delete _impl_.payload_.filetransferstatus_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.filetransferstatus_);
+    }
+    clear_has_payload();
+  }
+}
+inline ::packet::FileTransferStatus* Message::release_filetransferstatus() {
+  // @@protoc_insertion_point(field_release:packet.Message.fileTransferStatus)
+  if (payload_case() == kFileTransferStatus) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.filetransferstatus_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.filetransferstatus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::packet::FileTransferStatus& Message::_internal_filetransferstatus() const {
+  return payload_case() == kFileTransferStatus ? *_impl_.payload_.filetransferstatus_ : reinterpret_cast<::packet::FileTransferStatus&>(::packet::_FileTransferStatus_default_instance_);
+}
+inline const ::packet::FileTransferStatus& Message::filetransferstatus() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Message.fileTransferStatus)
+  return _internal_filetransferstatus();
+}
+inline ::packet::FileTransferStatus* Message::unsafe_arena_release_filetransferstatus() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.fileTransferStatus)
+  if (payload_case() == kFileTransferStatus) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.filetransferstatus_;
+    _impl_.payload_.filetransferstatus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Message::unsafe_arena_set_allocated_filetransferstatus(::packet::FileTransferStatus* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_filetransferstatus();
+    _impl_.payload_.filetransferstatus_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.fileTransferStatus)
+}
+inline ::packet::FileTransferStatus* Message::_internal_mutable_filetransferstatus() {
+  if (payload_case() != kFileTransferStatus) {
+    clear_payload();
+    set_has_filetransferstatus();
+    _impl_.payload_.filetransferstatus_ =
+        ::google::protobuf::Message::DefaultConstruct<::packet::FileTransferStatus>(GetArena());
+  }
+  return _impl_.payload_.filetransferstatus_;
+}
+inline ::packet::FileTransferStatus* Message::mutable_filetransferstatus() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::packet::FileTransferStatus* _msg = _internal_mutable_filetransferstatus();
+  // @@protoc_insertion_point(field_mutable:packet.Message.fileTransferStatus)
+  return _msg;
+}
+
+inline bool Message::has_payload() const {
+  return payload_case() != PAYLOAD_NOT_SET;
+}
+inline void Message::clear_has_payload() {
+  _impl_._oneof_case_[0] = PAYLOAD_NOT_SET;
+}
+inline Message::PayloadCase Message::payload_case() const {
+  return Message::PayloadCase(_impl_._oneof_case_[0]);
+}
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif  // __GNUC__

@@ -2,23 +2,50 @@ syntax = "proto3";
 
 package packet;
 
+message Heartbeat {
+    string node_id = 1;
+}
+
+message Maplist {
+    repeated string items = 1; // 列表项
+}
+
+message Location {
+    double x = 1; 
+    double y = 2; 
+    double yaw = 3; 
+}
+
+message File {
+    string file_name = 1; // 文件名
+    bytes file_content = 2; // 文件内容
+    int32 file_packet_num = 3; // 文件包当前序号
+    int32 file_packet_total = 4; // 文件包总共数量
+    string whole_file_md5 = 5; // 完整文件的MD5校验值
+}
+
+message FileTransferStatus {
+    int32 current_packet_index = 1;
+    int32 total_packets = 2; 
+    string current_file_name = 3; 
+}
+
 enum MessageType {
     UNKNOWN = 0;
     HEARTBEAT = 1;
-    CONTROL = 2;
-    FILE = 3;
+    MAPLIST = 2;
+    LOCATION = 3;
+    FILE = 4;
+    FILE_TRANSFER_STATUS = 5;
 }
 
-message FilePacketHeader {
-    string file_name = 1;
-    string file_md5 = 2;
+message Message {
+    MessageType type = 1; // 消息类型
+    oneof payload {
+        Heartbeat heartbeat = 2;
+        Maplist mapList = 3;
+        Location location = 4;
+        File file = 5;
+        FileTransferStatus fileTransferStatus = 6; 
+    }
 }
-
-message MessagePacketHeader {
-    int32 magic_number = 1;
-    MessageType packet_type = 2;
-    int32 packet_id = 3;
-    int32 packet_sum = 4;
-    FilePacketHeader file_header = 5;
-}
-
