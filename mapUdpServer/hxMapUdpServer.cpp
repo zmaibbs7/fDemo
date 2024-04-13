@@ -25,6 +25,7 @@ using namespace hv;
 
 const int PacketMagicNumber = 95527;
 const int port = 8899;
+const std::string Map_Res = "C:/Users/zmaib/Project/Release/MapEditor/.config/map/";
 class hxMapUdpServerDt
 {
     public:
@@ -105,8 +106,10 @@ void hxMapUdpServer::onReceiveMapRequest()
     qDebug() << "onReceiveMapRequest" << Qt::endl;
     std::string mapRequest;
     packet::Maplist map_list;
-    map_list.add_items("map.pgm");
-    map_list.add_items("222");
+    map_list.add_items("aaa");
+    map_list.add_items("Vb");
+    map_list.add_items(u8"布鲁塞尔");
+    map_list.add_items(u8"反对党发");
     packet::Message msgRequestMapList;
     msgRequestMapList.set_type(packet::MessageType::MAPLIST);
     *msgRequestMapList.mutable_maplist() = map_list;
@@ -118,70 +121,71 @@ void hxMapUdpServer::onReceiveFile()
 {
     //接收到请求
     qDebug() << "onReceiveFile" << Qt::endl;
-    const auto& file = m_Dt->msgReceive.file();
-    std::string filename = file.file_name(); // 地图文件名
+    const auto& fileList = m_Dt->msgReceive.maplist();
+    std::string mapName = fileList.items(0);
+
+    for(int i = 1; i < fileList.items_size(); i++)
+    {
+        qDebug() << u8"准备发送 - " << QString::fromStdString(mapName) << " - " << QString::fromStdString(fileList.items(i)) << Qt::endl;
+    }
+
 
     // 文件路径应基于实际文件位置进行调整
-    std::string filepath = "C:/Users/zmaib/Project/Release/MapEditor/.config/map/aaa/" + filename;
+    std::string dirPath = Map_Res + mapName;
 
-    // 打开文件用于读取
-    std::ifstream infile(filepath, std::ios::binary | std::ios::ate);
-    if (!infile.is_open()) {
-        qDebug() << "Failed to open file for reading:" << QString::fromStdString(filepath) << Qt::endl;
-        return;
-    }
 
-    std::streamsize size = infile.tellg(); // 获取文件大小
-    infile.seekg(0, std::ios::beg); // 回到文件开头
 
-    // 读取整个文件内容到字符串
-    std::vector<char> content(size);
-    if (!infile.read(content.data(), size)) {
-        qDebug() << "Failed to read the file:" << QString::fromStdString(filepath) << Qt::endl;
-        return;
-    }
+    // // 打开文件用于读取
+    // std::ifstream infile(filepath, std::ios::binary | std::ios::ate);
+    // if (!infile.is_open()) {
+    //     qDebug() << "Failed to open file for reading:" << QString::fromStdString(filepath) << Qt::endl;
+    //     return;
+    // }
 
-    // 拆分为1200字节大小的包
-    const size_t packetSize = 1200;
-    std::vector<std::vector<char>> packets;
+    // std::streamsize size = infile.tellg(); // 获取文件大小
+    // infile.seekg(0, std::ios::beg); // 回到文件开头
 
-    // 预分配以避免多次重新分配
-    packets.reserve((size + packetSize - 1) / packetSize);
+    // // 读取整个文件内容到字符串
+    // std::vector<char> content(size);
+    // if (!infile.read(content.data(), size)) {
+    //     qDebug() << "Failed to read the file:" << QString::fromStdString(filepath) << Qt::endl;
+    //     return;
+    // }
 
-    for (size_t offset = 0; offset < size; offset += packetSize) {
-        size_t currentSize = (packetSize < ( size - offset)) ? packetSize : ( size - offset);
-        packets.emplace_back(content.begin() + offset, content.begin() + offset + currentSize);
-    }
+    // // 拆分为1200字节大小的包
+    // const size_t packetSize = 1200;
+    // std::vector<std::vector<char>> packets;
 
-    qDebug() << QString::fromStdString(filename) <<  ".total = " << size << " packets.size = " << packets.size() << Qt::endl;
+    // // 预分配以避免多次重新分配
+    // packets.reserve((size + packetSize - 1) / packetSize);
 
-    packet::File filePacket;
-    packet::Message filePacketMessage;
-    filePacketMessage.set_type(packet::MessageType::FILE);
-    filePacket.set_file_name(filename);
-    for (size_t i = 0; i < packets.size(); ++i) {
-        //01 组包
-        const auto& packet = packets[i];
-        filePacket.set_file_content(packet.data(), packet.size());
-        filePacket.set_file_packet_num(i);
-        filePacket.set_file_packet_total(packets.size());
-        *filePacketMessage.mutable_file() = filePacket;
+    // for (size_t offset = 0; offset < size; offset += packetSize) {
+    //     size_t currentSize = (packetSize < ( size - offset)) ? packetSize : ( size - offset);
+    //     packets.emplace_back(content.begin() + offset, content.begin() + offset + currentSize);
+    // }
 
-        //02 发送打包后的 filePacketMessage
-        std::string out;
-        filePacketMessage.SerializeToString(&out);
-        
-        // if(i % 200 == 0)
-        // {
-        //      _sleep(100);
-        //      qDebug() << "sleep" << Qt::endl;
-        // }
+    // qDebug() << QString::fromStdString(filename) <<  ".total = " << size << " packets.size = " << packets.size() << Qt::endl;
 
-        int re = m_Dt->server.sendto(out);
-        if(re < 0)  qDebug() << "send error" << Qt::endl;
-    }
+    // packet::File filePacket;
+    // packet::Message filePacketMessage;
+    // filePacketMessage.set_type(packet::MessageType::FILE);
+    // filePacket.set_file_name(filename);
+    // for (size_t i = 0; i < packets.size(); ++i) {
+    //     //01 组包
+    //     const auto& packet = packets[i];
+    //     filePacket.set_file_content(packet.data(), packet.size());
+    //     filePacket.set_file_packet_num(i);
+    //     filePacket.set_file_packet_total(packets.size());
+    //     *filePacketMessage.mutable_file() = filePacket;
 
-    qDebug() << "File split into" << packets.size() << "packets." << Qt::endl;
+    //     //02 发送打包后的 filePacketMessage
+    //     std::string out;
+    //     filePacketMessage.SerializeToString(&out);
+    //     int re = m_Dt->server.sendto(out);
+    //     if(re < 0)  qDebug() << "send error" << Qt::endl;
+    // }
+
+    // qDebug() << "File split into" << packets.size() << "packets." << Qt::endl;
 
 }
 
