@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <QObject>
+#include <vector>
 
 class hxMapUdpServerDt;
 class hxMapUdpServer : public QObject
@@ -23,14 +24,14 @@ public slots:
     void onAlgorithmDetectionResult(const QString& result);
 
 signals:
-    // 连接状态改变信号
-    void connectionStatusChanged(bool isConnected);
     // 获取算法检测返回值信号
     void algorithmDetectionResultReceived(const QString& result);
 
 private:
     // 接收 - 请求获取地图列表
-    void onReceiveMapRequest();
+    std::string onReceiveMapRequest();
+    // 接受 - 请求下载地图
+    void onReceiveDownloadMapRequest(std::string mapName, std::vector<std::string> fileList,std::vector<std::string> & sendVector);
     // 接收 - 上传地图信息
     void onReceiveFile();
     // 计算发文件大小

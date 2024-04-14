@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
+
 add_subdirectory(modules)
 include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/modules")
 
