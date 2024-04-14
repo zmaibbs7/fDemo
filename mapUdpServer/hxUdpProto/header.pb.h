@@ -60,12 +60,12 @@ extern FileTransferStatusDefaultTypeInternal _FileTransferStatus_default_instanc
 class Heartbeat;
 struct HeartbeatDefaultTypeInternal;
 extern HeartbeatDefaultTypeInternal _Heartbeat_default_instance_;
+class Itemlist;
+struct ItemlistDefaultTypeInternal;
+extern ItemlistDefaultTypeInternal _Itemlist_default_instance_;
 class Location;
 struct LocationDefaultTypeInternal;
 extern LocationDefaultTypeInternal _Location_default_instance_;
-class Maplist;
-struct MaplistDefaultTypeInternal;
-extern MaplistDefaultTypeInternal _Maplist_default_instance_;
 class Message;
 struct MessageDefaultTypeInternal;
 extern MessageDefaultTypeInternal _Message_default_instance_;
@@ -117,194 +117,6 @@ inline bool MessageType_Parse(absl::string_view name, MessageType* value) {
 // ===================================================================
 
 
-// -------------------------------------------------------------------
-
-class Maplist final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:packet.Maplist) */ {
- public:
-  inline Maplist() : Maplist(nullptr) {}
-  ~Maplist() override;
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Maplist(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Maplist(const Maplist& from) : Maplist(nullptr, from) {}
-  inline Maplist(Maplist&& from) noexcept
-      : Maplist(nullptr, std::move(from)) {}
-  inline Maplist& operator=(const Maplist& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Maplist& operator=(Maplist&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetArena() == from.GetArena()
-#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetArena() != nullptr
-#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Maplist& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Maplist* internal_default_instance() {
-    return reinterpret_cast<const Maplist*>(
-        &_Maplist_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 1;
-  friend void swap(Maplist& a, Maplist& b) { a.Swap(&b); }
-  inline void Swap(Maplist* other) {
-    if (other == this) return;
-#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
-#else   // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() == other->GetArena()) {
-#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Maplist* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Maplist* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<Maplist>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Maplist& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Maplist& from) { Maplist::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  void SharedDtor();
-  void InternalSwap(Maplist* other);
- private:
-  friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "packet.Maplist"; }
-
- protected:
-  explicit Maplist(::google::protobuf::Arena* arena);
-  Maplist(::google::protobuf::Arena* arena, const Maplist& from);
-  Maplist(::google::protobuf::Arena* arena, Maplist&& from) noexcept
-      : Maplist(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kItemsFieldNumber = 1,
-  };
-  // repeated string items = 1;
-  int items_size() const;
-  private:
-  int _internal_items_size() const;
-
-  public:
-  void clear_items() ;
-  const std::string& items(int index) const;
-  std::string* mutable_items(int index);
-  void set_items(int index, const std::string& value);
-  void set_items(int index, std::string&& value);
-  void set_items(int index, const char* value);
-  void set_items(int index, const char* value, std::size_t size);
-  void set_items(int index, absl::string_view value);
-  std::string* add_items();
-  void add_items(const std::string& value);
-  void add_items(std::string&& value);
-  void add_items(const char* value);
-  void add_items(const char* value, std::size_t size);
-  void add_items(absl::string_view value);
-  const ::google::protobuf::RepeatedPtrField<std::string>& items() const;
-  ::google::protobuf::RepeatedPtrField<std::string>* mutable_items();
-
-  private:
-  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_items() const;
-  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_items();
-
-  public:
-  // @@protoc_insertion_point(class_scope:packet.Maplist)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
-      28, 2>
-      _table_;
-
-  static constexpr const void* _raw_default_instance_ =
-      &_Maplist_default_instance_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Maplist& from_msg);
-    ::google::protobuf::RepeatedPtrField<std::string> items_;
-    mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_header_2eproto;
-};
 // -------------------------------------------------------------------
 
 class Location final : public ::google::protobuf::Message
@@ -493,6 +305,194 @@ class Location final : public ::google::protobuf::Message
     double x_;
     double y_;
     double yaw_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_header_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Itemlist final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:packet.Itemlist) */ {
+ public:
+  inline Itemlist() : Itemlist(nullptr) {}
+  ~Itemlist() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Itemlist(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Itemlist(const Itemlist& from) : Itemlist(nullptr, from) {}
+  inline Itemlist(Itemlist&& from) noexcept
+      : Itemlist(nullptr, std::move(from)) {}
+  inline Itemlist& operator=(const Itemlist& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Itemlist& operator=(Itemlist&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Itemlist& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Itemlist* internal_default_instance() {
+    return reinterpret_cast<const Itemlist*>(
+        &_Itemlist_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(Itemlist& a, Itemlist& b) { a.Swap(&b); }
+  inline void Swap(Itemlist* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Itemlist* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Itemlist* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::Message::DefaultConstruct<Itemlist>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Itemlist& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Itemlist& from) { Itemlist::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Itemlist* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "packet.Itemlist"; }
+
+ protected:
+  explicit Itemlist(::google::protobuf::Arena* arena);
+  Itemlist(::google::protobuf::Arena* arena, const Itemlist& from);
+  Itemlist(::google::protobuf::Arena* arena, Itemlist&& from) noexcept
+      : Itemlist(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kItemsFieldNumber = 1,
+  };
+  // repeated string items = 1;
+  int items_size() const;
+  private:
+  int _internal_items_size() const;
+
+  public:
+  void clear_items() ;
+  const std::string& items(int index) const;
+  std::string* mutable_items(int index);
+  void set_items(int index, const std::string& value);
+  void set_items(int index, std::string&& value);
+  void set_items(int index, const char* value);
+  void set_items(int index, const char* value, std::size_t size);
+  void set_items(int index, absl::string_view value);
+  std::string* add_items();
+  void add_items(const std::string& value);
+  void add_items(std::string&& value);
+  void add_items(const char* value);
+  void add_items(const char* value, std::size_t size);
+  void add_items(absl::string_view value);
+  const ::google::protobuf::RepeatedPtrField<std::string>& items() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* mutable_items();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_items() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_items();
+
+  public:
+  // @@protoc_insertion_point(class_scope:packet.Itemlist)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      29, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Itemlist_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Itemlist& from_msg);
+    ::google::protobuf::RepeatedPtrField<std::string> items_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1000,13 +1000,30 @@ class File final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kFileNameFieldNumber = 1,
-    kFileContentFieldNumber = 2,
-    kWholeFileMd5FieldNumber = 5,
-    kFilePacketNumFieldNumber = 3,
-    kFilePacketTotalFieldNumber = 4,
+    kMapNameFieldNumber = 1,
+    kFileNameFieldNumber = 2,
+    kFileContentFieldNumber = 3,
+    kWholeFileMd5FieldNumber = 6,
+    kFilePacketNumFieldNumber = 4,
+    kFilePacketTotalFieldNumber = 5,
   };
-  // string file_name = 1;
+  // string map_name = 1;
+  void clear_map_name() ;
+  const std::string& map_name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_map_name(Arg_&& arg, Args_... args);
+  std::string* mutable_map_name();
+  PROTOBUF_NODISCARD std::string* release_map_name();
+  void set_allocated_map_name(std::string* value);
+
+  private:
+  const std::string& _internal_map_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_map_name(
+      const std::string& value);
+  std::string* _internal_mutable_map_name();
+
+  public:
+  // string file_name = 2;
   void clear_file_name() ;
   const std::string& file_name() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -1022,7 +1039,7 @@ class File final : public ::google::protobuf::Message
   std::string* _internal_mutable_file_name();
 
   public:
-  // bytes file_content = 2;
+  // bytes file_content = 3;
   void clear_file_content() ;
   const std::string& file_content() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -1038,7 +1055,7 @@ class File final : public ::google::protobuf::Message
   std::string* _internal_mutable_file_content();
 
   public:
-  // string whole_file_md5 = 5;
+  // string whole_file_md5 = 6;
   void clear_whole_file_md5() ;
   const std::string& whole_file_md5() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -1054,7 +1071,7 @@ class File final : public ::google::protobuf::Message
   std::string* _internal_mutable_whole_file_md5();
 
   public:
-  // int32 file_packet_num = 3;
+  // int32 file_packet_num = 4;
   void clear_file_packet_num() ;
   ::int32_t file_packet_num() const;
   void set_file_packet_num(::int32_t value);
@@ -1064,7 +1081,7 @@ class File final : public ::google::protobuf::Message
   void _internal_set_file_packet_num(::int32_t value);
 
   public:
-  // int32 file_packet_total = 4;
+  // int32 file_packet_total = 5;
   void clear_file_packet_total() ;
   ::int32_t file_packet_total() const;
   void set_file_packet_total(::int32_t value);
@@ -1079,8 +1096,8 @@ class File final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 0,
-      43, 2>
+      3, 6, 0,
+      51, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
@@ -1100,6 +1117,7 @@ class File final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const File& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr map_name_;
     ::google::protobuf::internal::ArenaStringPtr file_name_;
     ::google::protobuf::internal::ArenaStringPtr file_content_;
     ::google::protobuf::internal::ArenaStringPtr whole_file_md5_;
@@ -1166,7 +1184,7 @@ class Message final : public ::google::protobuf::Message
   }
   enum PayloadCase {
     kHeartbeat = 2,
-    kMapList = 3,
+    kItemlist = 3,
     kLocation = 4,
     kFile = 5,
     kFileTransferStatus = 6,
@@ -1246,7 +1264,7 @@ class Message final : public ::google::protobuf::Message
   enum : int {
     kTypeFieldNumber = 1,
     kHeartbeatFieldNumber = 2,
-    kMapListFieldNumber = 3,
+    kItemlistFieldNumber = 3,
     kLocationFieldNumber = 4,
     kFileFieldNumber = 5,
     kFileTransferStatusFieldNumber = 6,
@@ -1280,23 +1298,23 @@ class Message final : public ::google::protobuf::Message
   ::packet::Heartbeat* _internal_mutable_heartbeat();
 
   public:
-  // .packet.Maplist mapList = 3;
-  bool has_maplist() const;
+  // .packet.Itemlist itemlist = 3;
+  bool has_itemlist() const;
   private:
-  bool _internal_has_maplist() const;
+  bool _internal_has_itemlist() const;
 
   public:
-  void clear_maplist() ;
-  const ::packet::Maplist& maplist() const;
-  PROTOBUF_NODISCARD ::packet::Maplist* release_maplist();
-  ::packet::Maplist* mutable_maplist();
-  void set_allocated_maplist(::packet::Maplist* value);
-  void unsafe_arena_set_allocated_maplist(::packet::Maplist* value);
-  ::packet::Maplist* unsafe_arena_release_maplist();
+  void clear_itemlist() ;
+  const ::packet::Itemlist& itemlist() const;
+  PROTOBUF_NODISCARD ::packet::Itemlist* release_itemlist();
+  ::packet::Itemlist* mutable_itemlist();
+  void set_allocated_itemlist(::packet::Itemlist* value);
+  void unsafe_arena_set_allocated_itemlist(::packet::Itemlist* value);
+  ::packet::Itemlist* unsafe_arena_release_itemlist();
 
   private:
-  const ::packet::Maplist& _internal_maplist() const;
-  ::packet::Maplist* _internal_mutable_maplist();
+  const ::packet::Itemlist& _internal_itemlist() const;
+  ::packet::Itemlist* _internal_mutable_itemlist();
 
   public:
   // .packet.Location location = 4;
@@ -1362,7 +1380,7 @@ class Message final : public ::google::protobuf::Message
  private:
   class _Internal;
   void set_has_heartbeat();
-  void set_has_maplist();
+  void set_has_itemlist();
   void set_has_location();
   void set_has_file();
   void set_has_filetransferstatus();
@@ -1396,7 +1414,7 @@ class Message final : public ::google::protobuf::Message
       constexpr PayloadUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
       ::packet::Heartbeat* heartbeat_;
-      ::packet::Maplist* maplist_;
+      ::packet::Itemlist* itemlist_;
       ::packet::Location* location_;
       ::packet::File* file_;
       ::packet::FileTransferStatus* filetransferstatus_;
@@ -1477,106 +1495,106 @@ inline void Heartbeat::set_allocated_node_id(std::string* value) {
 
 // -------------------------------------------------------------------
 
-// Maplist
+// Itemlist
 
 // repeated string items = 1;
-inline int Maplist::_internal_items_size() const {
+inline int Itemlist::_internal_items_size() const {
   return _internal_items().size();
 }
-inline int Maplist::items_size() const {
+inline int Itemlist::items_size() const {
   return _internal_items_size();
 }
-inline void Maplist::clear_items() {
+inline void Itemlist::clear_items() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.items_.Clear();
 }
-inline std::string* Maplist::add_items()
+inline std::string* Itemlist::add_items()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   std::string* _s = _internal_mutable_items()->Add();
-  // @@protoc_insertion_point(field_add_mutable:packet.Maplist.items)
+  // @@protoc_insertion_point(field_add_mutable:packet.Itemlist.items)
   return _s;
 }
-inline const std::string& Maplist::items(int index) const
+inline const std::string& Itemlist::items(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:packet.Maplist.items)
+  // @@protoc_insertion_point(field_get:packet.Itemlist.items)
   return _internal_items().Get(index);
 }
-inline std::string* Maplist::mutable_items(int index)
+inline std::string* Itemlist::mutable_items(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:packet.Maplist.items)
+  // @@protoc_insertion_point(field_mutable:packet.Itemlist.items)
   return _internal_mutable_items()->Mutable(index);
 }
-inline void Maplist::set_items(int index, const std::string& value) {
+inline void Itemlist::set_items(int index, const std::string& value) {
   _internal_mutable_items()->Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:packet.Maplist.items)
+  // @@protoc_insertion_point(field_set:packet.Itemlist.items)
 }
-inline void Maplist::set_items(int index, std::string&& value) {
+inline void Itemlist::set_items(int index, std::string&& value) {
   _internal_mutable_items()->Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:packet.Maplist.items)
+  // @@protoc_insertion_point(field_set:packet.Itemlist.items)
 }
-inline void Maplist::set_items(int index, const char* value) {
+inline void Itemlist::set_items(int index, const char* value) {
   ABSL_DCHECK(value != nullptr);
   _internal_mutable_items()->Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:packet.Maplist.items)
+  // @@protoc_insertion_point(field_set_char:packet.Itemlist.items)
 }
-inline void Maplist::set_items(int index, const char* value,
+inline void Itemlist::set_items(int index, const char* value,
                               std::size_t size) {
   _internal_mutable_items()->Mutable(index)->assign(
       reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:packet.Maplist.items)
+  // @@protoc_insertion_point(field_set_pointer:packet.Itemlist.items)
 }
-inline void Maplist::set_items(int index, absl::string_view value) {
+inline void Itemlist::set_items(int index, absl::string_view value) {
   _internal_mutable_items()->Mutable(index)->assign(
       value.data(), value.size());
-  // @@protoc_insertion_point(field_set_string_piece:packet.Maplist.items)
+  // @@protoc_insertion_point(field_set_string_piece:packet.Itemlist.items)
 }
-inline void Maplist::add_items(const std::string& value) {
+inline void Itemlist::add_items(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _internal_mutable_items()->Add()->assign(value);
-  // @@protoc_insertion_point(field_add:packet.Maplist.items)
+  // @@protoc_insertion_point(field_add:packet.Itemlist.items)
 }
-inline void Maplist::add_items(std::string&& value) {
+inline void Itemlist::add_items(std::string&& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _internal_mutable_items()->Add(std::move(value));
-  // @@protoc_insertion_point(field_add:packet.Maplist.items)
+  // @@protoc_insertion_point(field_add:packet.Itemlist.items)
 }
-inline void Maplist::add_items(const char* value) {
+inline void Itemlist::add_items(const char* value) {
   ABSL_DCHECK(value != nullptr);
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _internal_mutable_items()->Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:packet.Maplist.items)
+  // @@protoc_insertion_point(field_add_char:packet.Itemlist.items)
 }
-inline void Maplist::add_items(const char* value, std::size_t size) {
+inline void Itemlist::add_items(const char* value, std::size_t size) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _internal_mutable_items()->Add()->assign(
       reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:packet.Maplist.items)
+  // @@protoc_insertion_point(field_add_pointer:packet.Itemlist.items)
 }
-inline void Maplist::add_items(absl::string_view value) {
+inline void Itemlist::add_items(absl::string_view value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _internal_mutable_items()->Add()->assign(value.data(),
                                                      value.size());
-  // @@protoc_insertion_point(field_add_string_piece:packet.Maplist.items)
+  // @@protoc_insertion_point(field_add_string_piece:packet.Itemlist.items)
 }
 inline const ::google::protobuf::RepeatedPtrField<std::string>&
-Maplist::items() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:packet.Maplist.items)
+Itemlist::items() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:packet.Itemlist.items)
   return _internal_items();
 }
 inline ::google::protobuf::RepeatedPtrField<std::string>*
-Maplist::mutable_items() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:packet.Maplist.items)
+Itemlist::mutable_items() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:packet.Itemlist.items)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _internal_mutable_items();
 }
 inline const ::google::protobuf::RepeatedPtrField<std::string>&
-Maplist::_internal_items() const {
+Itemlist::_internal_items() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.items_;
 }
 inline ::google::protobuf::RepeatedPtrField<std::string>*
-Maplist::_internal_mutable_items() {
+Itemlist::_internal_mutable_items() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.items_;
 }
@@ -1655,7 +1673,57 @@ inline void Location::_internal_set_yaw(double value) {
 
 // File
 
-// string file_name = 1;
+// string map_name = 1;
+inline void File::clear_map_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.map_name_.ClearToEmpty();
+}
+inline const std::string& File::map_name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.File.map_name)
+  return _internal_map_name();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void File::set_map_name(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.map_name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:packet.File.map_name)
+}
+inline std::string* File::mutable_map_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_map_name();
+  // @@protoc_insertion_point(field_mutable:packet.File.map_name)
+  return _s;
+}
+inline const std::string& File::_internal_map_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.map_name_.Get();
+}
+inline void File::_internal_set_map_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.map_name_.Set(value, GetArena());
+}
+inline std::string* File::_internal_mutable_map_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.map_name_.Mutable( GetArena());
+}
+inline std::string* File::release_map_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:packet.File.map_name)
+  return _impl_.map_name_.Release();
+}
+inline void File::set_allocated_map_name(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.map_name_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.map_name_.IsDefault()) {
+          _impl_.map_name_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:packet.File.map_name)
+}
+
+// string file_name = 2;
 inline void File::clear_file_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_name_.ClearToEmpty();
@@ -1705,7 +1773,7 @@ inline void File::set_allocated_file_name(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:packet.File.file_name)
 }
 
-// bytes file_content = 2;
+// bytes file_content = 3;
 inline void File::clear_file_content() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_content_.ClearToEmpty();
@@ -1755,7 +1823,7 @@ inline void File::set_allocated_file_content(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:packet.File.file_content)
 }
 
-// int32 file_packet_num = 3;
+// int32 file_packet_num = 4;
 inline void File::clear_file_packet_num() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_packet_num_ = 0;
@@ -1777,7 +1845,7 @@ inline void File::_internal_set_file_packet_num(::int32_t value) {
   _impl_.file_packet_num_ = value;
 }
 
-// int32 file_packet_total = 4;
+// int32 file_packet_total = 5;
 inline void File::clear_file_packet_total() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.file_packet_total_ = 0;
@@ -1799,7 +1867,7 @@ inline void File::_internal_set_file_packet_total(::int32_t value) {
   _impl_.file_packet_total_ = value;
 }
 
-// string whole_file_md5 = 5;
+// string whole_file_md5 = 6;
 inline void File::clear_whole_file_md5() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.whole_file_md5_.ClearToEmpty();
@@ -2052,82 +2120,82 @@ inline ::packet::Heartbeat* Message::mutable_heartbeat() ABSL_ATTRIBUTE_LIFETIME
   return _msg;
 }
 
-// .packet.Maplist mapList = 3;
-inline bool Message::has_maplist() const {
-  return payload_case() == kMapList;
+// .packet.Itemlist itemlist = 3;
+inline bool Message::has_itemlist() const {
+  return payload_case() == kItemlist;
 }
-inline bool Message::_internal_has_maplist() const {
-  return payload_case() == kMapList;
+inline bool Message::_internal_has_itemlist() const {
+  return payload_case() == kItemlist;
 }
-inline void Message::set_has_maplist() {
-  _impl_._oneof_case_[0] = kMapList;
+inline void Message::set_has_itemlist() {
+  _impl_._oneof_case_[0] = kItemlist;
 }
-inline void Message::clear_maplist() {
+inline void Message::clear_itemlist() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (payload_case() == kMapList) {
+  if (payload_case() == kItemlist) {
     if (GetArena() == nullptr) {
-      delete _impl_.payload_.maplist_;
+      delete _impl_.payload_.itemlist_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.maplist_);
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.itemlist_);
     }
     clear_has_payload();
   }
 }
-inline ::packet::Maplist* Message::release_maplist() {
-  // @@protoc_insertion_point(field_release:packet.Message.mapList)
-  if (payload_case() == kMapList) {
+inline ::packet::Itemlist* Message::release_itemlist() {
+  // @@protoc_insertion_point(field_release:packet.Message.itemlist)
+  if (payload_case() == kItemlist) {
     clear_has_payload();
-    auto* temp = _impl_.payload_.maplist_;
+    auto* temp = _impl_.payload_.itemlist_;
     if (GetArena() != nullptr) {
       temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
     }
-    _impl_.payload_.maplist_ = nullptr;
+    _impl_.payload_.itemlist_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline const ::packet::Maplist& Message::_internal_maplist() const {
-  return payload_case() == kMapList ? *_impl_.payload_.maplist_ : reinterpret_cast<::packet::Maplist&>(::packet::_Maplist_default_instance_);
+inline const ::packet::Itemlist& Message::_internal_itemlist() const {
+  return payload_case() == kItemlist ? *_impl_.payload_.itemlist_ : reinterpret_cast<::packet::Itemlist&>(::packet::_Itemlist_default_instance_);
 }
-inline const ::packet::Maplist& Message::maplist() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:packet.Message.mapList)
-  return _internal_maplist();
+inline const ::packet::Itemlist& Message::itemlist() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:packet.Message.itemlist)
+  return _internal_itemlist();
 }
-inline ::packet::Maplist* Message::unsafe_arena_release_maplist() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.mapList)
-  if (payload_case() == kMapList) {
+inline ::packet::Itemlist* Message::unsafe_arena_release_itemlist() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:packet.Message.itemlist)
+  if (payload_case() == kItemlist) {
     clear_has_payload();
-    auto* temp = _impl_.payload_.maplist_;
-    _impl_.payload_.maplist_ = nullptr;
+    auto* temp = _impl_.payload_.itemlist_;
+    _impl_.payload_.itemlist_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Message::unsafe_arena_set_allocated_maplist(::packet::Maplist* value) {
+inline void Message::unsafe_arena_set_allocated_itemlist(::packet::Itemlist* value) {
   // We rely on the oneof clear method to free the earlier contents
   // of this oneof. We can directly use the pointer we're given to
   // set the new value.
   clear_payload();
   if (value) {
-    set_has_maplist();
-    _impl_.payload_.maplist_ = value;
+    set_has_itemlist();
+    _impl_.payload_.itemlist_ = value;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.mapList)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:packet.Message.itemlist)
 }
-inline ::packet::Maplist* Message::_internal_mutable_maplist() {
-  if (payload_case() != kMapList) {
+inline ::packet::Itemlist* Message::_internal_mutable_itemlist() {
+  if (payload_case() != kItemlist) {
     clear_payload();
-    set_has_maplist();
-    _impl_.payload_.maplist_ =
-        ::google::protobuf::Message::DefaultConstruct<::packet::Maplist>(GetArena());
+    set_has_itemlist();
+    _impl_.payload_.itemlist_ =
+        ::google::protobuf::Message::DefaultConstruct<::packet::Itemlist>(GetArena());
   }
-  return _impl_.payload_.maplist_;
+  return _impl_.payload_.itemlist_;
 }
-inline ::packet::Maplist* Message::mutable_maplist() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::packet::Maplist* _msg = _internal_mutable_maplist();
-  // @@protoc_insertion_point(field_mutable:packet.Message.mapList)
+inline ::packet::Itemlist* Message::mutable_itemlist() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::packet::Itemlist* _msg = _internal_mutable_itemlist();
+  // @@protoc_insertion_point(field_mutable:packet.Message.itemlist)
   return _msg;
 }
 

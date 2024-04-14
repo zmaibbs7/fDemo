@@ -6,7 +6,7 @@ message Heartbeat {
     string node_id = 1;
 }
 
-message Maplist {
+message Itemlist {
     repeated string items = 1; // 列表项
 }
 
@@ -17,11 +17,12 @@ message Location {
 }
 
 message File {
-    string file_name = 1; // 文件名
-    bytes file_content = 2; // 文件内容
-    int32 file_packet_num = 3; // 文件包当前序号
-    int32 file_packet_total = 4; // 文件包总共数量
-    string whole_file_md5 = 5; // 完整文件的MD5校验值
+    string map_name = 1;
+    string file_name = 2; // 文件名
+    bytes file_content = 3; // 文件内容
+    int32 file_packet_num = 4; // 文件包当前序号
+    int32 file_packet_total = 5; // 文件包总共数量
+    string whole_file_md5 = 6; // 完整文件的MD5校验值
 }
 
 message FileTransferStatus {
@@ -43,7 +44,7 @@ message Message {
     MessageType type = 1; // 消息类型
     oneof payload {
         Heartbeat heartbeat = 2;
-        Maplist mapList = 3;
+        Itemlist itemlist = 3;
         Location location = 4;
         File file = 5;
         FileTransferStatus fileTransferStatus = 6; 
