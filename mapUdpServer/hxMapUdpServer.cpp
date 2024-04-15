@@ -15,10 +15,9 @@
 #include "hv/hendian.h"
 using namespace hv;
 
-const int PacketMagicNumber = 95527;
-const int port = 8899;
-const std::string Map_Res = "D:/github/build-hxMapEditor-Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/.config/map/";
-const size_t MaxPacketSize = 1200;  // 最大数据包大小
+const int           port                = 8899;  // 端口
+const size_t        MaxPacketSize       = 1200;  // 最大数据包大小
+const std::string   Map_Res             = "C:/Users/zmaib/Project/dreame/build-hxMapEditor-Desktop_Qt_5_15_2_MSVC2019_64bit-Release/.config/map/";
 
 #define PACK_NET_STREAM(str) UnPack::toBigEndianByteStream(str)
 
@@ -56,7 +55,7 @@ public:
     {
         if (!file_name.empty())  return;
 
-        qDebug() << "初始化文件信息，总数据包数:" << packetTotal;
+        qDebug() << u8"初始化文件信息，总数据包数:" << packetTotal;
         map_name = mapName;
         file_name = fileName;
         file_packet_total = packetTotal;
@@ -199,14 +198,29 @@ private:
 };
 std::string hxFile::mapResPath = Map_Res;
 
+//仅当前cpp使用函数
+namespace internal
+{
+    //修改接收缓存大小
+    bool setSocketRecvBufferSize(int sockfd, int size) {
+        int ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&size, sizeof(size));
+        if (ret < 0) {
+            perror("setsockopt SO_RCVBUF failed");
+            return false;
+        }
+        return true;
+    }
+}
+
 class hxMapUdpServerDt
 {
     public:
-        packet::Message             msgReceive;
-        std::vector<sockaddr>       clientIPs;  //保存ip用于算法检测结果发送，用完就删除
+        packet::Message               msgReceive;       // udp接收的数据
+        std::vector<sockaddr>         clientIPs;        // 保存ip用于算法检测结果发送，用完就删除
+        std::map<std::string, hxFile> filesReceiver;    // 文件接收器
 
-        TcpServer                   tcpServer;
-        UdpServer                   udpServer;
+        TcpServer                     tcpServer;        // tcp服务器
+        UdpServer                     udpServer;        // udp服务器
 };
 
 hxMapUdpServer::hxMapUdpServer(QObject *parent):QObject(parent)
@@ -241,12 +255,21 @@ hxMapUdpServer::hxMapUdpServer(QObject *parent):QObject(parent)
 
     //创建tcpServer
     {
-        int bindfd = m_Dt->tcpServer.createsocket(9999, "127.0.0.1");
+        int bindfd = m_Dt->tcpServer.createsocket(port, "127.0.0.1");
         if (bindfd < 0) {
             qDebug() << "tcpServer create error!" << Qt::endl;
             return;
         }
         qDebug() << "tcpServer create sucessed!" << Qt::endl;
+        
+        //设置缓冲区
+        {
+            int recvBufferSize = 2 * 1024 * 1024; // 10M
+            if (!internal::setSocketRecvBufferSize(bindfd, recvBufferSize)) {
+                qDebug() << "Failed to set receive buffer size" << Qt::endl;
+                return;
+            }
+        }
 
         //设置拆包
         {
@@ -272,44 +295,48 @@ hxMapUdpServer::hxMapUdpServer(QObject *parent):QObject(parent)
         };
 
         m_Dt->tcpServer.onMessage = [&](const SocketChannelPtr& channel, Buffer* buf) {
-
-            //获取包头长度
-            printf("============tcpServer.onMessage.size = %d\n",(int)buf->size());
-            // std::string s1((char*)buf->data(), (int)buf->size());
-            // qDebug() << "============= requestMapNameList.size = " << s1.size() << Qt::endl;
-            // for (unsigned char c : s1) {
-            // std::cout << std::hex << (int)c << " ";
-            // }
-            // std::cout << std::endl;
-
             packet::Message msgReceive;
             msgReceive.ParseFromString(absl::string_view((char*)buf->data()+UnPack::head_body_length, buf->size()-UnPack::head_body_length));
             switch (msgReceive.type())
             {
+                //接收请求 获取地图列表
                 case packet::MessageType::MAPLIST:
                     channel->write(onReceiveMapRequest());
                     break;
                 case packet::MessageType::FILE:
                     {
-                        //获取地图名称 和 需要下载对应的文件名
-                        const auto & file_list = msgReceive.itemlist();
-                        std::string mapName = file_list.items(0);
-                        std::vector<std::string> requestFileList;
-                        //mapName
-                        for(int i = 1; i < file_list.items_size(); i++)
-                            requestFileList.emplace_back(file_list.items(i).c_str());
+                        //接收请求 下载服务器地图
+                        if(msgReceive.has_itemlist())
+                        {
+                            //获取地图名称 和 需要下载对应的文件名
+                            const auto & file_list = msgReceive.itemlist();
+                            std::string mapName = file_list.items(0);
+                            std::vector<std::string> requestFileList;
+                            //mapName
+                            for(int i = 1; i < file_list.items_size(); i++)
+                                requestFileList.emplace_back(file_list.items(i).c_str());
 
-                        std::vector<std::string> send_file_vector;
-                        onReceiveDownloadMapRequest(mapName, requestFileList, send_file_vector );
-                        for(const auto& msg : send_file_vector)  channel->write(msg);
-
-                        // channel->write
-                        // {
-                            
-                        //     // QString::fromUtf8(mapList.items(i).c_str())
-                        //     qDebug() << "need send to client file -> " << QString::fromUtf8(file_list.items(i).c_str()) << Qt::endl;
-                        // }
-                        
+                            std::vector<std::string> send_file_vector;
+                            onReceiveDownloadMapRequest(mapName, requestFileList, send_file_vector );
+                            for(const auto& msg : send_file_vector)  channel->write(msg);
+                        }
+                        //接收请求 上传地图到服务器
+                        else if(msgReceive.has_file())
+                        {
+                            const auto& file                = msgReceive.file();
+                            const auto& mapName             = file.map_name();
+                            const auto& fileName            = file.file_name();
+                            const auto& file_packet_total   = file.file_packet_total();
+                            const auto& file_md5            = file.whole_file_md5();
+                            const auto& packetNum           = file.file_packet_num();
+                            qDebug() << "server receive file - " << QString::fromStdString(fileName) << " mapNmae = " <<  QString::fromStdString(mapName) << Qt::endl;
+                            std::vector<char> content(file.file_content().begin(), file.file_content().end());
+                            //记录文件名
+                            m_Dt->filesReceiver[fileName].setFileInfo(mapName, fileName, file_packet_total, file_md5);
+                            //接收文件data
+                            bool successed = m_Dt->filesReceiver[fileName].receive(packetNum, content);
+                            if(successed) m_Dt->filesReceiver.erase(fileName);
+                        }
                         break;
                     }                    
                 default:
@@ -358,9 +385,9 @@ std::string hxMapUdpServer::onReceiveMapRequest()
     std::string mapRequest;
     packet::Itemlist map_list;
     map_list.add_items("aaa");
-    map_list.add_items("bbb");
+    map_list.add_items("ccc");
     map_list.add_items(u8"布鲁塞尔");
-    map_list.add_items(u8"反对党发1");
+    map_list.add_items(u8"工作区");
     packet::Message msgRequestMapList;
     msgRequestMapList.set_type(packet::MessageType::MAPLIST);
     *msgRequestMapList.mutable_itemlist() = map_list;
@@ -377,157 +404,19 @@ void hxMapUdpServer::onReceiveDownloadMapRequest(std::string mapName, std::vecto
     std::cout << "地图名称 = " << mapName << std::endl;
 
     // 遍历文件列表处理每个文件
-    
     for (const auto& fileName : fileList) {
         hxFile splitFile;
         splitFile.setFileInfo(mapName, fileName, 0, "");
         splitFile.splitToVector(sendVector);
-        // std::string filePath = Map_Res + UTF8_To_string(mapName) + "/" + fileName;
-
-        // std::string filePath = Map_Res + mapName + "/" + fileName;
-        // // 创建用于UTF-8到UTF-16的转换器
-        // std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-        // std::wstring widePath = converter.from_bytes(filePath);
-        // std::cout << "文件路径 = " << filePath << std::endl;
-
-        // // 尝试以二进制读取模式打开文件
-        // std::ifstream infile(widePath, std::ios::binary | std::ios::ate);
-        // if (!infile.is_open()) {
-        //     qDebug() << u8"打开文件失败:" << QString::fromStdString(filePath);
-        //     continue;
-        // }
-
-        // // 计算文件大小并重置流位置到文件开始
-        // std::streamsize size = infile.tellg();
-        // infile.seekg(0, std::ios::beg);
-
-        // // 将整个文件读入一个字符向量中
-        // std::vector<char> content(static_cast<size_t>(size));
-        // if (!infile.read(content.data(), size)) {
-        //     qDebug() << u8"读取文件失败:" << QString::fromStdString(filePath);
-        //     continue;
-        // }
-
-        // // 将内容分割成预定义最大大小的数据包
-        // std::vector<std::vector<char>> packets;
-        // packets.reserve((size + MaxPacketSize - 1) / MaxPacketSize);
-
-        // for (size_t offset = 0; offset < static_cast<size_t>(size); offset += MaxPacketSize) {
-        //     size_t currentSize = (std::min)(MaxPacketSize, static_cast<size_t>(size) - offset);
-        //     // size_t currentSize = (MaxPacketSize < ( size - offset)) ? MaxPacketSize : ( size - offset);
-        //     packets.emplace_back(content.begin() + offset, content.begin() + offset + currentSize);
-        // }
-
-        // // 调试日志，记录文件和数据包信息
-        // qDebug() << QString::fromStdString(fileName) << u8".文件总大小 = " << size << u8" 数据包数量 = " << packets.size();
-
-        // // 创建并序列化每个数据包到发送向量中
-        // packet::Message filePacketMessage;
-        // filePacketMessage.set_type(packet::MessageType::FILE);
-        // packet::File* filePacket = filePacketMessage.mutable_file();
-        // filePacket->set_map_name(mapName);
-        // filePacket->set_file_name(fileName);
-
-        // for (size_t i = 0; i < packets.size(); ++i) {
-        //     filePacket->set_file_content(packets[i].data(), packets[i].size());
-        //     filePacket->set_file_packet_num(i);
-        //     filePacket->set_file_packet_total(packets.size());
-
-        //     std::string out;
-        //     filePacketMessage.SerializeToString(&out);
-        //     sendVector.emplace_back(PACK_NET_STREAM(out));
-        // }
-
-        // // 处理空文件情况，发送一个空数据包
-        // if (packets.empty()) {
-        //     filePacket->clear_file_content(); 
-        //     filePacket->set_file_packet_num(1);
-        //     filePacket->set_file_packet_total(1); 
-        //     std::string out;
-        //     filePacketMessage.SerializeToString(&out);
-        //     sendVector.emplace_back(PACK_NET_STREAM(out));
-        // }
-
-        // qDebug() << u8"文件被分割成" << packets.size() << u8"个数据包。";
     }
 }
 
-void hxMapUdpServer::onReceiveFile()
-{
-    //接收到请求
-    qDebug() << "onReceiveFile" << Qt::endl;
-    const auto& fileList = m_Dt->msgReceive.itemlist();
-    std::string mapName = fileList.items(0);
-
-    for(int i = 1; i < fileList.items_size(); i++)
-    {
-        qDebug() << u8"准备发送 - " << QString::fromStdString(mapName) << " - " << QString::fromStdString(fileList.items(i)) << Qt::endl;
+//仅当前cpp使用函数
+bool setSocketRecvBufferSize(int sockfd, int size) {
+    int ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&size, sizeof(size));
+    if (ret < 0) {
+        perror("setsockopt SO_RCVBUF failed");
+        return false;
     }
-
-
-    // 文件路径应基于实际文件位置进行调整
-    std::string dirPath = Map_Res + mapName;
-
-    // // 打开文件用于读取
-    // std::ifstream infile(filepath, std::ios::binary | std::ios::ate);
-    // if (!infile.is_open()) {
-    //     qDebug() << "Failed to open file for reading:" << QString::fromStdString(filepath) << Qt::endl;
-    //     return;
-    // }
-
-    // std::streamsize size = infile.tellg(); // 获取文件大小
-    // infile.seekg(0, std::ios::beg); // 回到文件开头
-
-    // // 读取整个文件内容到字符串
-    // std::vector<char> content(size);
-    // if (!infile.read(content.data(), size)) {
-    //     qDebug() << "Failed to read the file:" << QString::fromStdString(filepath) << Qt::endl;
-    //     return;
-    // }
-
-    // // 拆分为1200字节大小的包
-    // const size_t packetSize = 1200;
-    // std::vector<std::vector<char>> packets;
-
-    // // 预分配以避免多次重新分配
-    // packets.reserve((size + packetSize - 1) / packetSize);
-
-    // for (size_t offset = 0; offset < size; offset += packetSize) {
-    //     size_t currentSize = (packetSize < ( size - offset)) ? packetSize : ( size - offset);
-    //     packets.emplace_back(content.begin() + offset, content.begin() + offset + currentSize);
-    // }
-
-    // qDebug() << QString::fromStdString(filename) <<  ".total = " << size << " packets.size = " << packets.size() << Qt::endl;
-
-    // packet::File filePacket;
-    // packet::Message filePacketMessage;
-    // filePacketMessage.set_type(packet::MessageType::FILE);
-    // filePacket.set_file_name(filename);
-    // for (size_t i = 0; i < packets.size(); ++i) {
-    //     //01 组包
-    //     const auto& packet = packets[i];
-    //     filePacket.set_file_content(packet.data(), packet.size());
-    //     filePacket.set_file_packet_num(i);
-    //     filePacket.set_file_packet_total(packets.size());
-    //     *filePacketMessage.mutable_file() = filePacket;
-
-    //     //02 发送打包后的 filePacketMessage
-    //     std::string out;
-    //     filePacketMessage.SerializeToString(&out);
-    //     int re = m_Dt->udpServer.sendto(out);
-    //     if(re < 0)  qDebug() << "send error" << Qt::endl;
-    // }
-
-    // qDebug() << "File split into" << packets.size() << "packets." << Qt::endl;
+    return true;
 }
-
-int hxMapUdpServer::cacuSendFile(std::string fileName, std::string fielPath, int packetSize)
-{
-    return 0;
-}
-
-void hxMapUdpServer::sendFile()
-{
-}
-
-//void send_file(std::string fileName, std::string fielPath, int packetSize = 1200)
