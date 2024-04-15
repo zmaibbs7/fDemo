@@ -23,12 +23,10 @@
 #include "google/protobuf/generated_message_tctable_decl.h"
 #include "google/protobuf/generated_message_util.h"
 #include "google/protobuf/metadata_lite.h"
-#include "google/protobuf/generated_message_reflection.h"
-#include "google/protobuf/message.h"
+#include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
-#include "google/protobuf/generated_enum_reflection.h"
-#include "google/protobuf/unknown_field_set.h"
+#include "google/protobuf/generated_enum_util.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -48,8 +46,6 @@ class AnyMetadata;
 struct TableStruct_header_2eproto {
   static const ::uint32_t offsets[];
 };
-extern const ::google::protobuf::internal::DescriptorTable
-    descriptor_table_header_2eproto;
 namespace packet {
 class File;
 struct FileDefaultTypeInternal;
@@ -94,8 +90,7 @@ extern const uint32_t MessageType_internal_data_[];
 constexpr MessageType MessageType_MIN = static_cast<MessageType>(0);
 constexpr MessageType MessageType_MAX = static_cast<MessageType>(5);
 constexpr int MessageType_ARRAYSIZE = 5 + 1;
-const ::google::protobuf::EnumDescriptor*
-MessageType_descriptor();
+const std::string& MessageType_Name(MessageType value);
 template <typename T>
 const std::string& MessageType_Name(T value) {
   static_assert(std::is_same<T, MessageType>::value ||
@@ -103,23 +98,14 @@ const std::string& MessageType_Name(T value) {
                 "Incorrect type passed to MessageType_Name().");
   return MessageType_Name(static_cast<MessageType>(value));
 }
-template <>
-inline const std::string& MessageType_Name(MessageType value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<MessageType_descriptor,
-                                                 0, 5>(
-      static_cast<int>(value));
-}
-inline bool MessageType_Parse(absl::string_view name, MessageType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<MessageType>(
-      MessageType_descriptor(), name, value);
-}
+bool MessageType_Parse(absl::string_view name, MessageType* value);
 
 // ===================================================================
 
 
 // -------------------------------------------------------------------
 
-class Location final : public ::google::protobuf::Message
+class Location final : public ::google::protobuf::MessageLite
 /* @@protoc_insertion_point(class_definition:packet.Location) */ {
  public:
   inline Location() : Location(nullptr) {}
@@ -149,24 +135,15 @@ class Location final : public ::google::protobuf::Message
     return *this;
   }
 
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+  inline const std::string& unknown_fields() const
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
   }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+  inline std::string* mutable_unknown_fields()
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
   static const Location& default_instance() {
     return *internal_default_instance();
   }
@@ -197,19 +174,12 @@ class Location final : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
 
   Location* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<Location>(arena);
+    return ::google::protobuf::MessageLite::DefaultConstruct<Location>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
   void CopyFrom(const Location& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Location& from) { Location::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
+  void MergeFrom(const Location& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -234,10 +204,9 @@ class Location final : public ::google::protobuf::Message
       : Location(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+  const ::google::protobuf::MessageLite::ClassData* GetClassData() const final;
 
  public:
-  ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
@@ -313,7 +282,7 @@ class Location final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class Itemlist final : public ::google::protobuf::Message
+class Itemlist final : public ::google::protobuf::MessageLite
 /* @@protoc_insertion_point(class_definition:packet.Itemlist) */ {
  public:
   inline Itemlist() : Itemlist(nullptr) {}
@@ -343,24 +312,15 @@ class Itemlist final : public ::google::protobuf::Message
     return *this;
   }
 
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+  inline const std::string& unknown_fields() const
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
   }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+  inline std::string* mutable_unknown_fields()
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
   static const Itemlist& default_instance() {
     return *internal_default_instance();
   }
@@ -391,19 +351,12 @@ class Itemlist final : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
 
   Itemlist* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<Itemlist>(arena);
+    return ::google::protobuf::MessageLite::DefaultConstruct<Itemlist>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
   void CopyFrom(const Itemlist& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Itemlist& from) { Itemlist::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
+  void MergeFrom(const Itemlist& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -428,10 +381,9 @@ class Itemlist final : public ::google::protobuf::Message
       : Itemlist(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+  const ::google::protobuf::MessageLite::ClassData* GetClassData() const final;
 
  public:
-  ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
@@ -501,7 +453,7 @@ class Itemlist final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class Heartbeat final : public ::google::protobuf::Message
+class Heartbeat final : public ::google::protobuf::MessageLite
 /* @@protoc_insertion_point(class_definition:packet.Heartbeat) */ {
  public:
   inline Heartbeat() : Heartbeat(nullptr) {}
@@ -531,24 +483,15 @@ class Heartbeat final : public ::google::protobuf::Message
     return *this;
   }
 
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+  inline const std::string& unknown_fields() const
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
   }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+  inline std::string* mutable_unknown_fields()
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
   static const Heartbeat& default_instance() {
     return *internal_default_instance();
   }
@@ -579,19 +522,12 @@ class Heartbeat final : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
 
   Heartbeat* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<Heartbeat>(arena);
+    return ::google::protobuf::MessageLite::DefaultConstruct<Heartbeat>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
   void CopyFrom(const Heartbeat& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Heartbeat& from) { Heartbeat::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
+  void MergeFrom(const Heartbeat& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -616,10 +552,9 @@ class Heartbeat final : public ::google::protobuf::Message
       : Heartbeat(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+  const ::google::protobuf::MessageLite::ClassData* GetClassData() const final;
 
  public:
-  ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
@@ -677,7 +612,7 @@ class Heartbeat final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class FileTransferStatus final : public ::google::protobuf::Message
+class FileTransferStatus final : public ::google::protobuf::MessageLite
 /* @@protoc_insertion_point(class_definition:packet.FileTransferStatus) */ {
  public:
   inline FileTransferStatus() : FileTransferStatus(nullptr) {}
@@ -707,24 +642,15 @@ class FileTransferStatus final : public ::google::protobuf::Message
     return *this;
   }
 
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+  inline const std::string& unknown_fields() const
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
   }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+  inline std::string* mutable_unknown_fields()
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
   static const FileTransferStatus& default_instance() {
     return *internal_default_instance();
   }
@@ -755,19 +681,12 @@ class FileTransferStatus final : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
 
   FileTransferStatus* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<FileTransferStatus>(arena);
+    return ::google::protobuf::MessageLite::DefaultConstruct<FileTransferStatus>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
   void CopyFrom(const FileTransferStatus& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const FileTransferStatus& from) { FileTransferStatus::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
+  void MergeFrom(const FileTransferStatus& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -792,10 +711,9 @@ class FileTransferStatus final : public ::google::protobuf::Message
       : FileTransferStatus(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+  const ::google::protobuf::MessageLite::ClassData* GetClassData() const final;
 
  public:
-  ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
@@ -877,7 +795,7 @@ class FileTransferStatus final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class File final : public ::google::protobuf::Message
+class File final : public ::google::protobuf::MessageLite
 /* @@protoc_insertion_point(class_definition:packet.File) */ {
  public:
   inline File() : File(nullptr) {}
@@ -907,24 +825,15 @@ class File final : public ::google::protobuf::Message
     return *this;
   }
 
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+  inline const std::string& unknown_fields() const
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
   }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+  inline std::string* mutable_unknown_fields()
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
   static const File& default_instance() {
     return *internal_default_instance();
   }
@@ -955,19 +864,12 @@ class File final : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
 
   File* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<File>(arena);
+    return ::google::protobuf::MessageLite::DefaultConstruct<File>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
   void CopyFrom(const File& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const File& from) { File::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
+  void MergeFrom(const File& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -992,10 +894,9 @@ class File final : public ::google::protobuf::Message
       : File(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+  const ::google::protobuf::MessageLite::ClassData* GetClassData() const final;
 
  public:
-  ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
@@ -1131,7 +1032,7 @@ class File final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class Message final : public ::google::protobuf::Message
+class Message final : public ::google::protobuf::MessageLite
 /* @@protoc_insertion_point(class_definition:packet.Message) */ {
  public:
   inline Message() : Message(nullptr) {}
@@ -1161,24 +1062,15 @@ class Message final : public ::google::protobuf::Message
     return *this;
   }
 
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+  inline const std::string& unknown_fields() const
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
   }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+  inline std::string* mutable_unknown_fields()
       ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
   static const Message& default_instance() {
     return *internal_default_instance();
   }
@@ -1217,19 +1109,12 @@ class Message final : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
 
   Message* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::Message::DefaultConstruct<Message>(arena);
+    return ::google::protobuf::MessageLite::DefaultConstruct<Message>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
   void CopyFrom(const Message& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Message& from) { Message::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
+  void MergeFrom(const Message& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -1254,10 +1139,9 @@ class Message final : public ::google::protobuf::Message
       : Message(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const final;
+  const ::google::protobuf::MessageLite::ClassData* GetClassData() const final;
 
  public:
-  ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
@@ -2057,7 +1941,9 @@ inline void Message::clear_heartbeat() {
     if (GetArena() == nullptr) {
       delete _impl_.payload_.heartbeat_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.heartbeat_);
+      if (_impl_.payload_.heartbeat_ != nullptr) {
+        _impl_.payload_.heartbeat_->Clear();
+      }
     }
     clear_has_payload();
   }
@@ -2110,7 +1996,7 @@ inline ::packet::Heartbeat* Message::_internal_mutable_heartbeat() {
     clear_payload();
     set_has_heartbeat();
     _impl_.payload_.heartbeat_ =
-        ::google::protobuf::Message::DefaultConstruct<::packet::Heartbeat>(GetArena());
+        ::google::protobuf::MessageLite::DefaultConstruct<::packet::Heartbeat>(GetArena());
   }
   return _impl_.payload_.heartbeat_;
 }
@@ -2136,7 +2022,9 @@ inline void Message::clear_itemlist() {
     if (GetArena() == nullptr) {
       delete _impl_.payload_.itemlist_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.itemlist_);
+      if (_impl_.payload_.itemlist_ != nullptr) {
+        _impl_.payload_.itemlist_->Clear();
+      }
     }
     clear_has_payload();
   }
@@ -2189,7 +2077,7 @@ inline ::packet::Itemlist* Message::_internal_mutable_itemlist() {
     clear_payload();
     set_has_itemlist();
     _impl_.payload_.itemlist_ =
-        ::google::protobuf::Message::DefaultConstruct<::packet::Itemlist>(GetArena());
+        ::google::protobuf::MessageLite::DefaultConstruct<::packet::Itemlist>(GetArena());
   }
   return _impl_.payload_.itemlist_;
 }
@@ -2215,7 +2103,9 @@ inline void Message::clear_location() {
     if (GetArena() == nullptr) {
       delete _impl_.payload_.location_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.location_);
+      if (_impl_.payload_.location_ != nullptr) {
+        _impl_.payload_.location_->Clear();
+      }
     }
     clear_has_payload();
   }
@@ -2268,7 +2158,7 @@ inline ::packet::Location* Message::_internal_mutable_location() {
     clear_payload();
     set_has_location();
     _impl_.payload_.location_ =
-        ::google::protobuf::Message::DefaultConstruct<::packet::Location>(GetArena());
+        ::google::protobuf::MessageLite::DefaultConstruct<::packet::Location>(GetArena());
   }
   return _impl_.payload_.location_;
 }
@@ -2294,7 +2184,9 @@ inline void Message::clear_file() {
     if (GetArena() == nullptr) {
       delete _impl_.payload_.file_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.file_);
+      if (_impl_.payload_.file_ != nullptr) {
+        _impl_.payload_.file_->Clear();
+      }
     }
     clear_has_payload();
   }
@@ -2347,7 +2239,7 @@ inline ::packet::File* Message::_internal_mutable_file() {
     clear_payload();
     set_has_file();
     _impl_.payload_.file_ =
-        ::google::protobuf::Message::DefaultConstruct<::packet::File>(GetArena());
+        ::google::protobuf::MessageLite::DefaultConstruct<::packet::File>(GetArena());
   }
   return _impl_.payload_.file_;
 }
@@ -2373,7 +2265,9 @@ inline void Message::clear_filetransferstatus() {
     if (GetArena() == nullptr) {
       delete _impl_.payload_.filetransferstatus_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.filetransferstatus_);
+      if (_impl_.payload_.filetransferstatus_ != nullptr) {
+        _impl_.payload_.filetransferstatus_->Clear();
+      }
     }
     clear_has_payload();
   }
@@ -2426,7 +2320,7 @@ inline ::packet::FileTransferStatus* Message::_internal_mutable_filetransferstat
     clear_payload();
     set_has_filetransferstatus();
     _impl_.payload_.filetransferstatus_ =
-        ::google::protobuf::Message::DefaultConstruct<::packet::FileTransferStatus>(GetArena());
+        ::google::protobuf::MessageLite::DefaultConstruct<::packet::FileTransferStatus>(GetArena());
   }
   return _impl_.payload_.filetransferstatus_;
 }
@@ -2458,10 +2352,6 @@ namespace protobuf {
 
 template <>
 struct is_proto_enum<::packet::MessageType> : std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor<::packet::MessageType>() {
-  return ::packet::MessageType_descriptor();
-}
 
 }  // namespace protobuf
 }  // namespace google

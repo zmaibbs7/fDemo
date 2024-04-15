@@ -1,12 +1,12 @@
 syntax = "proto3";
 package packet;
-option optimize_for = LITE_RUNTIME;	
+option optimize_for = LITE_RUNTIME;	// 编译优化
 message Heartbeat {
     string node_id = 1;
 }
 
 message Itemlist {
-    repeated string items = 1; 
+    repeated string items = 1; // 列表项
 }
 
 message Location {
@@ -17,11 +17,11 @@ message Location {
 
 message File {
     string map_name = 1;
-    string file_name = 2; 
-    bytes file_content = 3; 
-    int32 file_packet_num = 4; 
-    int32 file_packet_total = 5; 
-    string whole_file_md5 = 6; 
+    string file_name = 2; // 文件名
+    bytes file_content = 3; // 文件内容
+    int32 file_packet_num = 4; // 文件包当前序号
+    int32 file_packet_total = 5; // 文件包总共数量
+    string whole_file_md5 = 6; // 完整文件的MD5校验值
 }
 
 message FileTransferStatus {
@@ -40,7 +40,7 @@ enum MessageType {
 }
 
 message Message {
-    MessageType type = 1; 
+    MessageType type = 1; // 消息类型
     oneof payload {
         Heartbeat heartbeat = 2;
         Itemlist itemlist = 3;
