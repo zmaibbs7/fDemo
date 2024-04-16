@@ -9,7 +9,7 @@
 #include <codecvt>
 #include <locale>
 
-#include "protoMessage/header.pb.h"
+#include "header.pb.h"
 #include "hv/UdpServer.h"
 #include "hv/TcpServer.h"
 #include "hv/hendian.h"
