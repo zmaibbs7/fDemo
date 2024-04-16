@@ -1,4 +1,4 @@
-﻿#include "hxMapUdpServer.h"
+﻿#include "hxMapServer.h"
 
 #include <QDebug>
 #include <QtCore>
@@ -9,7 +9,7 @@
 #include <codecvt>
 #include <locale>
 
-#include "hxUdpProto/header.pb.h"
+#include "protoMessage/header.pb.h"
 #include "hv/UdpServer.h"
 #include "hv/TcpServer.h"
 #include "hv/hendian.h"
@@ -212,7 +212,7 @@ namespace internal
     }
 }
 
-class hxMapUdpServerDt
+class hxMapServerDt
 {
     public:
         packet::Message               msgReceive;       // udp接收的数据
@@ -223,9 +223,9 @@ class hxMapUdpServerDt
         UdpServer                     udpServer;        // udp服务器
 };
 
-hxMapUdpServer::hxMapUdpServer(QObject *parent):QObject(parent)
+hxMapServer::hxMapServer(QObject *parent):QObject(parent)
 {
-    m_Dt = std::make_unique<hxMapUdpServerDt>();
+    m_Dt = std::make_unique<hxMapServerDt>();
 
     // 初始化Protobuf库
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -349,13 +349,13 @@ hxMapUdpServer::hxMapUdpServer(QObject *parent):QObject(parent)
     start();
 }
 
-hxMapUdpServer::~hxMapUdpServer()
+hxMapServer::~hxMapServer()
 {
     // 清理Protobuf库
     google::protobuf::ShutdownProtobufLibrary();
 }
 
-void hxMapUdpServer::start()
+void hxMapServer::start()
 {
     m_Dt->udpServer.start();
 
@@ -364,22 +364,22 @@ void hxMapUdpServer::start()
     m_Dt->tcpServer.start();
 }
 
-void hxMapUdpServer::stop()
+void hxMapServer::stop()
 {
     m_Dt->udpServer.stop();
     m_Dt->tcpServer.stop();
 }
 
-void hxMapUdpServer::updateAndSendLocation(double x, double y, double yaw)
+void hxMapServer::updateAndSendLocation(double x, double y, double yaw)
 {
 }
 
-void hxMapUdpServer::onAlgorithmDetectionResult(const QString &result)
+void hxMapServer::onAlgorithmDetectionResult(const QString &result)
 {
 
 }
 
-std::string hxMapUdpServer::onReceiveMapRequest()
+std::string hxMapServer::onReceiveMapRequest()
 {
     qDebug() << "onReceiveMapRequest" << Qt::endl;
     std::string mapRequest;
@@ -395,7 +395,7 @@ std::string hxMapUdpServer::onReceiveMapRequest()
     return PACK_NET_STREAM(mapRequest);
 }
 
-void hxMapUdpServer::onReceiveDownloadMapRequest(std::string mapName, std::vector<std::string> fileList, std::vector<std::string> &sendVector)
+void hxMapServer::onReceiveDownloadMapRequest(std::string mapName, std::vector<std::string> fileList, std::vector<std::string> &sendVector)
 {
     // 清空发送向量以确保它准备好接收新数据
     sendVector.clear();

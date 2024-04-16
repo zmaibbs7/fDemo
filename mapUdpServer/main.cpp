@@ -1,8 +1,8 @@
-﻿#include "hxMapUdpServer.h"
+﻿#include "hxMapServer.h"
 int main()
 {
 
-    hxMapUdpServer udpServer;
+    hxMapServer udpServer;
 
     while (getchar() != '\n');
     

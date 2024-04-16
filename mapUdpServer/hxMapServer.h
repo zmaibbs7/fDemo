@@ -1,17 +1,17 @@
-﻿#ifndef HXMAPUDPSERVER_H_
-#define HXMAPUDPSERVER_H_
+﻿#ifndef HXMAPSERVER_H_
+#define HXMAPSERVER_H_
 
 #include <memory>
 #include <QObject>
 #include <vector>
 
-class hxMapUdpServerDt;
-class hxMapUdpServer : public QObject
+class hxMapServerDt;
+class hxMapServer : public QObject
 {
     Q_OBJECT
 public:
-    hxMapUdpServer(QObject *parent = nullptr);
-    virtual ~hxMapUdpServer();
+    hxMapServer(QObject *parent = nullptr);
+    virtual ~hxMapServer();
 
     //开始连接
     void start();
@@ -31,6 +31,6 @@ private:
     // 接收 - 请求下载地图
     void onReceiveDownloadMapRequest(std::string mapName, std::vector<std::string> fileList,std::vector<std::string> & sendVector);
 private:
-    std::unique_ptr<hxMapUdpServerDt> m_Dt;
+    std::unique_ptr<hxMapServerDt> m_Dt;
 };
-#endif //HXMAPUDPSERVER_H_
+#endif //HXMAPSERVER_H_
