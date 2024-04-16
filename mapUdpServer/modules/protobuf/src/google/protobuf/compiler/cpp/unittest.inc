@@ -1,17 +1,39 @@
-// -*- c++ -*-
 // Protocol Buffers - Google's data interchange format
 // Copyright 2008 Google Inc.  All rights reserved.
+// https://developers.google.com/protocol-buffers/
 //
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file or at
-// https://developers.google.com/open-source/licenses/bsd
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     * Redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above
+// copyright notice, this list of conditions and the following disclaimer
+// in the documentation and/or other materials provided with the
+// distribution.
+//     * Neither the name of Google Inc. nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Author: kenton@google.com (Kenton Varda)
 //  Based on original Protocol Buffers design by
 //  Sanjay Ghemawat, Jeff Dean, and others.
 //
 // To test the code generator, we actually use it to generate code for
-// google/protobuf/unittest.proto, then test that.  This means that we
+// net/proto2/internal/unittest.proto, then test that.  This means that we
 // are actually testing the parser and other parts of the system at the same
 // time, and that problems in the generator may show up as compile-time errors
 // rather than unittest failures, which may be surprising.  However, testing
@@ -27,36 +49,37 @@
 #include <memory>
 #include <vector>
 
-#include "google/protobuf/compiler/cpp/unittest.h"
-#include "absl/strings/cord.h"
-#include "absl/strings/string_view.h"
+#include <google/protobuf/compiler/cpp/unittest.h>
+#include <google/protobuf/stubs/strutil.h>
 #ifndef _MSC_VER
 // We exclude this large proto because it's too large for
 // visual studio to compile (report internal errors).
-#include "google/protobuf/unittest_enormous_descriptor.pb.h"
+#include <google/protobuf/unittest_enormous_descriptor.pb.h>
 #endif
-#include "google/protobuf/stubs/callback.h"
-#include "google/protobuf/stubs/common.h"
-#include "google/protobuf/compiler/cpp/helpers.h"
-#include "google/protobuf/unittest_no_generic_services.pb.h"
-#include "google/protobuf/descriptor.pb.h"
-#include "google/protobuf/testing/googletest.h"
+#include <google/protobuf/compiler/cpp/helpers.h>
+#include <google/protobuf/compiler/cpp/test_bad_identifiers.pb.h>
+#include <google/protobuf/unittest_no_generic_services.pb.h>
+#include <google/protobuf/descriptor.pb.h>
+#include <google/protobuf/arena.h>
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/dynamic_message.h>
+#include <google/protobuf/compiler/scc.h>
+#include <google/protobuf/compiler/importer.h>
+#include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/test_util2.h>
+
+#include <google/protobuf/stubs/callback.h>
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/logging.h>
+#include <google/protobuf/testing/googletest.h>
 #include <gtest/gtest.h>
-#include "absl/base/casts.h"
-#include "absl/strings/substitute.h"
-#include "google/protobuf/arena.h"
-#include "google/protobuf/compiler/cpp/test_bad_identifiers.pb.h"
-#include "google/protobuf/compiler/importer.h"
-#include "google/protobuf/compiler/retention.h"
-#include "google/protobuf/compiler/scc.h"
-#include "google/protobuf/descriptor.h"
-#include "google/protobuf/dynamic_message.h"
-#include "google/protobuf/io/coded_stream.h"
-#include "google/protobuf/io/zero_copy_stream_impl.h"
-#include "google/protobuf/test_util2.h"
+#include <google/protobuf/stubs/casts.h>
+#include <google/protobuf/stubs/substitute.h>
+#include <google/protobuf/stubs/stl_util.h>
 
 // Must be included last.
-#include "google/protobuf/port_def.inc"
+#include <google/protobuf/port_def.inc>
 
 namespace google {
 namespace protobuf {
@@ -77,9 +100,9 @@ class MockErrorCollector : public MultiFileErrorCollector {
   std::string text_;
 
   // implements ErrorCollector ---------------------------------------
-  void RecordError(absl::string_view filename, int line, int column,
-                   absl::string_view message) override {
-    absl::SubstituteAndAppend(&text_, "$0:$1:$2: $3\n", filename, line, column,
+  void AddError(const std::string& filename, int line, int column,
+                const std::string& message) override {
+    strings::SubstituteAndAppend(&text_, "$0:$1:$2: $3\n", filename, line, column,
                               message);
   }
 };
@@ -101,16 +124,15 @@ TEST(GENERATED_DESCRIPTOR_TEST_NAME, IdenticalDescriptors) {
 
   // Import (parse) unittest.proto.
   const FileDescriptor* parsed_descriptor =
-      importer.Import(UNITTEST_PROTO_PATH);
+      importer.Import(TestUtil::MaybeTranslatePath(UNITTEST_PROTO_PATH));
   EXPECT_EQ("", error_collector.text_);
   ASSERT_TRUE(parsed_descriptor != nullptr);
 
   // Test that descriptors are generated correctly by converting them to
   // FileDescriptorProtos and comparing.
-  FileDescriptorProto generated_descriptor_proto;
+  FileDescriptorProto generated_descriptor_proto, parsed_descriptor_proto;
   generated_descriptor->CopyTo(&generated_descriptor_proto);
-  FileDescriptorProto parsed_descriptor_proto =
-    compiler::StripSourceRetentionOptions(*parsed_descriptor);
+  parsed_descriptor->CopyTo(&parsed_descriptor_proto);
 
   EXPECT_EQ(parsed_descriptor_proto.DebugString(),
             generated_descriptor_proto.DebugString());
@@ -552,11 +574,10 @@ TEST(GENERATED_MESSAGE_TEST_NAME, CopyConstructor) {
   }
 }
 
-#ifndef PROTOBUF_TEST_NO_DESCRIPTORS
 TEST(GENERATED_MESSAGE_TEST_NAME, CopyConstructorWithArenas) {
   Arena arena;
   UNITTEST::TestAllTypes* message1 =
-      Arena::Create<UNITTEST::TestAllTypes>(&arena);
+      Arena::CreateMessage<UNITTEST::TestAllTypes>(&arena);
   TestUtil::SetAllFields(message1);
 
   UNITTEST::TestAllTypes message2_stack(*message1);
@@ -573,6 +594,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, CopyConstructorWithArenas) {
   TestUtil::ExpectAllFieldsSet(*message2_heap);
 }
 
+#ifndef PROTOBUF_TEST_NO_DESCRIPTORS
 TEST(GENERATED_MESSAGE_TEST_NAME, UpcastCopyFrom) {
   // Test the CopyFrom method that takes in the generic const Message&
   // parameter.
@@ -580,7 +602,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, UpcastCopyFrom) {
 
   TestUtil::SetAllFields(&message1);
 
-  const Message* source = absl::implicit_cast<const Message*>(&message1);
+  const Message* source = implicit_cast<const Message*>(&message1);
   message2.CopyFrom(*source);
 
   TestUtil::ExpectAllFieldsSet(message2);
@@ -642,7 +664,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, SerializationToArray) {
   TestUtil::SetAllFields(&message1);
   int size = message1.ByteSizeLong();
   data.resize(size);
-  uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+  uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
   uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
   EXPECT_EQ(size, end - start);
   EXPECT_TRUE(message2.ParseFromString(data));
@@ -656,7 +678,8 @@ TEST(GENERATED_MESSAGE_TEST_NAME, PackedFieldsSerializationToArray) {
   TestUtil::SetPackedFields(&packed_message1);
   int packed_size = packed_message1.ByteSizeLong();
   packed_data.resize(packed_size);
-  uint8_t* start = reinterpret_cast<uint8_t*>(&packed_data[0]);
+  uint8_t* start =
+      reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&packed_data));
   uint8_t* end = packed_message1.SerializeWithCachedSizesToArray(start);
   EXPECT_EQ(packed_size, end - start);
   EXPECT_TRUE(packed_message2.ParseFromString(packed_data));
@@ -673,7 +696,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, SerializationToStream) {
   data.resize(size);
   {
     // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
+    io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
     io::CodedOutputStream output_stream(&array_stream);
     message1.SerializeWithCachedSizes(&output_stream);
     EXPECT_FALSE(output_stream.HadError());
@@ -692,7 +715,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, PackedFieldsSerializationToStream) {
   data.resize(size);
   {
     // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
+    io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
     io::CodedOutputStream output_stream(&array_stream);
     message1.SerializeWithCachedSizes(&output_stream);
     EXPECT_FALSE(output_stream.HadError());
@@ -848,7 +871,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, TestEmbedOptimizedForSize) {
 TEST(GENERATED_MESSAGE_TEST_NAME, TestSpaceUsed) {
   // Allocate explicitly on the heap to prevent arena creation.
   std::unique_ptr<UNITTEST::TestAllTypes> message1(
-      Arena::Create<UNITTEST::TestAllTypes>(nullptr));
+    Arena::CreateMessage<UNITTEST::TestAllTypes>(nullptr));
   // sizeof provides a lower bound on SpaceUsedLong().
   EXPECT_LE(sizeof(UNITTEST::TestAllTypes), message1->SpaceUsedLong());
   const size_t empty_message_size = message1->SpaceUsedLong();
@@ -889,7 +912,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, TestSpaceUsed) {
 TEST(GENERATED_MESSAGE_TEST_NAME, TestOneofSpaceUsed) {
   // Allocate explicitly on the heap to prevent arena creation.
   std::unique_ptr<UNITTEST::TestOneof2> message1(
-      Arena::Create<UNITTEST::TestOneof2>(nullptr));
+    Arena::CreateMessage<UNITTEST::TestOneof2>(nullptr));
   EXPECT_LE(sizeof(UNITTEST::TestOneof2), message1->SpaceUsedLong());
 
   const size_t empty_message_size = message1->SpaceUsedLong();
@@ -926,6 +949,7 @@ TEST(GENERATED_MESSAGE_TEST_NAME, TestOneofSpaceUsed) {
 #endif  // !PROTOBUF_TEST_NO_DESCRIPTORS
 
 TEST(GENERATED_MESSAGE_TEST_NAME, FieldConstantValues) {
+  UNITTEST::TestRequired message;
   EXPECT_EQ(UNITTEST::TestAllTypes_NestedMessage::kBbFieldNumber, 1);
   EXPECT_EQ(UNITTEST::TestAllTypes::kOptionalInt32FieldNumber, 1);
   EXPECT_EQ(UNITTEST::TestAllTypes::kOptionalgroupFieldNumber, 16);
@@ -1022,8 +1046,8 @@ TEST(GENERATED_ENUM_TEST_NAME, MinAndMax) {
   EXPECT_EQ(4, UNITTEST::TestAllTypes::NestedEnum_ARRAYSIZE);
 
   EXPECT_EQ(UNITTEST::FOREIGN_FOO, UNITTEST::ForeignEnum_MIN);
-  EXPECT_EQ(UNITTEST::FOREIGN_BAX, UNITTEST::ForeignEnum_MAX);
-  EXPECT_EQ(33, UNITTEST::ForeignEnum_ARRAYSIZE);
+  EXPECT_EQ(UNITTEST::FOREIGN_BAZ, UNITTEST::ForeignEnum_MAX);
+  EXPECT_EQ(7, UNITTEST::ForeignEnum_ARRAYSIZE);
 
   EXPECT_EQ(1, UNITTEST::TestEnumWithDupValue_MIN);
   EXPECT_EQ(3, UNITTEST::TestEnumWithDupValue_MAX);
@@ -1310,7 +1334,7 @@ TEST_F(GENERATED_SERVICE_TEST_NAME, CallMethod) {
 TEST_F(GENERATED_SERVICE_TEST_NAME, CallMethodTypeFailure) {
   // Verify death if we call Foo() with Bar's message types.
 
-#if PROTOBUF_RTTI && GTEST_HAS_DEATH_TEST  // death tests do not work on Windows yet
+#ifdef PROTOBUF_HAS_DEATH_TEST  // death tests do not work on Windows yet
   EXPECT_DEBUG_DEATH(
     mock_service_.CallMethod(foo_, &mock_controller_,
                              &foo_request_, &bar_response_, done_.get()),
@@ -1321,7 +1345,7 @@ TEST_F(GENERATED_SERVICE_TEST_NAME, CallMethodTypeFailure) {
     mock_service_.CallMethod(foo_, &mock_controller_,
                              &bar_request_, &foo_response_, done_.get()),
     "dynamic_cast");
-#endif  // GTEST_HAS_DEATH_TEST
+#endif  // PROTOBUF_HAS_DEATH_TEST
 }
 
 TEST_F(GENERATED_SERVICE_TEST_NAME, GetPrototypes) {
@@ -1429,9 +1453,6 @@ class OneofTest : public testing::Test {
         break;
       case UNITTEST::TestOneof2::kFooLazyMessage:
         EXPECT_TRUE(message.has_foo_lazy_message());
-        break;
-      case UNITTEST::TestOneof2::kFooBytesCord:
-        EXPECT_TRUE(message.has_foo_bytes_cord());
         break;
       case UNITTEST::TestOneof2::FOO_NOT_SET:
         break;
@@ -1595,7 +1616,8 @@ TEST_F(OneofTest, SetAllocatedString) {
 TEST_F(OneofTest, ArenaSetAllocatedString) {
   // Check that set_allocated_foo() works for strings.
   Arena arena;
-  UNITTEST::TestOneof2* message = Arena::Create<UNITTEST::TestOneof2>(&arena);
+  UNITTEST::TestOneof2* message =
+      Arena::CreateMessage<UNITTEST::TestOneof2>(&arena);
 
   EXPECT_FALSE(message->has_foo_string());
   const std::string kHello("hello");
@@ -1800,7 +1822,7 @@ TEST_F(OneofTest, UpcastCopyFrom) {
   message1.mutable_foogroup()->set_a(123);
   EXPECT_TRUE(message1.has_foogroup());
 
-  const Message* source = absl::implicit_cast<const Message*>(&message1);
+  const Message* source = implicit_cast<const Message*>(&message1);
   message2.CopyFrom(*source);
 
   EXPECT_TRUE(message2.has_foogroup());
@@ -1819,7 +1841,7 @@ std::string data;
 message1.set_foo_int(123);
 int size = message1.ByteSizeLong();
 data.resize(size);
-uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
 uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
 EXPECT_EQ(size, end - start);
 EXPECT_TRUE(message2.ParseFromString(data));
@@ -1833,7 +1855,7 @@ EXPECT_EQ(message2.foo_int(), 123);
     message1.set_foo_string("foo");
     int size = message1.ByteSizeLong();
     data.resize(size);
-    uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+    uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
     uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
     EXPECT_EQ(size, end - start);
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1848,7 +1870,7 @@ EXPECT_EQ(message2.foo_int(), 123);
     message1.set_foo_bytes("moo");
     int size = message1.ByteSizeLong();
     data.resize(size);
-    uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+    uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
     uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
     EXPECT_EQ(size, end - start);
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1862,7 +1884,7 @@ EXPECT_EQ(message2.foo_int(), 123);
     message1.set_foo_enum(UNITTEST::TestOneof2::FOO);
     int size = message1.ByteSizeLong();
     data.resize(size);
-    uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+    uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
     uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
     EXPECT_EQ(size, end - start);
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1876,7 +1898,7 @@ EXPECT_EQ(message2.foo_int(), 123);
     message1.mutable_foo_message()->set_moo_int(234);
     int size = message1.ByteSizeLong();
     data.resize(size);
-    uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+    uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
     uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
     EXPECT_EQ(size, end - start);
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1890,7 +1912,7 @@ EXPECT_EQ(message2.foo_int(), 123);
     message1.mutable_foogroup()->set_a(345);
     int size = message1.ByteSizeLong();
     data.resize(size);
-    uint8_t* start = reinterpret_cast<uint8_t*>(&data[0]);
+    uint8_t* start = reinterpret_cast<uint8_t*>(::google::protobuf::string_as_array(&data));
     uint8_t* end = message1.SerializeWithCachedSizesToArray(start);
     EXPECT_EQ(size, end - start);
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1915,11 +1937,11 @@ data.resize(size);
 
 {
   // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
-    io::CodedOutputStream output_stream(&array_stream);
-    message1.SerializeWithCachedSizes(&output_stream);
-    EXPECT_FALSE(output_stream.HadError());
-    EXPECT_EQ(size, output_stream.ByteCount());
+  io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
+  io::CodedOutputStream output_stream(&array_stream);
+  message1.SerializeWithCachedSizes(&output_stream);
+  EXPECT_FALSE(output_stream.HadError());
+  EXPECT_EQ(size, output_stream.ByteCount());
 }
 
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1936,11 +1958,11 @@ data.resize(size);
 
     {
       // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
-    io::CodedOutputStream output_stream(&array_stream);
-    message1.SerializeWithCachedSizes(&output_stream);
-    EXPECT_FALSE(output_stream.HadError());
-    EXPECT_EQ(size, output_stream.ByteCount());
+      io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
+      io::CodedOutputStream output_stream(&array_stream);
+      message1.SerializeWithCachedSizes(&output_stream);
+      EXPECT_FALSE(output_stream.HadError());
+      EXPECT_EQ(size, output_stream.ByteCount());
     }
 
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1958,11 +1980,11 @@ data.resize(size);
 
     {
       // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
-    io::CodedOutputStream output_stream(&array_stream);
-    message1.SerializeWithCachedSizes(&output_stream);
-    EXPECT_FALSE(output_stream.HadError());
-    EXPECT_EQ(size, output_stream.ByteCount());
+      io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
+      io::CodedOutputStream output_stream(&array_stream);
+      message1.SerializeWithCachedSizes(&output_stream);
+      EXPECT_FALSE(output_stream.HadError());
+      EXPECT_EQ(size, output_stream.ByteCount());
     }
 
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -1979,11 +2001,11 @@ data.resize(size);
 
     {
       // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
-    io::CodedOutputStream output_stream(&array_stream);
-    message1.SerializeWithCachedSizes(&output_stream);
-    EXPECT_FALSE(output_stream.HadError());
-    EXPECT_EQ(size, output_stream.ByteCount());
+      io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
+      io::CodedOutputStream output_stream(&array_stream);
+      message1.SerializeWithCachedSizes(&output_stream);
+      EXPECT_FALSE(output_stream.HadError());
+      EXPECT_EQ(size, output_stream.ByteCount());
     }
 
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -2000,11 +2022,11 @@ data.resize(size);
 
     {
       // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
-    io::CodedOutputStream output_stream(&array_stream);
-    message1.SerializeWithCachedSizes(&output_stream);
-    EXPECT_FALSE(output_stream.HadError());
-    EXPECT_EQ(size, output_stream.ByteCount());
+      io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
+      io::CodedOutputStream output_stream(&array_stream);
+      message1.SerializeWithCachedSizes(&output_stream);
+      EXPECT_FALSE(output_stream.HadError());
+      EXPECT_EQ(size, output_stream.ByteCount());
     }
 
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -2021,11 +2043,11 @@ data.resize(size);
 
     {
       // Allow the output stream to buffer only one byte at a time.
-    io::ArrayOutputStream array_stream(&data[0], size, 1);
-    io::CodedOutputStream output_stream(&array_stream);
-    message1.SerializeWithCachedSizes(&output_stream);
-    EXPECT_FALSE(output_stream.HadError());
-    EXPECT_EQ(size, output_stream.ByteCount());
+      io::ArrayOutputStream array_stream(::google::protobuf::string_as_array(&data), size, 1);
+      io::CodedOutputStream output_stream(&array_stream);
+      message1.SerializeWithCachedSizes(&output_stream);
+      EXPECT_FALSE(output_stream.HadError());
+      EXPECT_EQ(size, output_stream.ByteCount());
     }
 
     EXPECT_TRUE(message2.ParseFromString(data));
@@ -2088,11 +2110,10 @@ TEST(HELPERS_TEST_NAME, TestSCC) {
   std::string package = a.GetDescriptor()->file()->package();
   ASSERT_EQ(names.size(), 4);
   std::sort(names.begin(), names.end());
-  EXPECT_EQ(names[0], absl::StrCat(package, ".TestMutualRecursionA"));
-  EXPECT_EQ(names[1], absl::StrCat(package, ".TestMutualRecursionA.SubGroup"));
-  EXPECT_EQ(names[2],
-            absl::StrCat(package, ".TestMutualRecursionA.SubMessage"));
-  EXPECT_EQ(names[3], absl::StrCat(package, ".TestMutualRecursionB"));
+  EXPECT_EQ(names[0], package + ".TestMutualRecursionA");
+  EXPECT_EQ(names[1], package + ".TestMutualRecursionA.SubGroup");
+  EXPECT_EQ(names[2], package + ".TestMutualRecursionA.SubMessage");
+  EXPECT_EQ(names[3], package + ".TestMutualRecursionB");
 
   MessageAnalysis result = scc_analyzer.GetSCCAnalysis(scc);
   EXPECT_EQ(result.is_recursive, true);
@@ -2192,7 +2213,7 @@ TEST(DESCRIPTOR_INIT_TEST_NAME, Initialized) {
 
   EXPECT_EQ(should_have_descriptors,
             DescriptorPool::generated_pool()->InternalIsFileLoaded(
-                UNITTEST_PROTO_PATH));
+                TestUtil::MaybeTranslatePath(UNITTEST_PROTO_PATH)));
 }
 
 }  // namespace cpp_unittest
@@ -2202,4 +2223,4 @@ TEST(DESCRIPTOR_INIT_TEST_NAME, Initialized) {
 }  // namespace protobuf
 }  // namespace google
 
-#include "google/protobuf/port_undef.inc"
+#include <google/protobuf/port_undef.inc>

@@ -1,0 +1,51 @@
+syntax = "proto3";
+package packet;
+option optimize_for = LITE_RUNTIME;	
+message Heartbeat {
+    string node_id = 1;
+}
+
+message Itemlist {
+    repeated string items = 1; 
+}
+
+message Location {
+    double x = 1; 
+    double y = 2; 
+    double yaw = 3; 
+}
+
+message File {
+    string map_name = 1;
+    string file_name = 2; 
+    bytes file_content = 3; 
+    int32 file_packet_num = 4; 
+    int32 file_packet_total = 5; 
+    string whole_file_md5 = 6; 
+}
+
+message FileTransferStatus {
+    int32 current_packet_index = 1;
+    int32 total_packets = 2; 
+    string current_file_name = 3; 
+}
+
+enum MessageType {
+    UNKNOWN = 0;
+    HEARTBEAT = 1;
+    MAPLIST = 2;
+    LOCATION = 3;
+    FILE = 4;
+    FILE_TRANSFER_STATUS = 5;
+}
+
+message Message {
+    MessageType type = 1; 
+    oneof payload {
+        Heartbeat heartbeat = 2;
+        Itemlist itemlist = 3;
+        Location location = 4;
+        File file = 5;
+        FileTransferStatus fileTransferStatus = 6; 
+    }
+}

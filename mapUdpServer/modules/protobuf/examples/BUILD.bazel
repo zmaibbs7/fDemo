@@ -4,13 +4,10 @@
 # the WORKSPACE file in the same directory with this BUILD file for an
 # example.
 
-load("@bazel_skylib//rules:build_test.bzl", "build_test")
-load("@protobuf//bazel:cc_proto_library.bzl", "cc_proto_library")
-load("@protobuf//bazel:java_lite_proto_library.bzl", "java_lite_proto_library")
-load("@protobuf//bazel:java_proto_library.bzl", "java_proto_library")
-load("@protobuf//bazel:proto_library.bzl", "proto_library")
-load("@rules_cc//cc:defs.bzl", "cc_binary")
-load("@rules_pkg//pkg:mappings.bzl", "pkg_files", "strip_prefix")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_proto_library")
+load("@rules_java//java:defs.bzl", "java_binary", "java_lite_proto_library", "java_proto_library")
+load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
+load("@rules_proto//proto:defs.bzl", "proto_library")
 
 # For each .proto file, a proto_library target should be defined. This target
 # is not bound to any particular language. Instead, it defines the dependency
@@ -21,7 +18,7 @@ load("@rules_pkg//pkg:mappings.bzl", "pkg_files", "strip_prefix")
 proto_library(
     name = "addressbook_proto",
     srcs = ["addressbook.proto"],
-    deps = ["@protobuf//:timestamp_proto"],
+    deps = ["@com_google_protobuf//:timestamp_proto"],
 )
 
 # The cc_proto_library rule generates C++ code for a proto_library rule. It
@@ -39,21 +36,13 @@ cc_proto_library(
 cc_binary(
     name = "add_person_cpp",
     srcs = ["add_person.cc"],
-    deps = [
-        ":addressbook_cc_proto",
-        "@protobuf",
-        "@protobuf//src/google/protobuf/util:time_util",
-    ],
+    deps = [":addressbook_cc_proto"],
 )
 
 cc_binary(
     name = "list_people_cpp",
     srcs = ["list_people.cc"],
-    deps = [
-        ":addressbook_cc_proto",
-        "@protobuf",
-        "@protobuf//src/google/protobuf/util:time_util",
-    ],
+    deps = [":addressbook_cc_proto"],
 )
 
 # Similar to cc_proto_library but for Java.
@@ -114,14 +103,6 @@ java_binary(
     srcs = ["ListPeople.java"],
     main_class = "ListPeople",
     deps = [":addressbook_java_lite_proto"],
-)
-
-build_test(
-    name = "test",
-    targets = [
-        ":add_person_cpp",
-        ":add_person_java",
-    ],
 )
 
 # Files included in all source distributions

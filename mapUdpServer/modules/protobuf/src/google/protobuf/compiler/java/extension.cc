@@ -1,26 +1,48 @@
 // Protocol Buffers - Google's data interchange format
 // Copyright 2008 Google Inc.  All rights reserved.
+// https://developers.google.com/protocol-buffers/
 //
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file or at
-// https://developers.google.com/open-source/licenses/bsd
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     * Redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above
+// copyright notice, this list of conditions and the following disclaimer
+// in the documentation and/or other materials provided with the
+// distribution.
+//     * Neither the name of Google Inc. nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Author: kenton@google.com (Kenton Varda)
 //  Based on original Protocol Buffers design by
 //  Sanjay Ghemawat, Jeff Dean, and others.
 
-#include "google/protobuf/compiler/java/extension.h"
+#include <google/protobuf/compiler/java/extension.h>
 
-#include "absl/container/flat_hash_map.h"
-#include "absl/strings/str_cat.h"
-#include "google/protobuf/compiler/java/context.h"
-#include "google/protobuf/compiler/java/doc_comment.h"
-#include "google/protobuf/compiler/java/helpers.h"
-#include "google/protobuf/compiler/java/name_resolver.h"
-#include "google/protobuf/io/printer.h"
+#include <google/protobuf/io/printer.h>
+#include <google/protobuf/stubs/strutil.h>
+#include <google/protobuf/compiler/java/context.h>
+#include <google/protobuf/compiler/java/doc_comment.h>
+#include <google/protobuf/compiler/java/helpers.h>
+#include <google/protobuf/compiler/java/name_resolver.h>
 
 // Must be last.
-#include "google/protobuf/port_def.inc"
+#include <google/protobuf/port_def.inc>
 
 namespace google {
 namespace protobuf {
@@ -29,10 +51,8 @@ namespace java {
 
 ImmutableExtensionGenerator::ImmutableExtensionGenerator(
     const FieldDescriptor* descriptor, Context* context)
-    : descriptor_(descriptor),
-      name_resolver_(context->GetNameResolver()),
-      context_(context) {
-  if (descriptor_->extension_scope() != nullptr) {
+    : descriptor_(descriptor), name_resolver_(context->GetNameResolver()) {
+  if (descriptor_->extension_scope() != NULL) {
     scope_ =
         name_resolver_->GetImmutableClassName(descriptor_->extension_scope());
   } else {
@@ -46,21 +66,19 @@ ImmutableExtensionGenerator::~ImmutableExtensionGenerator() {}
 void ExtensionGenerator::InitTemplateVars(
     const FieldDescriptor* descriptor, const std::string& scope, bool immutable,
     ClassNameResolver* name_resolver,
-    absl::flat_hash_map<absl::string_view, std::string>* vars_pointer,
-    Context* context) {
-  absl::flat_hash_map<absl::string_view, std::string>& vars = *vars_pointer;
+    std::map<std::string, std::string>* vars_pointer) {
+  std::map<std::string, std::string>& vars = *vars_pointer;
   vars["scope"] = scope;
   vars["name"] = UnderscoresToCamelCaseCheckReserved(descriptor);
   vars["containing_type"] =
       name_resolver->GetClassName(descriptor->containing_type(), immutable);
-  vars["number"] = absl::StrCat(descriptor->number());
+  vars["number"] = StrCat(descriptor->number());
   vars["constant_name"] = FieldConstantName(descriptor);
-  vars["index"] = absl::StrCat(descriptor->index());
+  vars["index"] = StrCat(descriptor->index());
   vars["default"] = descriptor->is_repeated()
                         ? ""
-                        : DefaultValue(descriptor, immutable, name_resolver,
-                                       context->options());
-  vars["type_constant"] = std::string(FieldTypeName(GetType(descriptor)));
+                        : DefaultValue(descriptor, immutable, name_resolver);
+  vars["type_constant"] = FieldTypeName(GetType(descriptor));
   vars["packed"] = descriptor->is_packed() ? "true" : "false";
   vars["enum_map"] = "null";
   vars["prototype"] = "null";
@@ -71,12 +89,12 @@ void ExtensionGenerator::InitTemplateVars(
     case JAVATYPE_MESSAGE:
       singular_type =
           name_resolver->GetClassName(descriptor->message_type(), immutable);
-      vars["prototype"] = absl::StrCat(singular_type, ".getDefaultInstance()");
+      vars["prototype"] = singular_type + ".getDefaultInstance()";
       break;
     case JAVATYPE_ENUM:
       singular_type =
           name_resolver->GetClassName(descriptor->enum_type(), immutable);
-      vars["enum_map"] = absl::StrCat(singular_type, ".internalGetValueMap()");
+      vars["enum_map"] = singular_type + ".internalGetValueMap()";
       break;
     case JAVATYPE_STRING:
       singular_type = "java.lang.String";
@@ -85,24 +103,24 @@ void ExtensionGenerator::InitTemplateVars(
       singular_type = immutable ? "com.google.protobuf.ByteString" : "byte[]";
       break;
     default:
-      singular_type = std::string(BoxedPrimitiveTypeName(java_type));
+      singular_type = BoxedPrimitiveTypeName(java_type);
       break;
   }
   vars["type"] = descriptor->is_repeated()
-                     ? absl::StrCat("java.util.List<", singular_type, ">")
+                     ? "java.util.List<" + singular_type + ">"
                      : singular_type;
   vars["singular_type"] = singular_type;
 }
 
 void ImmutableExtensionGenerator::Generate(io::Printer* printer) {
-  absl::flat_hash_map<absl::string_view, std::string> vars;
+  std::map<std::string, std::string> vars;
   const bool kUseImmutableNames = true;
   InitTemplateVars(descriptor_, scope_, kUseImmutableNames, name_resolver_,
-                   &vars, context_);
+                   &vars);
   printer->Print(vars, "public static final int $constant_name$ = $number$;\n");
 
-  WriteFieldDocComment(printer, descriptor_, context_->options());
-  if (descriptor_->extension_scope() == nullptr) {
+  WriteFieldDocComment(printer, descriptor_);
+  if (descriptor_->extension_scope() == NULL) {
     // Non-nested
     printer->Print(
         vars,
@@ -133,12 +151,12 @@ void ImmutableExtensionGenerator::Generate(io::Printer* printer) {
 int ImmutableExtensionGenerator::GenerateNonNestedInitializationCode(
     io::Printer* printer) {
   int bytecode_estimate = 0;
-  if (descriptor_->extension_scope() == nullptr) {
+  if (descriptor_->extension_scope() == NULL) {
     // Only applies to non-nested extensions.
     printer->Print(
         "$name$.internalInit(descriptor.getExtensions().get($index$));\n",
         "name", UnderscoresToCamelCaseCheckReserved(descriptor_), "index",
-        absl::StrCat(descriptor_->index()));
+        StrCat(descriptor_->index()));
     bytecode_estimate += 21;
   }
   return bytecode_estimate;
@@ -156,4 +174,4 @@ int ImmutableExtensionGenerator::GenerateRegistrationCode(
 }  // namespace protobuf
 }  // namespace google
 
-#include "google/protobuf/port_undef.inc"
+#include <google/protobuf/port_undef.inc>

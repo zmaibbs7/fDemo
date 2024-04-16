@@ -9,7 +9,7 @@
 #include <codecvt>
 #include <locale>
 
-#include "header.pb.h"
+#include "protoMessage/header.pb.h"
 #include "hv/UdpServer.h"
 #include "hv/TcpServer.h"
 #include "hv/hendian.h"
@@ -296,7 +296,7 @@ hxMapServer::hxMapServer(QObject *parent):QObject(parent)
 
         m_Dt->tcpServer.onMessage = [&](const SocketChannelPtr& channel, Buffer* buf) {
             packet::Message msgReceive;
-            msgReceive.ParseFromString(absl::string_view((char*)buf->data()+UnPack::head_body_length, buf->size()-UnPack::head_body_length));
+            msgReceive.ParseFromString(std::string((char*)buf->data()+UnPack::head_body_length, buf->size()-UnPack::head_body_length));
             switch (msgReceive.type())
             {
                 //接收请求 获取地图列表
