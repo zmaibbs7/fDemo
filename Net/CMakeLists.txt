@@ -17,7 +17,7 @@ foreach(TEST_SOURCE ${APP_SOURCES})
     get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
     # 添加可执行文件
     add_executable(${TEST_NAME} ${TEST_SOURCE})
-    target_include_directories(${TEST_NAME} PRIVATE ${hv_static})
+    target_include_directories(${TEST_NAME} PRIVATE ${hv_static} ${nlohmannJSON})
     # 链接静态库
     target_link_libraries(${TEST_NAME} PRIVATE hv_static)
 endforeach()
