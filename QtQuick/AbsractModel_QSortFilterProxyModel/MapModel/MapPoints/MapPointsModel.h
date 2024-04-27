@@ -1,16 +1,18 @@
 ﻿#ifndef MAPPOINTSMODEL_H_
 #define MAPPOINTSMODEL_H_
 
+
 #include <QList>
 #include <QSharedPointer>
+#include "../../CppCommon/singleton.h"
 #include "MapPoint.h"
-
 
 namespace dm {
     class MapPointsModelDt;
-    class MapPointsModel
+    class MapPointsModel : public CppCommon::Singleton<MapPointsModel>
     {
-    public:
+        friend CppCommon::Singleton<MapPointsModel>;
+    private:
         MapPointsModel();
         ~MapPointsModel();
 
@@ -19,7 +21,7 @@ namespace dm {
 
         //saveToJson
 
-
+    public:
 
         void append(const MapPoint& point);
 

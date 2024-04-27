@@ -9,9 +9,6 @@ namespace dm {
     public:
         QList<MapPoint> data;
     };
-
-
-
 } // namespace dm
 
 
@@ -21,6 +18,13 @@ namespace dm {
     {
         m_Dt = QSharedPointer<MapPointsModelDt>::create();
         qDebug() << "MapPointsModel crated" << Qt::endl;
+
+        for (int i = 0; i < 16; ++i) {
+            MapPoint p;
+            p.name = "name " + QString::number(i);
+            p.index = i % 4;
+            append(p);
+        }
     }
 
     MapPointsModel::~MapPointsModel()

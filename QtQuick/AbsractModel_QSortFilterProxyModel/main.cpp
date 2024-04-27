@@ -3,7 +3,9 @@
 #include <QQmlContext>
 
 #include "MapModel/MapModel.h"
+
 #include "MapModel/MapPoints/MapPointListModel.h"
+#include "MapModel/MapPoints/MapPointsFilterProxyModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,15 +15,15 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
 
-    dm::MapModel mapModel;
-    // dm::MapPointListModel mapPointListModel;
+    // dm::MapModel mapModel;
+    dm::MapPointListModel mapPointListModel;
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("MapModel", &mapModel);
+    engine.rootContext()->setContextProperty("MapPoinstsModel", &mapPointListModel);
 
     // engine.rootContext()->setContextProperty("MapModel", &mapModel);
     // engine.rootContext()->setContextProperty("MapProxyModel", &pointProxyModel);
-    qmlRegisterType<dm::MapPointListModel>("MapPointListModel", 1, 0, "MapPointListModel");
+    qmlRegisterType<MapPointsFilterProxyModel>("MapPointsFilterProxyModel", 1, 0, "MapPointsFilterProxyModel");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(

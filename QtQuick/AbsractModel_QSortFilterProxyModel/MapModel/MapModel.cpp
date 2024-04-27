@@ -20,7 +20,8 @@ namespace dm
 {
     MapModel::MapModel(QObject *parent):QObject(parent)
     {
-        m_Dt = QSharedPointer<MapModelDt>::create();
+        qDebug() << "MapModel created \n";
+        // m_Dt = QSharedPointer<MapModelDt>::create();
         // m_Dt->pointsListModel.bind(&m_Dt->pointsModel);
         // m_Dt->pointsFilterModel.setSourceModel(&m_Dt->pointsListModel);
 

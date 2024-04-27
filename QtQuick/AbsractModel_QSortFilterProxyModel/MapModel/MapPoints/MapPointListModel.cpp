@@ -30,6 +30,7 @@ MapPointListModel::MapPointListModel(QObject *parent): QAbstractListModel(parent
     // m_Dt = QSharedPointer<MapPointListModelDt>::create(); [理论上也可以，不会造成二次释放]
 
     m_Dt = QSharedPointer<MapPointListModelDt>::create();
+    // m_Dt = new MapPointListModelDt();
     qDebug() << "MapPointListModel crated" << Qt::endl;
 
     m_Dt->roleName.insert(nameRole, "name");
@@ -37,6 +38,10 @@ MapPointListModel::MapPointListModel(QObject *parent): QAbstractListModel(parent
     m_Dt->roleName.insert(yawRole, "yaw");
     m_Dt->roleName.insert(posRole, "pos");
     m_Dt->roleName.insert(isErrorRole, "isError");
+
+    //通过单例来绑定
+    m_Dt->model = &MapPointsModel::GetInstance();
+
 }
 
 MapPointListModel::~MapPointListModel()
@@ -67,7 +72,7 @@ QVariant MapPointListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_Dt->model->count())
         return QVariant();
-    qDebug() << "fresh = " << m_Dt->model->at(index.row()).name << Qt::endl;
+    // qDebug() << "fresh = " << m_Dt->model->at(index.row()).name << Qt::endl;
     const MapPoint &point = m_Dt->model->at(index.row());
     switch (role) {
     case nameRole: return point.name;
@@ -177,8 +182,5 @@ namespace dm
         setData(createIndex(index, 0), index % 2, indexRole);
     }
 
-    void MapPointListModel::bind(MapPointsModel *model)
-    {
-        m_Dt->model = model;
-    }
+
 } // namespace dm

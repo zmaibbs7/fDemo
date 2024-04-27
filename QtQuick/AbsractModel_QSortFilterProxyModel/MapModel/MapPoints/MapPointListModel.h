@@ -15,7 +15,6 @@ class MapPointsModel;
         virtual ~MapPointListModel();
     public:
         void append(const QString& name);
-        Q_INVOKABLE void bind(MapPointsModel* model);
     public:
         QVariant headerData(int section, Qt::Orientation orientation,int role = Qt::DisplayRole) const override; //好像没啥用
 

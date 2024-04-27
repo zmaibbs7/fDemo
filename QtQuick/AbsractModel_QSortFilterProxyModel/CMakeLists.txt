@@ -40,6 +40,7 @@ else()
 
           MapModel/MapElement.cpp MapModel/MapElement.h
           MapModel/MapPoints/MapPoint.cpp MapModel/MapPoints/MapPoint.h MapModel/MapPoints/MapPointListModel.cpp MapModel/MapPoints/MapPointListModel.h MapModel/MapPoints/MapPointsFilterProxyModel.cpp MapModel/MapPoints/MapPointsFilterProxyModel.h MapModel/MapPoints/MapPointsModel.cpp MapModel/MapPoints/MapPointsModel.h
+          CppCommon/singleton.h
         )
     endif()
 endif()
