@@ -2,80 +2,79 @@
 #define MAPPOINTSFILTERPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
-#include <QDebug>
 
+namespace dm {
+
+/**
+ * @brief MapPointsFilterProxyModel 类提供了一个专门用于管理地图点的过滤代理模型。
+ *
+ * 它支持通过其方法添加、更新和删除地图点。此外，它还允许根据通过属性设置的类型标识符进行过滤。
+ */
 class MapPointsFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int filterTypeID READ getFilterTypeID WRITE setFilterTypeID NOTIFY filterTypeIDChanged FINAL)
 
 public:
-    MapPointsFilterProxyModel(QObject *parent = nullptr)
-        : QSortFilterProxyModel(parent), filterTypeID(-1) {}
+    /**
+     * @brief MapPointsFilterProxyModel 的构造函数。
+     * @param parent 该模型的父对象，通常如果不需要则为 nullptr。
+     */
+    explicit MapPointsFilterProxyModel(QObject *parent = nullptr);
 
-    int getFilterTypeID() const {
-        return filterTypeID;
-    }
+    /**
+     * @brief 获取当前的过滤类型 ID。
+     * @return 用于过滤地图点的过滤类型 ID。
+     */
+    int getFilterTypeID() const;
 
-    void setFilterTypeID(int typeID) {
-        if (filterTypeID != typeID) {
-            filterTypeID = typeID;
-            invalidateFilter();
-            Q_EMIT filterTypeIDChanged();
-        }
-    }
+    /**
+     * @brief 设置用于决定显示哪些地图点的过滤类型 ID。
+     * @param typeID 过滤类型 ID。
+     */
+    void setFilterTypeID(int typeID);
 
-    // 添加一个条目
-    Q_INVOKABLE bool addMapPoint(const QVariant& data) {
-        int row = rowCount(); // 新条目的位置（末尾）
-        beginInsertRows(QModelIndex(), row, row);
-        bool success = sourceModel()->insertRow(row, mapToSource(index(row, 0)));
-        if (success) {
-            QModelIndex newIndex = sourceModel()->index(row, 0);
-            sourceModel()->setData(newIndex, data);
-        }
-        endInsertRows();
-        return success;
-    }
+    /**
+     * @brief 向模型中添加一个地图点。
+     * @param data 要添加的地图点的数据。
+     * @return 如果地图点成功添加，则返回 true；否则返回 false。
+     */
+    Q_INVOKABLE bool addMapPoint(const QVariant& data);
 
-    // 更新条目
-    Q_INVOKABLE bool updateMapPoint(int proxyRow, const QVariant& data) {
-        QModelIndex proxyIndex = index(proxyRow, 0);
-        QModelIndex sourceIndex = mapToSource(proxyIndex);
-        return sourceModel()->setData(sourceIndex, data);
-    }
+    /**
+     * @brief 在模型中更新现有的地图点。
+     * @param proxyRow 代理模型中地图点存在的行索引。
+     * @param data 地图点的新数据。
+     * @return 如果地图点成功更新，则返回 true；否则返回 false。
+     */
+    Q_INVOKABLE bool updateMapPoint(int proxyRow, const QVariant& data);
 
-    // 删除条目
-    Q_INVOKABLE bool removeMapPoint(int proxyRow) {
-        if (proxyRow < 0 || proxyRow >= rowCount()) {
-            return false;  // 校验行号有效性
-        }
-        QModelIndex proxyIndex = index(proxyRow, 0);
-        QModelIndex sourceIndex = mapToSource(proxyIndex);
-        beginRemoveRows(QModelIndex(), proxyRow, proxyRow);
-        bool success = sourceModel()->removeRow(sourceIndex.row(), sourceIndex.parent());  // 确保提供正确的父索引
-        endRemoveRows();
-        invalidate();  // 或 invalidateFilter();
-
-        return success;
-    }
+    /**
+     * @brief 从模型中删除一个地图点。
+     * @param proxyRow 代理模型中要删除的地图点的行索引。
+     * @return 如果地图点成功删除，则返回 true；否则返回 false。
+     */
+    Q_INVOKABLE bool removeMapPoint(int proxyRow);
 
 signals:
+    /**
+     * @brief 当过滤类型 ID 发生变化时发出的信号。
+     */
     void filterTypeIDChanged();
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override {
-        if (filterTypeID == -1) {
-            return true;
-        }
-        QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-        int typeID = sourceModel()->data(index, Qt::UserRole+2).toInt();
-        return typeID == filterTypeID;
-    }
+    /**
+     * @brief 决定是否将行包含在模型中。
+     * @param sourceRow 源模型中的行索引。
+     * @param sourceParent 源模型中行的父索引。
+     * @return 如果行应该包含在内，则返回 true；否则返回 false。
+     */
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    int filterTypeID = -1;
+    int m_filterTypeID = -1;  ///< 存储当前的过滤类型 ID。
 };
 
+} // namespace dm
 
 #endif // MAPPOINTSFILTERPROXYMODEL_H

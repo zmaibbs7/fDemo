@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     // engine.rootContext()->setContextProperty("MapModel", &mapModel);
     // engine.rootContext()->setContextProperty("MapProxyModel", &pointProxyModel);
-    qmlRegisterType<MapPointsFilterProxyModel>("MapPointsFilterProxyModel", 1, 0, "MapPointsFilterProxyModel");
+    qmlRegisterType<dm::MapPointsFilterProxyModel>("MapPointsFilterProxyModel", 1, 0, "MapPointsFilterProxyModel");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
