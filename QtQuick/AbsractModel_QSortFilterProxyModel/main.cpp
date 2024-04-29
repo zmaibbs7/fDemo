@@ -2,10 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "MapModel/MapModel.h"
-
-#include "MapModel/MapPoints/MapPointListModel.h"
-#include "MapModel/MapPoints/MapPointsFilterProxyModel.h"
+#include "MapModel/MapModelManager.h"
+#include "MapModel/MapPoints/MapPointsFilterProxyModel.h" //point ProxyModel
 
 int main(int argc, char *argv[])
 {
@@ -13,17 +11,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-
-
-    // dm::MapModel mapModel;
-    dm::MapPointListModel mapPointListModel;
-
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("MapPoinstsModel", &mapPointListModel);
+    engine.rootContext()->setContextProperty("MapModelManager", &dm::MapModelManager::GetInstance());
 
-    // engine.rootContext()->setContextProperty("MapModel", &mapModel);
-    // engine.rootContext()->setContextProperty("MapProxyModel", &pointProxyModel);
-    qmlRegisterType<dm::MapPointsFilterProxyModel>("MapPointsFilterProxyModel", 1, 0, "MapPointsFilterProxyModel");
+    //放到MapModel里面
+    qmlRegisterType<dm::MapPointsFilterProxyModel>("MapPointsFilterProxyModel", 1, 0, "MapPointsFilterProxyModel"); //point ProxyModel
+    //path ProxyModel
+    //region ProxyModel
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(

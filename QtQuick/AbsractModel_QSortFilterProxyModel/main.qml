@@ -8,64 +8,69 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-    MapPointsFilterProxyModel
+    Text
     {
-        id:filterModel
-        sourceModel: MapPoinstsModel
-        filterTypeID:1
-        Component.onCompleted: {
-            console.log("hahah filterModel.filterID = "+filterModel.filterTypeID)
-        }
+        // text: MapModelManager
     }
 
-    MapPointsFilterProxyModel
-    {
-        id:filterModel1
-        sourceModel: MapPoinstsModel
-        filterTypeID:1
-        Component.onCompleted: {
-            console.log("hahah filterModel.filterID = "+filterModel.filterTypeID)
-        }
-    }
+    // MapPointsFilterProxyModel
+    // {
+    //     id:filterModel
+    //     sourceModel: MapPoinstsModel
+    //     filterTypeID:1
+    //     Component.onCompleted: {
+    //         console.log("hahah filterModel.filterID = "+filterModel.filterTypeID)
+    //     }
+    // }
 
-    ListView {
-        id:lvb
-        x:10
-        width: 180; height: 200
+    // MapPointsFilterProxyModel
+    // {
+    //     id:filterModel1
+    //     sourceModel: MapPoinstsModel
+    //     filterTypeID:1
+    //     Component.onCompleted: {
+    //         console.log("hahah filterModel.filterID = "+filterModel.filterTypeID)
+    //     }
+    // }
 
-        model:filterModel
-        delegate: Text {
-            text: "----" + name + " : " + index
-        }
+    // ListView {
+    //     id:lvb
+    //     x:10
+    //     width: 180; height: 200
 
-    }
-    ListView {
-        id:lvb1
-        x:100
-        width: 180; height: 200
+    //     model:filterModel
+    //     delegate: Text {
+    //         text: "----" + name + " : " + index
+    //     }
 
-        model:filterModel1
-        delegate: Text {
-            text: "----" + name + " : " + index
-        }
-    }
-    ListView {
-        id:lvb2
-        x:300
-        width: 180; height: 200
+    // }
+    // ListView {
+    //     id:lvb1
+    //     x:100
+    //     width: 180; height: 200
 
-        model:MapPointsFilterProxyModel{sourceModel: MapPoinstsModel}
-        delegate: Text {
-            text: "----" + name + " : " + index
-        }
-    }
+    //     model:filterModel1
+    //     delegate: Text {
+    //         text: "----" + name + " : " + index
+    //     }
+    // }
+    // ListView {
+    //     id:lvb2
+    //     x:300
+    //     width: 180; height: 200
 
-    Button
-    {
-        x:0
-        y:200
+    //     model:MapPointsFilterProxyModel{sourceModel: MapPoinstsModel}
+    //     delegate: Text {
+    //         text: "----" + name + " : " + index
+    //     }
+    // }
 
-        text: "remove"
-        onClicked: filterModel.removeMapPoint(0)
-    }
+    // Button
+    // {
+    //     x:0
+    //     y:200
+
+    //     text: "remove"
+    //     onClicked: filterModel.removeMapPoint(0)
+    // }
 }

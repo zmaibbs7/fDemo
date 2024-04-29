@@ -40,7 +40,7 @@ MapPointListModel::MapPointListModel(QObject *parent): QAbstractListModel(parent
     m_Dt->roleName.insert(isErrorRole, "isError");
 
     //通过单例来绑定
-    m_Dt->model = &MapPointsModel::GetInstance();
+    // m_Dt->model = &MapPointsModel::GetInstance();
 
 }
 

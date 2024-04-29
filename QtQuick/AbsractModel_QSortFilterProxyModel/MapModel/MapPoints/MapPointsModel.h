@@ -4,18 +4,15 @@
 
 #include <QList>
 #include <QSharedPointer>
-#include "../../CppCommon/singleton.h"
 #include "MapPoint.h"
-
+/*线程安全*/
 namespace dm {
     class MapPointsModelDt;
-    class MapPointsModel : public CppCommon::Singleton<MapPointsModel>
+    class MapPointsModel
     {
-        friend CppCommon::Singleton<MapPointsModel>;
-    private:
+    public:
         MapPointsModel();
         ~MapPointsModel();
-
 
         //loadFromJson
 

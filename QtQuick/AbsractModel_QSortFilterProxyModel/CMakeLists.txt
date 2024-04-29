@@ -37,7 +37,7 @@ else()
         add_executable(AbsractModel_QSortFilterProxyModel
           ${PROJECT_SOURCES}
           MapModel/MapModel.cpp MapModel/MapModel.h
-
+          MapModel/MapModelManager.cpp MapModel/MapModelManager.h
           MapModel/MapElement.cpp MapModel/MapElement.h
           MapModel/MapPoints/MapPoint.cpp MapModel/MapPoints/MapPoint.h MapModel/MapPoints/MapPointListModel.cpp MapModel/MapPoints/MapPointListModel.h MapModel/MapPoints/MapPointsFilterProxyModel.cpp MapModel/MapPoints/MapPointsFilterProxyModel.h MapModel/MapPoints/MapPointsModel.cpp MapModel/MapPoints/MapPointsModel.h
           CppCommon/singleton.h
