@@ -10,6 +10,7 @@ class MapPointsModel;
     class MapPointListModel : public QAbstractListModel
     {
         Q_OBJECT
+
     public:
         explicit MapPointListModel(QObject *parent = nullptr);
         virtual ~MapPointListModel();

@@ -27,10 +27,7 @@ namespace dm {
 
 MapPointListModel::MapPointListModel(QObject *parent): QAbstractListModel(parent)
 {
-    // m_Dt = QSharedPointer<MapPointListModelDt>::create(); [理论上也可以，不会造成二次释放]
-
     m_Dt = QSharedPointer<MapPointListModelDt>::create();
-    // m_Dt = new MapPointListModelDt();
     qDebug() << "MapPointListModel crated" << Qt::endl;
 
     m_Dt->roleName.insert(nameRole, "name");
@@ -39,9 +36,9 @@ MapPointListModel::MapPointListModel(QObject *parent): QAbstractListModel(parent
     m_Dt->roleName.insert(posRole, "pos");
     m_Dt->roleName.insert(isErrorRole, "isError");
 
-    //通过单例来绑定
-    // m_Dt->model = &MapPointsModel::GetInstance();
-
+    //test
+    m_Dt->model = new MapPointsModel();
+    
 }
 
 MapPointListModel::~MapPointListModel()

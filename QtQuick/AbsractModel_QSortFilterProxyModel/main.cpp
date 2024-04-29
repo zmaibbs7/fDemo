@@ -15,9 +15,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("MapModelManager", &dm::MapModelManager::GetInstance());
 
     //放到MapModel里面
+
     qmlRegisterType<dm::MapPointsFilterProxyModel>("MapPointsFilterProxyModel", 1, 0, "MapPointsFilterProxyModel"); //point ProxyModel
     //path ProxyModel
     //region ProxyModel
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(

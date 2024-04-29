@@ -24,7 +24,7 @@ namespace dm
         // 加载LocalMap.json
         bool loadLocalMap(const std::string& path);
 
-        MapPointsModel* pointsModel();
+        Q_INVOKABLE MapPointsModel* pointsModel();
 
         // 返回所有位置点QAbstractListModel
         // QObject* pointsListModel();
@@ -33,7 +33,6 @@ namespace dm
 
         // QObject* pointsFilterModel();
 
-        Q_INVOKABLE int test(){return 33;}
 
     // signals:
     //     void pointsListModelChanged();

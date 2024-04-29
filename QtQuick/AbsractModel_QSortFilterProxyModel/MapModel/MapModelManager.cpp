@@ -1,11 +1,11 @@
 ﻿#include "MapModelManager.h"
-
+#include <QQmlEngine>
 namespace dm
 {
 
     MapModelManager::MapModelManager(QObject *parent):QObject(parent)
     {
-        // mapModel.push_back(MapModel());
+
     }
     
     MapModelManager::~MapModelManager()
@@ -13,9 +13,10 @@ namespace dm
 
     }
 
-    MapModel *MapModelManager::getMap(int floorIndex, bool isCurrentFloor)
+    QObject* MapModelManager::mapModel(int floorIndex, bool isCurrentFloor)
     {
-        return nullptr;
+        QQmlEngine::setObjectOwnership(&listModel, QQmlEngine::CppOwnership);
+        return &listModel;
     }
 
     bool MapModelManager::switchMap(int floor)
