@@ -1,9 +1,14 @@
 ﻿#include "MapModel.h"
 #include <QDebug>
+#include <QFileInfoList>
 
 #include "MapPoints/MapPointsModel.h"
 // #include "MapPoints/MapPointListModel.h"
 #include "MapPoints/MapPointsFilterProxyModel.h"
+
+#include <fstream>
+
+
 //MapModelDt
 namespace dm
 {
@@ -21,7 +26,9 @@ namespace dm
     MapModel::MapModel(QObject *parent):QObject(parent)
     {
         qDebug() << "MapModel created \n";
-        // m_Dt = QSharedPointer<MapModelDt>::create();
+        m_Dt = QSharedPointer<MapModelDt>::create();
+
+
         // m_Dt->pointsListModel.bind(&m_Dt->pointsModel);
         // m_Dt->pointsFilterModel.setSourceModel(&m_Dt->pointsListModel);
 
@@ -36,6 +43,21 @@ namespace dm
     MapModel::~MapModel()
     {
         qDebug() << "MapModel being destroyed\n";
+    }
+
+    bool MapModel::loadMap(const QString &path)
+    {
+        QString localMapJsonPath = path + "localMap.json";
+        QFileInfo fileInfo(localMapJsonPath);
+        if (!fileInfo.exists()) {
+            qDebug() << "file not exist : " << localMapJsonPath << Qt::endl;
+        }
+        std::ifstream f(localMapJsonPath.toLocal8Bit().toStdString());
+        
+
+
+
+        return true;
     }
 
     MapPointsModel *MapModel::pointsModel()

@@ -8,21 +8,18 @@
 // #include "MapPoints.h"
 #include "MapPoints/MapPointListModel.h"
 
-#include "../CppCommon/singleton.h"
-
 namespace dm
 {
     class MapModelDt;
     class MapModel : public QObject
     {
         Q_OBJECT
-        // Q_PROPERTY(QObject* pointsListModel READ pointsListModel)
     public:
         explicit MapModel(QObject *parent = nullptr);
         virtual ~MapModel();
     public:
         // 加载LocalMap.json
-        bool loadLocalMap(const std::string& path);
+        bool loadMap(const QString& path);
 
         Q_INVOKABLE MapPointsModel* pointsModel();
 

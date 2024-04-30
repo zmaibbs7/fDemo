@@ -10,8 +10,6 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-
-
     // MapPointsFilterProxyModel
     // {
     //     id:filterModel
@@ -32,16 +30,17 @@ Window {
     //     }
     // }
 
-    ListView {
-        id:lvb
-        x:10
-        width: 180; height: 200
+    // ListView {
+    //     id:lvb
+    //     x:10
+    //     width: 180; height: 200
 
-        model:MapModelManager.mapModel(0)
-        delegate: Text {
-            text: "----" + name + " : " + index
-        }
-    }
+    //     model:MapModelManager.mapModel(0)
+    //     delegate: Text {
+    //         text: "----" + name + " : " + index
+    //     }
+    // }
+
     // ListView {
     //     id:lvb1
     //     x:100
@@ -63,12 +62,13 @@ Window {
     //     }
     // }
 
-    // Button
-    // {
-    //     x:0
-    //     y:200
+    Button
+    {
+        x:0
+        y:200
 
-    //     text: "remove"
-    //     onClicked: filterModel.removeMapPoint(0)
-    // }
+        text: "remove"
+        // onClicked: filterModel.removeMapPoint(0)
+        onClicked: MapModelManager.loadMap("g2411")
+    }
 }

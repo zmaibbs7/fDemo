@@ -2,15 +2,15 @@
 #define MAPMODEL_MANAGER_H_
 
 #include <QObject>
+#include <QSharedPointer>
 #include "../CppCommon/singleton.h"
 #include "MapModel.h"
 
 
-#include "MapPoints/MapPointListModel.h"
-// Q_DECLARE_METATYPE(dm::MapPointListModel)
-
+// #include "MapPoints/MapPointListModel.h"
 namespace dm
 {
+    class MapModelManagerDt;
     class MapModelManager : public QObject,  public CppCommon::Singleton<MapModelManager>
     {
         Q_OBJECT
@@ -19,17 +19,18 @@ namespace dm
         MapModelManager(QObject *parent = nullptr);
         virtual ~MapModelManager();
     public:
-        //获取地图 通过
-        Q_INVOKABLE QObject* mapModel(int floorIndex, bool isCurrentFloor = false);
+        //获取地图model
+        Q_INVOKABLE QSharedPointer<MapModel> mapModel(int floorIndex, bool isCurrentFloor = false);
         //楼层地图切换
         bool switchMap(int floor);
         //加载新地图[参数是列表]
-        bool loadMap(const std::vector<std::string>& pathList);
+        Q_INVOKABLE bool loadMap(const QString& buildingName);
 
     private:
-        QVector<MapModel> m_mapModel;
+        // QVector<MapModel> m_mapModel;
 
-        MapPointListModel listModel;
+        // MapPointListModel listModel;
+        QSharedPointer<MapModelManagerDt> m_Dt;
     };
 } // namespace dm
 
