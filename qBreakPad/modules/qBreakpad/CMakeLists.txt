@@ -14,6 +14,16 @@ find_package(Qt5 COMPONENTS Core Network REQUIRED)
 # 设置Breakpad的路径
 set(BREAKPAD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/third_party/breakpad/src")
 
+# 查找DIA SDK
+set(CMAKE_GENERATOR_PLATFORM "x64" )
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(FindDiaSDK)
+include(FindDbgHelp)
+
+
+include_directories("${DIASDK_INCLUDE_DIR}")
+message("Congraute Find DIASDK_INCLUDE_DIR = ${DIASDK_INCLUDE_DIR}")
+
 # 定义预处理器变量
 add_definitions(-DCALIPER)
 
@@ -101,3 +111,30 @@ target_include_directories(qBreakpad PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/handler)
 
 # 链接Qt5库
 target_link_libraries(qBreakpad Qt5::Core Qt5::Network)
+
+# 添加选项来控制是否生成dump_syms可执行文件
+option(BUILD_DUMP_SYMS "Build dump_syms tool" ON)
+
+if(BUILD_DUMP_SYMS)
+    if(WIN32)
+
+        # 确保链接到 diaguids.lib 和必要的系统库
+        set(WINDOWS_LIBS "Ole32.lib" "Uuid.lib" "${DIA_SDK_LIB}" "Dbghelp.lib" "Imagehlp.lib")
+
+        add_executable(dump_syms
+            ${BREAKPAD_PATH}/tools/windows/dump_syms/dump_syms.cc
+            ${BREAKPAD_PATH}/common/windows/dia_util.cc
+            ${BREAKPAD_PATH}/common/windows/guid_string.cc
+            # ${BREAKPAD_PATH}/common/windows/http_upload.cc
+            ${BREAKPAD_PATH}/common/windows/omap.cc
+            ${BREAKPAD_PATH}/common/windows/pdb_source_line_writer.cc
+            ${BREAKPAD_PATH}/common/windows/pe_source_line_writer.cc
+            ${BREAKPAD_PATH}/common/windows/pe_util.cc
+            ${BREAKPAD_PATH}/common/windows/string_utils.cc
+            # ${BREAKPAD_PATH}/common/windows/symbol_collector_client.cc
+            # ${BREAKPAD_PATH}/common/windows/sym_upload_v2_protocol.cc
+        )
+        target_include_directories(dump_syms PRIVATE ${BREAKPAD_PATH})
+        target_link_libraries(dump_syms qBreakpad ${DBGHELP_LIBRARY} ${DIASDK_GUIDS_LIBRARY} ${DIA_SDK_LIB} ${WINDOWS_LIBS})
+    endif()
+endif()

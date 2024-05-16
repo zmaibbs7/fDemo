@@ -3,6 +3,6 @@ if(NOT TARGET qBreakpad)
     add_subdirectory("qBreakpad")
 
     # Module folder
-    set_target_properties(qBreakpad PROPERTIES FOLDER "modules/qBreakpad")
+    # set_target_properties(qBreakpad PROPERTIES FOLDER "modules/qBreakpad")
 
 endif()
