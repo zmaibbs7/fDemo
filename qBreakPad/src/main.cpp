@@ -1,10 +1,11 @@
 #include <iostream>
 #include <QBreakpadHandler.h>
 #include <QDir>
+#include "AAA.h"
 int main()
 {
     QBreakpadInstance.setDumpPath(QDir::currentPath() + "/crashes");
 
-    int* p = NULL; *p = 10;
+    A a;
     return 0;
 }
