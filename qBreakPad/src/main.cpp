@@ -7,5 +7,7 @@ int main()
     QBreakpadInstance.setDumpPath(QDir::currentPath() + "/crashes");
 
     A a;
+    a.test();
+
     return 0;
 }

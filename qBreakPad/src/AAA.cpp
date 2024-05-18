@@ -2,7 +2,7 @@
 
 A::A()
 {
-    test();
+    
 }
 
 void A::test()

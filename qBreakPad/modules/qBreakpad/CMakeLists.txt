@@ -133,5 +133,19 @@ if(BUILD_DUMP_SYMS)
         )
         target_include_directories(dump_syms PRIVATE ${BREAKPAD_PATH})
         target_link_libraries(dump_syms qBreakpad ${DBGHELP_LIBRARY} ${DIASDK_GUIDS_LIBRARY} ${DIA_SDK_LIB} ${WINDOWS_LIBS})
+
+        # 注册msdia*.dll
+        message("regsvr32 -> ${VSWHERE_LATEST}\\DIA SDK\\bin\\amd64\\msdia140.dll")
+        add_custom_command(TARGET dump_syms POST_BUILD
+            COMMAND regsvr32 /s "${VSWHERE_LATEST}\\DIA SDK\\bin\\amd64\\msdia140.dll"
+            COMMAND regsvr32 /s "${VSWHERE_LATEST}\\DIA SDK\\bin\\msdia140.dll"
+            COMMENT "Registering msdia140.dll"
+        )
+    endif()
+endif()
+
+if(BUILD_MINIDUMP_STACKWALK)
+    if(LINUX)
+
     endif()
 endif()
