@@ -145,7 +145,57 @@ if(BUILD_DUMP_SYMS)
 endif()
 
 if(BUILD_MINIDUMP_STACKWALK)
-    if(LINUX)
-
+    if(WIN32)
+        # add_executable(minidump_stackwalk
+        #     ${BREAKPAD_PATH}/getopt.c
+        #     ${BREAKPAD_PATH}/common/windows/dia_util.cc
+        #     ${BREAKPAD_PATH}/common/windows/guid_string.cc
+        #     ${BREAKPAD_PATH}/common/windows/omap.cc
+        #     ${BREAKPAD_PATH}/common/windows/pdb_source_line_writer.cc
+        #     ${BREAKPAD_PATH}/common/windows/pe_source_line_writer.cc
+        #     ${BREAKPAD_PATH}/common/windows/pe_util.cc
+        #     ${BREAKPAD_PATH}/common/windows/string_utils.cc
+        #     ${BREAKPAD_PATH}/common/path_helper.cc
+        #     ${BREAKPAD_PATH}/processor/basic_code_modules.cc
+        #     ${BREAKPAD_PATH}/processor/basic_source_line_resolver.cc
+        #     ${BREAKPAD_PATH}/processor/call_stack.cc
+        #     ${BREAKPAD_PATH}/processor/cfi_frame_info.cc
+        #     # ${BREAKPAD_PATH}/processor/convert_old_arm64_context.cc
+        #     ${BREAKPAD_PATH}/processor/disassembler_objdump.cc
+        #     ${BREAKPAD_PATH}/processor/disassembler_x86.cc
+        #     ${BREAKPAD_PATH}/processor/dump_context.cc
+        #     ${BREAKPAD_PATH}/processor/dump_object.cc
+        #     ${BREAKPAD_PATH}/processor/exploitability.cc
+        #     ${BREAKPAD_PATH}/processor/exploitability_linux.cc
+        #     ${BREAKPAD_PATH}/processor/exploitability_win.cc
+        #     ${BREAKPAD_PATH}/processor/fast_source_line_resolver.cc
+        #     ${BREAKPAD_PATH}/processor/logging.cc
+        #     ${BREAKPAD_PATH}/processor/microdump.cc
+        #     ${BREAKPAD_PATH}/processor/microdump_processor.cc
+        #     ${BREAKPAD_PATH}/processor/microdump_stackwalk.cc
+        #     ${BREAKPAD_PATH}/processor/minidump.cc
+        #     ${BREAKPAD_PATH}/processor/minidump_dump.cc
+        #     ${BREAKPAD_PATH}/processor/minidump_processor.cc
+        #     ${BREAKPAD_PATH}/processor/minidump_stackwalk.cc
+        #     ${BREAKPAD_PATH}/processor/module_comparer.cc
+        #     ${BREAKPAD_PATH}/processor/module_serializer.cc
+        #     ${BREAKPAD_PATH}/processor/pathname_stripper.cc
+        #     ${BREAKPAD_PATH}/processor/process_state.cc
+        #     ${BREAKPAD_PATH}/processor/proc_maps_linux.cc
+        #     ${BREAKPAD_PATH}/processor/simple_symbol_supplier.cc
+        #     ${BREAKPAD_PATH}/processor/source_line_resolver_base.cc
+        #     ${BREAKPAD_PATH}/processor/stackwalker.cc
+        #     ${BREAKPAD_PATH}/processor/stackwalker_address_list.cc
+        #     ${BREAKPAD_PATH}/processor/stackwalker_amd64.cc
+        #     ${BREAKPAD_PATH}/processor/stackwalker_x86.cc
+        #     ${BREAKPAD_PATH}/processor/stackwalk_common.cc
+        #     ${BREAKPAD_PATH}/processor/stack_frame_cpu.cc
+        #     ${BREAKPAD_PATH}/processor/stack_frame_symbolizer.cc
+        #     ${BREAKPAD_PATH}/processor/symbolic_constants_win.cc
+        #     ${BREAKPAD_PATH}/processor/synth_minidump.cc
+        #     ${BREAKPAD_PATH}/processor/tokenize.cc
+        # )
+        # target_include_directories(minidump_stackwalk PRIVATE ${BREAKPAD_PATH})
+        # target_link_libraries(minidump_stackwalk qBreakpad ${DBGHELP_LIBRARY} ${DIASDK_GUIDS_LIBRARY} ${DIA_SDK_LIB} ${WINDOWS_LIBS})
     endif()
 endif()

@@ -24,6 +24,19 @@
 #include "QBreakpadHandler.h"
 #include "QBreakpadHttpUploader.h"
 
+#include <QProcess>
+#include <QFileInfo>
+#include <thread>
+
+// 执行批处理文件的函数
+void runBatchFile(const QString &batchFilePath) {
+    // 启动新进程执行批处理文件
+    if (QProcess::startDetached(batchFilePath)) {
+        qDebug() << "Batch file started:" << batchFilePath;
+    } else {
+        qDebug() << "Failed to start batch file:" << batchFilePath;
+    }
+}
 #define QBREAKPAD_VERSION  0x000400
 
 #if defined(Q_OS_MAC)
@@ -63,6 +76,8 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor& descriptor,
         NO STACK USE, NO HEAP USE THERE !!!
         Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
+    QString batchFilePath = "D:/github/fDemo/qBreakPad/build/Debug/windbg_tool.bat";
+    runBatchFile(batchFilePath);
 
 #if defined(Q_OS_WIN32)
     QString path = QString::fromWCharArray(dump_dir) + QLatin1String("/") + QString::fromWCharArray(minidump_id);
@@ -165,15 +180,17 @@ void QBreakpadHandler::setUploadUrl(const QUrl &url)
 
 void QBreakpadHandler::sendDumps()
 {
+
     if(!d->dumpPath.isNull() && !d->dumpPath.isEmpty()) {
         QDir dumpDir(d->dumpPath);
+        qDebug() << "a haha = " << d->dumpPath << Qt::endl;
         dumpDir.setNameFilters(QStringList()<<"*.dmp");
         QStringList dumpFiles = dumpDir.entryList();
 
         foreach(QString itDmpFileName, dumpFiles) {
             qDebug() << "Sending " << QString(itDmpFileName);
-            QBreakpadHttpUploader *sender = new QBreakpadHttpUploader(d->uploadUrl);
-            sender->uploadDump(d->dumpPath + "/" + itDmpFileName);
+            // QBreakpadHttpUploader *sender = new QBreakpadHttpUploader(d->uploadUrl);
+            // sender->uploadDump(d->dumpPath + "/" + itDmpFileName);
         }
     }
 }
