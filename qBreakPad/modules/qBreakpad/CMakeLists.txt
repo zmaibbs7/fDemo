@@ -141,6 +141,7 @@ if(BUILD_DUMP_SYMS)
             COMMAND regsvr32 /s "${VSWHERE_LATEST}\\DIA SDK\\bin\\msdia140.dll"
             COMMENT "Registering msdia140.dll"
         )
+
     endif()
 endif()
 

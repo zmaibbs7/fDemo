@@ -29,10 +29,21 @@
 #include <thread>
 
 // 执行批处理文件的函数
-void runBatchFile(const QString &batchFilePath) {
+#include <QProcess>
+#include <QString>
+#include <QStringList>
+#include <QDebug>
+
+// 执行批处理文件的函数
+void runBatchFile(const QString &batchFilePath, 
+                  const QString &dumpFile, 
+                  const QString &outputFile, 
+                  const QString &pdbDir, 
+                  const QString &symbolDir) 
+{
     QString program = "cmd.exe";
     QStringList arguments;
-    arguments << "/c" << batchFilePath;
+    arguments << "/c" << batchFilePath << dumpFile << outputFile << pdbDir << symbolDir;
 
     QProcess process;
     process.setStandardOutputFile(QProcess::nullDevice());
@@ -45,6 +56,7 @@ void runBatchFile(const QString &batchFilePath) {
         qDebug() << "Failed to start batch file:" << batchFilePath;
     }
 }
+
 #define QBREAKPAD_VERSION  0x000400
 
 #if defined(Q_OS_MAC)
@@ -84,12 +96,26 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor& descriptor,
         NO STACK USE, NO HEAP USE THERE !!!
         Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
-    QString batchFilePath = "D:/github/fDemo/qBreakPad/modules/qBreakpad/third_party/breakpad/src/tools/windows/binaries/windbg_tool.bat";
-    // runBatchFile(batchFilePath);
 
 #if defined(Q_OS_WIN32)
     QString path = QString::fromWCharArray(dump_dir) + QLatin1String("/") + QString::fromWCharArray(minidump_id);
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", qPrintable(path));
+
+    QString exePath = QCoreApplication::applicationDirPath();
+    QString batchFilePath = exePath + "/process_crash.bat";
+    QString dumpFile = path + ".dmp";
+    QString outputFile = exePath + "/crashes/"+QString::fromWCharArray(minidump_id) + "_result.txt";
+    QString pdbDir = exePath;
+    QString symbolDir = exePath;
+
+    qDebug() << "batchFilePath : " << batchFilePath << Qt::endl;
+    qDebug() << "dumpFile : " << dumpFile << Qt::endl;
+    qDebug() << "outputFile : " << outputFile << Qt::endl;
+    qDebug() << "pdbDir : " << pdbDir << Qt::endl;
+    qDebug() << "==========================symbolDir : " << symbolDir << Qt::endl;
+
+    runBatchFile(batchFilePath, dumpFile, outputFile, pdbDir, symbolDir);
+
 #elif defined(Q_OS_MAC)
     QString path = QString::fromUtf8(dump_dir) + QLatin1String("/") + QString::fromUtf8(minidump_id);
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", qPrintable(path));
