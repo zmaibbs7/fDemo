@@ -30,9 +30,17 @@
 
 // 执行批处理文件的函数
 void runBatchFile(const QString &batchFilePath) {
+    QString program = "cmd.exe";
+    QStringList arguments;
+    arguments << "/c" << batchFilePath;
+
+    QProcess process;
+    process.setStandardOutputFile(QProcess::nullDevice());
+    process.setStandardErrorFile(QProcess::nullDevice());
+
     // 启动新进程执行批处理文件
-    if (QProcess::startDetached(batchFilePath)) {
-        qDebug() << "Batch file started:" << batchFilePath;
+    if (QProcess::startDetached(program, arguments)) {
+        qDebug() << "Batch file started silently:" << batchFilePath;
     } else {
         qDebug() << "Failed to start batch file:" << batchFilePath;
     }
@@ -76,8 +84,8 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor& descriptor,
         NO STACK USE, NO HEAP USE THERE !!!
         Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
-    QString batchFilePath = "D:/github/fDemo/qBreakPad/build/Debug/windbg_tool.bat";
-    runBatchFile(batchFilePath);
+    QString batchFilePath = "D:/github/fDemo/qBreakPad/modules/qBreakpad/third_party/breakpad/src/tools/windows/binaries/windbg_tool.bat";
+    // runBatchFile(batchFilePath);
 
 #if defined(Q_OS_WIN32)
     QString path = QString::fromWCharArray(dump_dir) + QLatin1String("/") + QString::fromWCharArray(minidump_id);
@@ -183,7 +191,7 @@ void QBreakpadHandler::sendDumps()
 
     if(!d->dumpPath.isNull() && !d->dumpPath.isEmpty()) {
         QDir dumpDir(d->dumpPath);
-        qDebug() << "a haha = " << d->dumpPath << Qt::endl;
+
         dumpDir.setNameFilters(QStringList()<<"*.dmp");
         QStringList dumpFiles = dumpDir.entryList();
 

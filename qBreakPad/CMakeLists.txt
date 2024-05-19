@@ -25,6 +25,7 @@ else()
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO}")
 endif()
 
+set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 
 find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core NetWork)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core NetWork)
@@ -40,3 +41,17 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${qBreakpad})
 # 链接静态库
 target_link_libraries(${PROJECT_NAME} PRIVATE qBreakpad)
+
+# dump_syms 
+set(SYM_PATH ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+set(SYM_OUTPUT_FILE "${SYM_PATH}/${PROJECT_NAME}.sym")
+message("dump_syms = ${CMAKE_BINARY_DIR}/modules/qBreakpad/${CMAKE_BUILD_TYPE}")
+
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E echo "Installing dump_syms.exe and generating symbol file"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/modules/qBreakpad/${CMAKE_BUILD_TYPE}/dump_syms.exe ${SYM_PATH}/dump_syms.exe
+    COMMAND ${SYM_PATH}/dump_syms.exe ${SYM_PATH}/${PROJECT_NAME}.pdb > ${SYM_OUTPUT_FILE}
+    COMMENT "Generating symbol file: ${SYM_OUTPUT_FILE}"
+)
