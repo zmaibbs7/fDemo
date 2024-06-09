@@ -1,0 +1,243 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "modules",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-modules-Release-7b6b9df59a6e09a69f15.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "modules"
+				},
+				{
+					"build" : "modules/CppCommon-1.0.4.1",
+					"childIndexes" : 
+					[
+						3
+					],
+					"jsonFile" : "directory-modules.CppCommon-1.0.4.1-Release-689df0b06cb9fe181876.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "modules/CppCommon-1.0.4.1",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "modules/CppCommon-1.0.4.1/modules",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-modules.CppCommon-1.0.4.1.modules-Release-07cc3b0cc459c14d250a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 1,
+					"source" : "modules/CppCommon-1.0.4.1/modules",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "modules/CppCommon-1.0.4.1/modules/CppBenchmark",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-modules.CppCommon-1.0.4.1.modules.CppBenchmark-Release-67b5e5548a5522fcdb59.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 2,
+					"source" : "modules/CppCommon-1.0.4.1/modules/CppBenchmark",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "modules/CppCommon-1.0.4.1/modules/CppBenchmark/modules",
+					"jsonFile" : "directory-modules.CppCommon-1.0.4.1.modules.CppBenchmark.modules-Release-fae7394352643fc0adfa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "modules/CppCommon-1.0.4.1/modules/CppBenchmark/modules",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						7
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "demo",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						2,
+						3
+					],
+					"name" : "cppcommon",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						4,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4,
+						5
+					],
+					"name" : "cppbenchmark",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						7
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "Catch2::@5cae5685c98e224f9055",
+					"jsonFile" : "target-Catch2-Release-ace031111509cf37557a.json",
+					"name" : "Catch2",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "HdrHistogram::@3a9006de320dbdf95fdf",
+					"jsonFile" : "target-HdrHistogram-Release-ae293d493a03c285515f.json",
+					"name" : "HdrHistogram",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "cpp-optparse::@3a9006de320dbdf95fdf",
+					"jsonFile" : "target-cpp-optparse-Release-3ae0ef5aa41edf421d97.json",
+					"name" : "cpp-optparse",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "cppbenchmark::@18dbfd596242fa6aba91",
+					"jsonFile" : "target-cppbenchmark-Release-081f74104848b875b43c.json",
+					"name" : "cppbenchmark",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "cppcommon::@c9ae417bfe2d22ce57e8",
+					"jsonFile" : "target-cppcommon-Release-bbe8774b8dbd19a18565.json",
+					"name" : "cppcommon",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "demo::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-demo-Release-6a5e35f782e815dfaa82.json",
+					"name" : "demo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "fmt::@5cae5685c98e224f9055",
+					"jsonFile" : "target-fmt-Release-966d1fd18a7e0deecf65.json",
+					"name" : "fmt",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "zlib::@3a9006de320dbdf95fdf",
+					"jsonFile" : "target-zlib-Release-dff7a210455e81075622.json",
+					"name" : "zlib",
+					"projectIndex" : 2
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Project/Done/fDemo/CppCommon/cmake-build-release",
+		"source" : "D:/Project/Done/fDemo/CppCommon"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
